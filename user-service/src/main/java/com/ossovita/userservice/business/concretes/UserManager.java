@@ -7,7 +7,9 @@ import com.ossovita.userservice.core.entities.Customer;
 import com.ossovita.userservice.core.entities.User;
 import com.ossovita.userservice.core.entities.dtos.CustomerSignUpDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserManager implements UserService {
 
     CustomerRepository customerRepository;

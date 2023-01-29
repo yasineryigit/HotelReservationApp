@@ -4,12 +4,18 @@ import com.ossovita.userservice.core.dataAccess.UserRepository;
 import com.ossovita.userservice.core.entities.User;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@NoArgsConstructor
 public class UniqueUserEmailValidator implements ConstraintValidator<UniqueUserEmail, String> {
 
-    @Autowired
     UserRepository userRepository;
+
+    public UniqueUserEmailValidator(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public boolean isValid(String userEmail, ConstraintValidatorContext context) {
