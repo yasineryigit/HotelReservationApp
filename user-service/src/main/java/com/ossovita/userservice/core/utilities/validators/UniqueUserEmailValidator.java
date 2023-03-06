@@ -8,14 +8,11 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@NoArgsConstructor
+@Component
 public class UniqueUserEmailValidator implements ConstraintValidator<UniqueUserEmail, String> {
 
+    @Autowired
     UserRepository userRepository;
-
-    public UniqueUserEmailValidator(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public boolean isValid(String userEmail, ConstraintValidatorContext context) {
