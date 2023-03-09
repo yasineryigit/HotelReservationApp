@@ -1,7 +1,6 @@
 package com.ossovita.userservice.core.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ossovita.userservice.core.utilities.validators.UniqueUserEmail;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -30,7 +29,6 @@ public class User {
     @Size(min = 4, max = 255)
     @Email(message = "Email should be valid")
     @Column(name = "user_email")
-    @UniqueUserEmail
     private String userEmail;
 
     @NotNull

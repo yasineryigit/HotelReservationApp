@@ -29,7 +29,7 @@ public class CustomerManager implements CustomerService {
         User user = User.builder()
                 .userEmail(customerSignUpDto.getUserEmail())
                 .userPassword(this.passwordEncoder.encode(customerSignUpDto.getUserPassword()))
-                .userRoleFk(customerSignUpDto.getUserRoleFk())
+                .userRoleFk(2)//TODO MAKE CONSTANT
                 .userFirstName(customerSignUpDto.getUserFirstName())
                 .userLastName(customerSignUpDto.getUserLastName())
                 //.enabled(false)
@@ -42,10 +42,8 @@ public class CustomerManager implements CustomerService {
                 .userFk(savedUser.getUserPk())
                 .build();
 
-        customerRepository.save(customer);
-        customerSignUpDto.setCustomerPk(customer.getCustomerPk());
-
-
+        Customer savedCustomer = customerRepository.save(customer);
+        customerSignUpDto.setCustomerPk(savedCustomer.getCustomerPk());
         return customerSignUpDto;
     }
 

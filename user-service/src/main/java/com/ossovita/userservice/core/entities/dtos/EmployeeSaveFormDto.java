@@ -2,6 +2,10 @@ package com.ossovita.userservice.core.entities.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ossovita.userservice.core.entities.Customer;
+import com.ossovita.userservice.core.entities.Employee;
+import com.ossovita.userservice.core.entities.UserRole;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -9,15 +13,12 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class CustomerSignUpDto {
+public class EmployeeSaveFormDto {
 
-    private long customerPk;
-
-    //user
+    //User
     @NotNull(message = "{ossovita.constraint.email.NotNull.message}")
     @Size(min = 4, max = 255)
     @Email(message = "Email should be valid")
-    //@UniqueUserEmail//TODO ACTIVATE
     private String userEmail;
 
     @NotNull
@@ -28,12 +29,15 @@ public class CustomerSignUpDto {
 
     @NotNull
     @Size(min = 1, max = 255)
+    @Column(name = "user_first_name")
     private String userFirstName;
 
     @NotNull
     @Size(min = 1, max = 255)
     private String userLastName;
 
+    //Hotel
+    private long hotelFk;
 
 
 

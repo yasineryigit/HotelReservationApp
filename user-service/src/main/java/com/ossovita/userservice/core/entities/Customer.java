@@ -16,6 +16,7 @@ public class Customer {
 
     @Id
     @SequenceGenerator(name = "customer_seq", allocationSize = 1)
+    @GeneratedValue(generator = "customer_seq")
     @Column(name = "customer_pk")
     private long customerPk;
 

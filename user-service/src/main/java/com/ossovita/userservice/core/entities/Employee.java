@@ -34,6 +34,11 @@ public class Employee {
     @Column(name = "employee_position_fk")
     private long employeePositionFk;
 
+    @Column(name = "is_approved")
+    private boolean isApproved;
+
+
+
 
 
 
