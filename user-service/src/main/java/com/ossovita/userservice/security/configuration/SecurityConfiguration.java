@@ -1,22 +1,19 @@
 package com.ossovita.userservice.security.configuration;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.server.SecurityWebFilterChain;
-
-import javax.management.MXBean;
 
 
-@EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@Configuration
+@RequiredArgsConstructor
+public class SecurityConfiguration {
 
+    private final TokenFilter tokenFilter;
 
     private static final String[] AUTH_WHITELIST = {
             // -- Swagger UI v2
@@ -36,31 +33,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             // other public endpoints of your API may be appended to this array
     };
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-
-        http.exceptionHandling().authenticationEntryPoint(new AuthEntryPoint());
-        http.cors();
-        http.authorizeRequests()
-                //.anyRequest().authenticated()
-                .antMatchers(AUTH_WHITELIST).permitAll()
-                .and()
-                .formLogin()
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll().and();
-
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        http.addFilterBefore(tokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
-    }
-
-
     @Bean
-    TokenFilter tokenFilter() {
-        return new TokenFilter();
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.exceptionHandling().authenticationEntryPoint(new AuthEntryPoint());
+        http
+                .csrf()
+                .disable()
+                .cors()
+                .and()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(AUTH_WHITELIST).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout()
+                .permitAll();
+
+
+        return http.build();
     }
 }
