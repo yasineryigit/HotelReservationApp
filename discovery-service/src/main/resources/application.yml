@@ -4,3 +4,10 @@ eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
+  instance:
+    hostname: localhost
+
+spring:
+  application:
+    name: discovery-service
+
