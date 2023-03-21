@@ -8,15 +8,11 @@ Suser-service/src/main/java/com/ossovita/userservice/security/auth/AuthResponse.
 €
 Puser-service/src/main/java/com/ossovita/userservice/core/entities/vm/UserVM.java,4\7\476daee56341c019d7beb7ecb0c7645b2cbade1e
 Ž
-^user-service/src/main/java/com/ossovita/userservice/security/configuration/AuthEntryPoint.java,5\3\53bc97c717133aafb4ea4ce181affe4376271204
-Ž
 ^user-service/src/main/java/com/ossovita/userservice/core/utilities/shared/GenericResponse.java,0\9\09ec007d0366f7290289761e08cdfbfd3d789547
 ‡
 Wuser-service/src/main/java/com/ossovita/userservice/controllers/UserRoleController.java,d\5\d5de0a8ae1ccc634fc47439094213e880cc4e02b
 ‡
 Wuser-service/src/main/java/com/ossovita/userservice/controllers/EmployeeController.java,a\3\a35e9de36e8064a0880b622bc8f737c90f0d6a8f
-|
-Luser-service/src/main/java/com/ossovita/userservice/security/auth/Token.java,4\6\46ca56a2c53cac3258bd418d2be85cf145bae7c7
 ‚
 Ruser-service/src/main/java/com/ossovita/userservice/security/auth/AuthService.java,7\d\7dda71574cc76de155e1c90d8d25a5425a782093
 
