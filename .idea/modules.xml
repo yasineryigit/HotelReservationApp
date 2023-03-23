@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/discovery-service/DiscoveryService.iml" filepath="$PROJECT_DIR$/discovery-service/DiscoveryService.iml" />
-      <module fileurl="file://$PROJECT_DIR$/accounting-service/accounting-service.iml" filepath="$PROJECT_DIR$/accounting-service/accounting-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/api-gateway/api-gateway.iml" filepath="$PROJECT_DIR$/api-gateway/api-gateway.iml" />
-      <module fileurl="file://$PROJECT_DIR$/hotel-service/hotel-service.iml" filepath="$PROJECT_DIR$/hotel-service/hotel-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/reservation-service/reservation-service.iml" filepath="$PROJECT_DIR$/reservation-service/reservation-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/user-service/user-service.iml" filepath="$PROJECT_DIR$/user-service/user-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../hotel-reservation-app/accounting-service/src/test/test.iml" filepath="$PROJECT_DIR$/../hotel-reservation-app/accounting-service/src/test/test.iml" />
     </modules>
   </component>
 </project>

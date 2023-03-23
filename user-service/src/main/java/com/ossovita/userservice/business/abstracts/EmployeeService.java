@@ -1,12 +1,12 @@
 package com.ossovita.userservice.business.abstracts;
 
-import com.ossovita.userservice.core.entities.dtos.EmployeeSaveFormDto;
+import com.ossovita.commonservice.core.entities.dtos.BossSignUpDto;
+import com.ossovita.commonservice.core.entities.dtos.EmployeeSaveFormDto;
 
 public interface EmployeeService {
 
-    EmployeeSaveFormDto createManager(EmployeeSaveFormDto employeeSaveFormDto);
 
-    EmployeeSaveFormDto createFrontDesk(EmployeeSaveFormDto employeeSaveFormDto);
+    EmployeeSaveFormDto addEmployeeWithUserWithEmployeePositionWithHotelEmployees(EmployeeSaveFormDto employeeSaveFormDto);
 
-    EmployeeSaveFormDto createBoss(EmployeeSaveFormDto employeeSaveFormDto);
+    BossSignUpDto createBoss(BossSignUpDto bossSignUpDto);
 }
