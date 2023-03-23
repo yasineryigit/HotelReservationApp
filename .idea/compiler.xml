@@ -16,13 +16,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="accounting-service" target="17" />
-      <module name="api-gateway" target="17" />
+      <module name="common-service" target="17" />
       <module name="discovery-service" target="17" />
-      <module name="DiscoveryService" target="17" />
-      <module name="hotel-service" target="17" />
-      <module name="reservation-service" target="17" />
-      <module name="user-service" target="17" />
+      <module name="hotel-reservation-app" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
