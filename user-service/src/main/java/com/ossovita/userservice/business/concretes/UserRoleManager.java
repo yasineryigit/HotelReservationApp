@@ -1,11 +1,9 @@
 package com.ossovita.userservice.business.concretes;
 
+import com.ossovita.commonservice.core.entities.UserRole;
 import com.ossovita.userservice.business.abstracts.UserRoleService;
-import com.ossovita.userservice.core.dataAccess.UserRoleRepository;
-import com.ossovita.userservice.core.entities.UserRole;
+import com.ossovita.commonservice.core.dataAccess.UserRoleRepository;
 import org.springframework.stereotype.Service;
-
-import java.io.Serial;
 
 @Service
 public class UserRoleManager implements UserRoleService {

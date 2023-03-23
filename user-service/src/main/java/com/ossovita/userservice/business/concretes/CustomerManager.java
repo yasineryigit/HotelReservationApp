@@ -1,11 +1,11 @@
 package com.ossovita.userservice.business.concretes;
 
+import com.ossovita.commonservice.core.entities.Customer;
+import com.ossovita.commonservice.core.entities.User;
+import com.ossovita.commonservice.core.entities.dtos.CustomerSignUpDto;
 import com.ossovita.userservice.business.abstracts.CustomerService;
-import com.ossovita.userservice.core.dataAccess.CustomerRepository;
-import com.ossovita.userservice.core.dataAccess.UserRepository;
-import com.ossovita.userservice.core.entities.Customer;
-import com.ossovita.userservice.core.entities.User;
-import com.ossovita.userservice.core.entities.dtos.CustomerSignUpDto;
+import com.ossovita.commonservice.core.dataAccess.CustomerRepository;
+import com.ossovita.commonservice.core.dataAccess.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
