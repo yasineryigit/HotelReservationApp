@@ -3,7 +3,7 @@ package com.ossovita.userservice.controllers;
 import com.ossovita.commonservice.core.entities.dtos.BossSignUpDto;
 import com.ossovita.commonservice.core.entities.dtos.EmployeeSaveFormDto;
 import com.ossovita.userservice.business.abstracts.EmployeeService;
-import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +22,12 @@ public class EmployeeController {
 
     //For create Manager and Front Desk employees
     @PostMapping("/create-employee-with-user-with-employeeposition-with-hotelemployees")
-    public EmployeeSaveFormDto createEmployee(@Valid @RequestBody EmployeeSaveFormDto employeeSaveFormDto) {
+    public EmployeeSaveFormDto createEmployee(@Validated @RequestBody EmployeeSaveFormDto employeeSaveFormDto) {
         return employeeService.addEmployeeWithUserWithEmployeePositionWithHotelEmployees(employeeSaveFormDto);
     }
 
     @PostMapping("/create-boss")
-    public BossSignUpDto createBoss(@Valid @RequestBody BossSignUpDto bossSignUpDto) {
+    public BossSignUpDto createBoss(@Validated @RequestBody BossSignUpDto bossSignUpDto) {
         return employeeService.createBoss(bossSignUpDto);
     }
 

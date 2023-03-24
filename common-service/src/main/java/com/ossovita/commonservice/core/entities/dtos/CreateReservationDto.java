@@ -1,8 +1,9 @@
 package com.ossovita.commonservice.core.entities.dtos;
 
-import jakarta.validation.constraints.NotNull;
+
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data

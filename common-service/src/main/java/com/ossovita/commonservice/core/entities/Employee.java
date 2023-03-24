@@ -1,11 +1,12 @@
 package com.ossovita.commonservice.core.entities;
 
-import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -41,8 +42,6 @@ public class Employee {
 
     @OneToMany(mappedBy = "employee")
     private List<Reservation> reservations;
-
-
 
 
 }
