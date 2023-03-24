@@ -33,6 +33,8 @@ public class EmployeeManager implements EmployeeService {
     @Override
     public EmployeeSaveFormDto addEmployeeWithUserWithEmployeePositionWithHotelEmployees(EmployeeSaveFormDto employeeSaveFormDto) {
         User user = modelMapper.map(employeeSaveFormDto, User.class);
+        //encode password
+        user.setUserPassword(passwordEncoder.encode(employeeSaveFormDto.getUserPassword()));
         User savedUser = userRepository.save(user);
 
         Employee employee = Employee.builder()

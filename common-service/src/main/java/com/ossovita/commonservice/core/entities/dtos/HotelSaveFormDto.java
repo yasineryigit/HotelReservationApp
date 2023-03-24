@@ -1,5 +1,6 @@
 package com.ossovita.commonservice.core.entities.dtos;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -12,6 +13,9 @@ public class HotelSaveFormDto {
 
     @NotNull
     private double hotelStar;
+
+    @NotNull
+    private String hotelPhone;
 
     //address
     @NotNull

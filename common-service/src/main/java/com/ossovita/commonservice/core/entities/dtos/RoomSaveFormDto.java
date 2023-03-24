@@ -21,7 +21,7 @@ public class RoomSaveFormDto {
     private int roomPrice;
 
     @NotNull
-    private String roomStatus;
+    private String roomStatus;//TOOD enum type : CLEAN, DIRTY, INSPECTED, MAINTENANCE
 
 
 }

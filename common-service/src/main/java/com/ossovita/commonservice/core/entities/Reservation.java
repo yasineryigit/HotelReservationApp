@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Reservation {
 
+
     @Id
     @SequenceGenerator(name = "reservation_seq", allocationSize = 1)
     @GeneratedValue(generator = "reservation_seq")
@@ -36,6 +37,9 @@ public class Reservation {
 
     @Column(name = "reservation_is_paid")
     private boolean reservationIsPaid;
+
+    @Column(name = "reservation_is_approved")
+    private boolean reservationIsApproved;
 
     @ManyToOne
     @JoinColumn(name = "room_fk", insertable = false, updatable = false)

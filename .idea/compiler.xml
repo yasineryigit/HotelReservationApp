@@ -7,25 +7,23 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="common-service" />
+        <module name="accounting-service" />
+        <module name="reservation-service" />
         <module name="api-gateway" />
         <module name="user-service" />
         <module name="DiscoveryService" />
-        <module name="accounting-service" />
+        <module name="discovery-service" />
         <module name="hotel-service" />
-        <module name="reservation-service" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="common-service" target="17" />
-      <module name="discovery-service" target="17" />
-      <module name="hotel-reservation-app" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="DiscoveryService" options="-parameters" />
       <module name="accounting-service" options="-parameters" />
       <module name="api-gateway" options="-parameters" />
+      <module name="common-service" options="-parameters" />
       <module name="discovery-service" options="-parameters" />
       <module name="hotel-service" options="-parameters" />
       <module name="reservation-service" options="-parameters" />

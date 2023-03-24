@@ -33,11 +33,16 @@ public class EmployeeSaveFormDto {
     @Size(min = 1, max = 255)
     private String userLastName;
 
+    //userrole
+    @NotNull
+    private long userRoleFk;
+
     //employeeposition
     @NotNull
     private long employeePositionFk;
 
     //Hotel
+    @NotNull
     private long hotelFk;
 
 

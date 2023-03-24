@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/1.0/hotel")
+@CrossOrigin
 @Slf4j
 public class HotelController {
 
@@ -25,10 +26,12 @@ public class HotelController {
         return "Working..";
     }
 
+
     @PostMapping("/create-hotel")
     public Hotel createHotel(@RequestBody HotelSaveFormDto hotelSaveFormDto) {
         return hotelService.createHotel(hotelSaveFormDto);
     }
+
 
     @GetMapping("/get-all-hotels")
     public List<Hotel> getAllHotels() {
