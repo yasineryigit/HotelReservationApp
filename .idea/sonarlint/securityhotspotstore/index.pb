@@ -1,8 +1,4 @@
 
-K
-reservation-service/pom.xml,7\d\7d9759f679674cd7ff9170a978e30e3410d3e772
-C
-api-gateway/pom.xml,2\b\2bfa2b108f2439e99e004f4085b58c22cf995f73
 I
 discovery-service/pom.xml,7\e\7e2a93dc15928a8ab4dff670d6d413b0a1b7e7b7
 7

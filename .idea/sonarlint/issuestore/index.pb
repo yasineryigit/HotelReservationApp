@@ -1,12 +1,8 @@
 
-K
-reservation-service/pom.xml,7\d\7d9759f679674cd7ff9170a978e30e3410d3e772
 I
 discovery-service/pom.xml,7\e\7e2a93dc15928a8ab4dff670d6d413b0a1b7e7b7
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
-C
-api-gateway/pom.xml,2\b\2bfa2b108f2439e99e004f4085b58c22cf995f73
 
 Ocommon-service/src/main/java/com/ossovita/commonservice/core/entities/User.java,1\8\18efb3ca2f126e31a0d7ff8d660b9ea3b0ecfd98
 ç
