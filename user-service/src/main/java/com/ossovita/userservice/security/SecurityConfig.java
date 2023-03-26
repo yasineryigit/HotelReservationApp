@@ -1,5 +1,6 @@
 package com.ossovita.userservice.security;
 
+import com.ossovita.userservice.core.utilities.constants.SecurityConstants;
 import com.ossovita.userservice.security.jwt.AuthTokenFilter;
 import com.ossovita.userservice.security.jwt.JWTAccessDeniedHandler;
 import com.ossovita.userservice.security.jwt.JwtAuthenticationEntryPoint;
@@ -61,26 +62,19 @@ public class SecurityConfig {
     }
 
 
-
     //fully disable from security control
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        //ignoringUrls can be transferred to the common-service
         List<String> ignoringUrls = Arrays.asList(
-                "/api/1.0/user/employees/create-employee-with-user-with-employeeposition-with-hotelemployees",
-                "/api/1.0/user/employees/create-boss",
-                "/api/1.0/user/customers/create-customer",
-                "/api/1.0/user/auth/login",
-                "/api/1.0/user/auth/refresh-token"
+                SecurityConstants.CREATE_EMPLOYEE_URL,
+                SecurityConstants.CREATE_BOSS_URL,
+                SecurityConstants.CREATE_CUSTOMER_URL,
+                SecurityConstants.LOGIN_URL,
+                SecurityConstants.REFRESH_TOKEN_URL
         );
-        return web -> web.ignoring()
-                .antMatchers(ignoringUrls.toArray(new String[0]))
-                .antMatchers(ignoringUrls.toArray(new String[1]))
-                .antMatchers(ignoringUrls.toArray(new String[2]))
-                .antMatchers(ignoringUrls.toArray(new String[3]))
-                .antMatchers(ignoringUrls.toArray(new String[4]))
-                ;
+        return web -> web.ignoring().antMatchers(ignoringUrls.toArray(String[]::new));
     }
+
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter(JwtUtils jwtUtils, CustomUserDetailsService customUserDetailsService) {

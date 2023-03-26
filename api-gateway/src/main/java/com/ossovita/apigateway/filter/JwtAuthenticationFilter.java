@@ -1,5 +1,6 @@
 package com.ossovita.apigateway.filter;
 
+import com.ossovita.apigateway.config.RouteValidator;
 import com.ossovita.apigateway.exception.JwtTokenMalformedException;
 import com.ossovita.apigateway.exception.JwtTokenMissingException;
 import com.ossovita.apigateway.util.JwtUtils;
@@ -12,15 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.http.HttpStatus;
-
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
-import java.util.function.Predicate;
 
 @Component
 @RequiredArgsConstructor
@@ -28,6 +25,7 @@ import java.util.function.Predicate;
 public class JwtAuthenticationFilter implements GatewayFilter {
 
     private final JwtUtils jwtUtils;
+    private final RouteValidator routeValidator;
 
     /*
     *       1-) jwt validation (if any error with it, let the user know)
@@ -43,19 +41,8 @@ public class JwtAuthenticationFilter implements GatewayFilter {
 
         ServerHttpRequest request = exchange.getRequest();
 
-        //non-secured api endpoints
-        final List<String> apiEndpoints = List.of(
-                "/api/1.0/user/employees/create-employee-with-user-with-employeeposition-with-hotelemployees",
-                "/api/1.0/user/employees/create-boss",
-                "/api/1.0/user/customers/create-customer",
-                "/api/1.0/user/auth/login",
-                "/api/1.0/user/auth/refresh-token");
 
-        //filter non-secured api endpoints from the request
-        Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()
-                .noneMatch(uri -> r.getURI().getPath().contains(uri));
-
-        if (isApiSecured.test(request)) {
+        if (routeValidator.isSecured.test(request)) {
             //if request doesn't contain Authorization header
             if (!request.getHeaders().containsKey("Authorization")) {
                 ServerHttpResponse response = exchange.getResponse();
