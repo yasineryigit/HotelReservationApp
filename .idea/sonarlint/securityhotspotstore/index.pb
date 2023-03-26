@@ -25,5 +25,3 @@ Wuser-service/src/main/java/com/ossovita/userservice/business/abstracts/UserServ
 Wuser-service/src/main/java/com/ossovita/userservice/business/concretes/UserManager.java,1\4\14bb4b7ddc6f744e440815a3acee8d73d798f711
 ‹
 [common-service/src/main/java/com/ossovita/commonservice/core/dataAccess/UserRepository.java,7\7\77943a61c0eaf73226f5e71dd0bf3ae2457957ed
-”
-duser-service/src/main/java/com/ossovita/userservice/core/utilities/payload/response/JWTResponse.java,b\1\b1a2e23c90ce5ff49aef0b6d9f0c78c55e121658
