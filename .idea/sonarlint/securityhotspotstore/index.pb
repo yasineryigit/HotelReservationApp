@@ -19,17 +19,11 @@ cuser-service/src/main/java/com/ossovita/userservice/business/abstracts/Employee
 [user-service/src/main/java/com/ossovita/userservice/business/concretes/CustomerManager.java,3\7\37b63937f0e7523def5e204b89ee57143f45a216
 â
 Yhotel-service/src/main/java/com/ossovita/hotelservice/business/abstracts/RoomService.java,8\7\875384c0dbc9b5554a2e14f62841af97d3974f01
-ù
-muser-service/src/main/java/com/ossovita/userservice/core/utilities/payload/response/TokenRefreshResponse.java,d\e\dec171e83db2da630e9ac9baee29031ba3bcd884
-t
-Dapi-gateway/src/main/java/com/ossovita/apigateway/util/JwtUtils.java,6\d\6db41d92ae2e71002e9221f1a1dd5b5f4d6371fd
 á
 Wuser-service/src/main/java/com/ossovita/userservice/business/abstracts/UserService.java,5\1\51836bd83c5682fd08e95e784a90e21c9062ba9e
 á
 Wuser-service/src/main/java/com/ossovita/userservice/business/concretes/UserManager.java,1\4\14bb4b7ddc6f744e440815a3acee8d73d798f711
 ã
 [common-service/src/main/java/com/ossovita/commonservice/core/dataAccess/UserRepository.java,7\7\77943a61c0eaf73226f5e71dd0bf3ae2457957ed
-|
-Lapi-gateway/src/main/java/com/ossovita/apigateway/config/SecurityConfig.java,b\4\b4c6f1375c3cde5dbdb6c4f24cd78a379bd9bf0f
 î
 duser-service/src/main/java/com/ossovita/userservice/core/utilities/payload/response/JWTResponse.java,b\1\b1a2e23c90ce5ff49aef0b6d9f0c78c55e121658

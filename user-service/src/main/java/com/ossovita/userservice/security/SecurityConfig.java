@@ -19,6 +19,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -57,16 +60,26 @@ public class SecurityConfig {
                 .build();
     }
 
+
+
+    //fully disable from security control
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
+        //ignoringUrls can be transferred to the common-service
+        List<String> ignoringUrls = Arrays.asList(
+                "/api/1.0/user/employees/create-employee-with-user-with-employeeposition-with-hotelemployees",
+                "/api/1.0/user/employees/create-boss",
+                "/api/1.0/user/customers/create-customer",
+                "/api/1.0/user/auth/login",
+                "/api/1.0/user/auth/refresh-token"
+        );
         return web -> web.ignoring()
-                .antMatchers(
-                        "/api/1.0/user/employees/create-employee-with-user-with-employeeposition-with-hotelemployees",
-                        "/api/1.0/user/employees/create-boss",
-                        "/api/1.0/user/customers/create-customer",
-                        "/api/1.0/user/auth/login",
-                        "/refreshtoken"
-                );
+                .antMatchers(ignoringUrls.toArray(new String[0]))
+                .antMatchers(ignoringUrls.toArray(new String[1]))
+                .antMatchers(ignoringUrls.toArray(new String[2]))
+                .antMatchers(ignoringUrls.toArray(new String[3]))
+                .antMatchers(ignoringUrls.toArray(new String[4]))
+                ;
     }
 
     @Bean

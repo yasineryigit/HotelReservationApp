@@ -18,7 +18,6 @@ public class RefreshToken implements Serializable {
     private long refreshTokenPk;
 
     @OneToOne
-    //todo check
     @JoinColumn(name = "user_pk", referencedColumnName = "user_pk")
     private User user;
 

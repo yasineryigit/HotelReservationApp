@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter implements GatewayFilter {
                 "/api/1.0/user/employees/create-boss",
                 "/api/1.0/user/customers/create-customer",
                 "/api/1.0/user/auth/login",
-                "/refreshtoken");
+                "/api/1.0/user/auth/refresh-token");
 
         //filter non-secured api endpoints from the request
         Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()

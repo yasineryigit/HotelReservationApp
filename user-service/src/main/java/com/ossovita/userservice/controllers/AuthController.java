@@ -73,7 +73,10 @@ public class AuthController {
 
     }
 
-    @PostMapping("/refreshToken")
+    /*
+        TODO fix | expired refresh token should return an exception and user should provide his credentials again to get new access token
+    * */
+    @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(@RequestBody TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();
         RefreshToken token = refreshTokenService.findByToken(requestRefreshToken)
