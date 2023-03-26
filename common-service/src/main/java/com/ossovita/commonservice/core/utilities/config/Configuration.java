@@ -10,10 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class Configuration {
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     public ModelMapper modelMapper() {
