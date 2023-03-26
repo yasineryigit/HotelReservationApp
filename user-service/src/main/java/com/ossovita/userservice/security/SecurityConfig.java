@@ -60,7 +60,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
-                .requestMatchers(
+                .antMatchers(
                         "/api/1.0/user/employees/create-employee-with-user-with-employeeposition-with-hotelemployees",
                         "/api/1.0/user/employees/create-boss",
                         "/api/1.0/user/customers/create-customer",

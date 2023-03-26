@@ -2,15 +2,16 @@ package com.ossovita.commonservice.core.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ossovita.commonservice.core.utilities.validators.UniqueUserEmail;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Data
@@ -65,8 +66,6 @@ public class User {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     @JsonIgnore
     private Employee employee;
-
-
 
 
 }
