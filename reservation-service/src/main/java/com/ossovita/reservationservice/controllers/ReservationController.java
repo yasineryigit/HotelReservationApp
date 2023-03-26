@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1/reservation")
+@RequestMapping("/api/1.0/reservation")
 public class ReservationController {
 
     @GetMapping("/status")

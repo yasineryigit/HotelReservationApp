@@ -1,4 +1,4 @@
-package com.ossovita.hotelservice.security.jwt;
+package com.ossovita.reservationservice.security.jwt;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
 
             String jwt = parseJwt(req);
-            log.info("Hotel Service | JwtAuthenticationFilter | doFilterInternal | jwt: {}", jwt);
+            log.info("Reservation Service | JwtAuthenticationFilter | doFilterInternal | jwt: {}", jwt);
 
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 
@@ -53,7 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
         } catch (Exception e) {
-            log.error("Hotel Service | JwtAuthenticationFilter | doFilterInternal | Cannot set user authentication: {}", e.getMessage());
+            log.error("Reservation Service | JwtAuthenticationFilter | doFilterInternal | Cannot set user authentication: {}", e.getMessage());
         }
 
         chain.doFilter(req, res);
@@ -63,11 +63,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
 
-        log.info("Hotel Service | JwtAuthenticationFilter | parseJwt | headerAuth: {}", headerAuth);
+        log.info("Reservation Service | JwtAuthenticationFilter | parseJwt | headerAuth: {}", headerAuth);
 
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
 
-            log.info("Hotel Service | JwtAuthenticationFilter | parseJwt: {}", headerAuth.substring(7, headerAuth.length()));
+            log.info("Reservation Service | JwtAuthenticationFilter | parseJwt: {}", headerAuth.substring(7, headerAuth.length()));
 
             return headerAuth.substring(7, headerAuth.length());
         }

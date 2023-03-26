@@ -29,8 +29,8 @@ public class JwtAuthenticationFilter implements GatewayFilter {
 
     /*
     *       1-) jwt validation (if any error with it, let the user know)
-            2-) if there is no error, resolve the jwt and take the username parameter
-            3-) continue to the http request with the added username header
+            2-) if there is no error, resolve the jwt and take the userEmail parameter
+            3-) continue to the http request with the added userEmail header
     *
     * */
 
@@ -76,7 +76,7 @@ public class JwtAuthenticationFilter implements GatewayFilter {
             Claims claims = jwtUtils.getClaims(token);
             //TODO change username to useremail after change it from token generator
 
-            exchange.getRequest().mutate().header("username", String.valueOf(claims.get("username"))).build();
+            exchange.getRequest().mutate().header("userEmail", String.valueOf(claims.get("userEmail"))).build();
 
 
         }

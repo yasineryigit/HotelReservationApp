@@ -10,8 +10,7 @@ public class JWTResponse {
     private String type = "Bearer";
     private String refreshToken;
     private long userPk;
-    private String username;
-    private String email;
+    private String userEmail;
     //TODO | rempve roles, add additionalData
 
     private List<String> roles;

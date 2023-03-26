@@ -14,8 +14,8 @@ public class UserManager implements UserService {
 
     private final UserRepository userRepository;
 
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUserEmail(username);
+    public Optional<User> findByUserEmail(String userEmail) {
+        return userRepository.findByUserEmail(userEmail);
     }
 
     @Override

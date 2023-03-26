@@ -41,10 +41,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         log.info("Login request received: " + loginRequest.toString());
-        String username = loginRequest.getUsername();
-        String password = loginRequest.getPassword();
+        String userEmail = loginRequest.getUserEmail();
+        String userPassword = loginRequest.getUserPassword();
 
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userEmail, userPassword);
 
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
@@ -60,8 +60,7 @@ public class AuthController {
         JWTResponse jwtResponse = new JWTResponse();
 
 
-        jwtResponse.setEmail(userDetails.getUserEmail());
-        jwtResponse.setUsername(userDetails.getUsername());
+        jwtResponse.setUserEmail(userDetails.getUsername());
         jwtResponse.setUserPk(userDetails.getUserPk());
         jwtResponse.setToken(jwt);
         jwtResponse.setRefreshToken(refreshToken.getToken());
@@ -87,7 +86,7 @@ public class AuthController {
 
         User userRefreshToken = deletedToken.getUser();
 
-        String newToken = jwtUtils.generateTokenFromUsername(userRefreshToken.getUserEmail());
+        String newToken = jwtUtils.generateTokenFromUserEmail(userRefreshToken.getUserEmail());
 
         return ResponseEntity.ok(new TokenRefreshResponse(newToken, requestRefreshToken));
 

@@ -25,19 +25,19 @@ public class JwtUtils {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-    public String generateJwtToken(String username) {
-        return generateTokenFromUsername(username);
+    public String generateJwtToken(String userEmail) {
+        return generateTokenFromUserEmail(userEmail);
     }
 
-    public String generateTokenFromUsername(String username) {
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+    public String generateTokenFromUserEmail(String userEmail) {
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(userEmail);
         StringBuilder roles = new StringBuilder();
         userDetails.getAuthorities().forEach(role -> {
             roles.append(role.getAuthority() + " ");
         });
 
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(userEmail)
                 .setIssuer(roles.toString())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
@@ -45,7 +45,7 @@ public class JwtUtils {
                 .compact();
     }
 
-    public String getUserNameFromJwtToken(String token) {
+    public String getUserEmailFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
