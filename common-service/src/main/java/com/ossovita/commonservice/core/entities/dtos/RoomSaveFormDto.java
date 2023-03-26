@@ -1,6 +1,6 @@
 package com.ossovita.commonservice.core.entities.dtos;
 
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import lombok.Data;
 
 @Data

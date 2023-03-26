@@ -1,11 +1,12 @@
 package com.ossovita.commonservice.core.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -32,9 +33,6 @@ public class Address {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "address")
     @JsonIgnore
     private Hotel hotel;
-
-
-
 
 
 }
