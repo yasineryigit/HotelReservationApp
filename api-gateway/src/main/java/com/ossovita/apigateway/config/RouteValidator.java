@@ -13,7 +13,6 @@ public class RouteValidator {
 
     //non-secured api endpoints
     public static final List<String> openApiEndpoints = Arrays.asList(
-            SecurityConstants.CREATE_EMPLOYEE_URL,
             SecurityConstants.CREATE_BOSS_URL,
             SecurityConstants.CREATE_CUSTOMER_URL,
             SecurityConstants.LOGIN_URL,

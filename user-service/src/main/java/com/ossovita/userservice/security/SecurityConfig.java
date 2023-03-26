@@ -66,7 +66,6 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         List<String> ignoringUrls = Arrays.asList(
-                SecurityConstants.CREATE_EMPLOYEE_URL,
                 SecurityConstants.CREATE_BOSS_URL,
                 SecurityConstants.CREATE_CUSTOMER_URL,
                 SecurityConstants.LOGIN_URL,

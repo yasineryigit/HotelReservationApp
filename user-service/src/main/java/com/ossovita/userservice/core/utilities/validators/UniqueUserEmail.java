@@ -1,9 +1,7 @@
-package com.ossovita.commonservice.core.utilities.validators;
+package com.ossovita.userservice.core.utilities.validators;
 
-import javax.persistence.*;
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.*;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

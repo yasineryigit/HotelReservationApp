@@ -1,7 +1,6 @@
 package com.ossovita.commonservice.core.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ossovita.commonservice.core.utilities.validators.UniqueUserEmail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,7 +30,6 @@ public class User {
     @Size(min = 4, max = 255)
     @Email(message = "Email should be valid")
     @Column(name = "user_email")
-    @UniqueUserEmail
     private String userEmail;
 
     @NotNull
@@ -66,6 +64,10 @@ public class User {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     @JsonIgnore
     private Employee employee;
+
+    private boolean enabled = false;
+
+    private boolean locked = false;
 
 
 }

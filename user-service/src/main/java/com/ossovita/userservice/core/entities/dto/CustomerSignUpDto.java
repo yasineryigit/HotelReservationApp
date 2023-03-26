@@ -1,9 +1,9 @@
-package com.ossovita.commonservice.core.entities.dtos;
+package com.ossovita.userservice.core.entities.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ossovita.userservice.core.utilities.validators.UniqueUserEmail;
 import lombok.Data;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -11,12 +11,15 @@ import javax.validation.constraints.Size;
 
 
 @Data
-public class EmployeeSaveFormDto {
+public class CustomerSignUpDto {
 
-    //User
+    private long customerPk;
+
+    //user
     @NotNull(message = "{ossovita.constraint.email.NotNull.message}")
     @Size(min = 4, max = 255)
     @Email(message = "Email should be valid")
+    @UniqueUserEmail
     private String userEmail;
 
     @NotNull
@@ -27,19 +30,11 @@ public class EmployeeSaveFormDto {
 
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "user_first_name")
     private String userFirstName;
 
     @NotNull
     @Size(min = 1, max = 255)
     private String userLastName;
-
-    //employeeposition
-    @NotNull
-    private long employeePositionFk;
-
-    //Hotel
-    private long hotelFk;
 
 
 }

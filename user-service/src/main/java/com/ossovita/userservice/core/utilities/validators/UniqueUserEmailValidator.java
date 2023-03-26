@@ -1,4 +1,4 @@
-package com.ossovita.commonservice.core.utilities.validators;
+package com.ossovita.userservice.core.utilities.validators;
 
 import com.ossovita.commonservice.core.dataAccess.UserRepository;
 import com.ossovita.commonservice.core.entities.User;
