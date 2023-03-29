@@ -1,7 +1,7 @@
 package com.ossovita.userservice.business.concretes;
 
-import com.ossovita.commonservice.core.dataAccess.UserRepository;
-import com.ossovita.commonservice.core.entities.User;
+import com.ossovita.userservice.core.dataAccess.UserRepository;
+import com.ossovita.userservice.core.entities.User;
 import com.ossovita.userservice.business.abstracts.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

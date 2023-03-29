@@ -32,11 +32,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
 
             String jwt = parseJwt(req);
-            log.info("Reservation Service | JwtAuthenticationFilter | doFilterInternal | jwt: {}", jwt);
+            log.info("Hotel Service | JwtAuthenticationFilter | doFilterInternal | jwt: {}", jwt);
 
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 
-                String username = jwtUtils.getUserNameFromJwtToken(jwt);
+                String userEmail = jwtUtils.getUserEmailFromJwtToken(jwt);
                 List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
                 for (String rolename : jwtUtils.getRoleNamesFromJwtToken(jwt)) {
@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        username, null, authorities
+                        userEmail, null, authorities
                 );
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
 
@@ -53,7 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
         } catch (Exception e) {
-            log.error("Reservation Service | JwtAuthenticationFilter | doFilterInternal | Cannot set user authentication: {}", e.getMessage());
+            log.error("Hotel Service | JwtAuthenticationFilter | doFilterInternal | Cannot set user authentication: {}", e.getMessage());
         }
 
         chain.doFilter(req, res);

@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.annotation.Validated;
 
 @Component
 public class JwtUtils {
@@ -18,22 +17,14 @@ public class JwtUtils {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
-    public String getUserNameFromJwtToken(String token){
-        if(token.startsWith("Bearer")){
-            token = token.substring(7);
-        }
+    public String getUserEmailFromJwtToken(String token) {
 
-        String username = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
-        return username;
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String[] getRoleNamesFromJwtToken(String token){
-        if(token.startsWith("Bearer")){
-            token=token.substring(7);
-        }
-
-        String username = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getIssuer();
-        return username.split(" ");
+    public String[] getRoleNamesFromJwtToken(String token) {
+        String userRoles = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getIssuer();
+        return userRoles.split(" ");
     }
 
     //check if it is a valid token for given secret key
@@ -53,9 +44,6 @@ public class JwtUtils {
 
         return false;
     }
-
-
-
 
 
 }

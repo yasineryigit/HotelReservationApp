@@ -1,6 +1,6 @@
 package com.ossovita.userservice.business.abstracts;
 
-import com.ossovita.commonservice.core.entities.Customer;
+import com.ossovita.userservice.core.entities.Customer;
 import com.ossovita.userservice.core.entities.dto.CustomerSignUpDto;
 
 import java.util.List;

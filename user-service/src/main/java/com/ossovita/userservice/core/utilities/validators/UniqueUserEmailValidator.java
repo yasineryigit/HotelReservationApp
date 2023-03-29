@@ -1,7 +1,7 @@
 package com.ossovita.userservice.core.utilities.validators;
 
-import com.ossovita.commonservice.core.dataAccess.UserRepository;
-import com.ossovita.commonservice.core.entities.User;
+import com.ossovita.userservice.core.dataAccess.UserRepository;
+import com.ossovita.userservice.core.entities.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

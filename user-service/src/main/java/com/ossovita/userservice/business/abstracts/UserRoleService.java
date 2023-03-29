@@ -1,6 +1,6 @@
 package com.ossovita.userservice.business.abstracts;
 
-import com.ossovita.commonservice.core.entities.UserRole;
+import com.ossovita.userservice.core.entities.UserRole;
 
 public interface UserRoleService {
 

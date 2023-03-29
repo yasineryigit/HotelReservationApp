@@ -1,12 +1,9 @@
 package com.ossovita.userservice.controllers;
 
-import com.ossovita.userservice.core.entities.dto.EmployeeSaveFormDto;
 import com.ossovita.userservice.business.abstracts.EmployeeService;
+import com.ossovita.userservice.core.entities.dto.EmployeeSaveFormDto;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/1.0/user/employees")
@@ -17,7 +14,6 @@ public class EmployeeController {
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
-
 
 
     @PostMapping("/create-boss")
@@ -35,11 +31,10 @@ public class EmployeeController {
         return employeeService.createFrontDesk(employeeSaveFormDto);
     }
 
-
-
-
-
-
+    @GetMapping("/is-employee-available")
+    public boolean isEmployeeAvailable(@RequestParam long employeePk) {
+        return employeeService.isEmployeeAvailable(employeePk);
+    }
 
 
 }

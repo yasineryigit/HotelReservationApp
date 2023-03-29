@@ -74,8 +74,6 @@ public class JwtAuthenticationFilter implements GatewayFilter {
             }
 
             Claims claims = jwtUtils.getClaims(token);
-            //TODO change username to useremail after change it from token generator
-
             exchange.getRequest().mutate().header("userEmail", String.valueOf(claims.get("userEmail"))).build();
 
 

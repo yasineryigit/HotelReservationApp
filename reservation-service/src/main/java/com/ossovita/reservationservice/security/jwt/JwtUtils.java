@@ -17,22 +17,13 @@ public class JwtUtils {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
-    public String getUserNameFromJwtToken(String token) {
-        if (token.startsWith("Bearer")) {
-            token = token.substring(7);
-        }
-
-        String username = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
-        return username;
+    public String getUserEmailFromJwtToken(String token) {
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
     public String[] getRoleNamesFromJwtToken(String token) {
-        if (token.startsWith("Bearer")) {
-            token = token.substring(7);
-        }
-
-        String username = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getIssuer();
-        return username.split(" ");
+        String userRoles = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getIssuer();
+        return userRoles.split(" ");
     }
 
     //check if it is a valid token for given secret key

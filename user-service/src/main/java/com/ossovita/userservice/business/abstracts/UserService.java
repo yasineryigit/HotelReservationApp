@@ -1,6 +1,6 @@
 package com.ossovita.userservice.business.abstracts;
 
-import com.ossovita.commonservice.core.entities.User;
+import com.ossovita.userservice.core.entities.User;
 
 import java.util.Optional;
 

@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 
-                String username = jwtUtils.getUserNameFromJwtToken(jwt);
+                String userEmail = jwtUtils.getUserEmailFromJwtToken(jwt);
                 List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
                 for (String rolename : jwtUtils.getRoleNamesFromJwtToken(jwt)) {
@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        username, null, authorities
+                        userEmail, null, authorities
                 );
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
 
@@ -69,7 +69,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             log.info("Hotel Service | JwtAuthenticationFilter | parseJwt: {}", headerAuth.substring(7, headerAuth.length()));
 
-            return headerAuth.substring(7, headerAuth.length());
+            return headerAuth.substring(7);
         }
 
         return null;

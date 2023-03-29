@@ -1,8 +1,8 @@
 package com.ossovita.userservice.business.concretes;
 
-import com.ossovita.commonservice.core.entities.UserRole;
+import com.ossovita.userservice.core.entities.UserRole;
 import com.ossovita.userservice.business.abstracts.UserRoleService;
-import com.ossovita.commonservice.core.dataAccess.UserRoleRepository;
+import com.ossovita.userservice.core.dataAccess.UserRoleRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class UserRoleManager implements UserRoleService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('Admin')")
+    //@PreAuthorize("hasAuthority('Admin')")
     public UserRole createUserRole(UserRole userRole) {
         return userRoleRepository.save(userRole);
     }

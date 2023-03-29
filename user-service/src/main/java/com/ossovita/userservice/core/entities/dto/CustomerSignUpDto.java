@@ -28,6 +28,7 @@ public class CustomerSignUpDto {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String userPassword;
 
+
     @NotNull
     @Size(min = 1, max = 255)
     private String userFirstName;

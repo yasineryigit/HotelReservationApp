@@ -1,8 +1,8 @@
 package com.ossovita.hotelservice.business.concretes;
 
-import com.ossovita.commonservice.core.dataAccess.RoomRepository;
-import com.ossovita.commonservice.core.entities.Room;
-import com.ossovita.commonservice.core.entities.dtos.RoomSaveFormDto;
+import com.ossovita.hotelservice.core.dataAccess.RoomRepository;
+import com.ossovita.hotelservice.core.entities.Room;
+import com.ossovita.commonservice.core.entities.dtos.request.RoomRequest;
 import com.ossovita.hotelservice.business.abstracts.RoomService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -22,8 +22,8 @@ public class RoomManager implements RoomService {
     }
 
     @Override
-    public Room createRoom(RoomSaveFormDto roomSaveFormDto) {
-        Room room = modelMapper.map(roomSaveFormDto, Room.class);
+    public Room createRoom(RoomRequest roomRequest) {
+        Room room = modelMapper.map(roomRequest, Room.class);
         return roomRepository.save(room);
     }
 

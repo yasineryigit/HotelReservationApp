@@ -1,7 +1,7 @@
 package com.ossovita.hotelservice.controllers;
 
-import com.ossovita.commonservice.core.entities.Room;
-import com.ossovita.commonservice.core.entities.dtos.RoomSaveFormDto;
+import com.ossovita.hotelservice.core.entities.Room;
+import com.ossovita.commonservice.core.entities.dtos.request.RoomRequest;
 import com.ossovita.hotelservice.business.abstracts.RoomService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +18,8 @@ public class RoomController {
     }
 
     @PostMapping("/create-room")
-    public Room createRoom(@RequestBody RoomSaveFormDto roomSaveFormDto) {
-        return roomService.createRoom(roomSaveFormDto);
+    public Room createRoom(@RequestBody RoomRequest roomRequest) {
+        return roomService.createRoom(roomRequest);
     }
 
     @GetMapping("/get-all-rooms")

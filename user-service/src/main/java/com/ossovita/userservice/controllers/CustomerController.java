@@ -1,6 +1,6 @@
 package com.ossovita.userservice.controllers;
 
-import com.ossovita.commonservice.core.entities.Customer;
+import com.ossovita.userservice.core.entities.Customer;
 import com.ossovita.userservice.core.entities.dto.CustomerSignUpDto;
 import com.ossovita.userservice.business.abstracts.CustomerService;
 import org.springframework.validation.annotation.Validated;

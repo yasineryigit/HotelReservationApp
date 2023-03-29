@@ -1,12 +1,11 @@
 package com.ossovita.userservice.business.concretes;
 
-import com.ossovita.commonservice.core.dataAccess.CustomerRepository;
-import com.ossovita.commonservice.core.dataAccess.UserRepository;
-import com.ossovita.commonservice.core.entities.Customer;
-import com.ossovita.commonservice.core.entities.User;
 import com.ossovita.userservice.business.abstracts.CustomerService;
+import com.ossovita.userservice.core.dataAccess.CustomerRepository;
+import com.ossovita.userservice.core.dataAccess.UserRepository;
+import com.ossovita.userservice.core.entities.Customer;
+import com.ossovita.userservice.core.entities.User;
 import com.ossovita.userservice.core.entities.dto.CustomerSignUpDto;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +48,7 @@ public class CustomerManager implements CustomerService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('Admin')")
+    //@PreAuthorize("hasAuthority('Admin')")
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }

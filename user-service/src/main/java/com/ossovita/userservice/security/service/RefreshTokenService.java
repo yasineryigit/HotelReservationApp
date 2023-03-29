@@ -1,8 +1,8 @@
 package com.ossovita.userservice.security.service;
 
-import com.ossovita.commonservice.core.entities.RefreshToken;
+import com.ossovita.userservice.core.entities.RefreshToken;
 import com.ossovita.userservice.business.abstracts.UserService;
-import com.ossovita.commonservice.core.dataAccess.RefreshTokenRepository;
+import com.ossovita.userservice.core.dataAccess.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
