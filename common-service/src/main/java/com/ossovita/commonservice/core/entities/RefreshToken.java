@@ -21,8 +21,10 @@ public class RefreshToken implements Serializable {
     @JoinColumn(name = "user_pk", referencedColumnName = "user_pk")
     private User user;
 
+
     @Column(nullable = false, unique = true)
     private String token;
+
 
     @Column(nullable = false)
     private Instant expiryDate;
