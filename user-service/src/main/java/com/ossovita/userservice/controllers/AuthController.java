@@ -2,7 +2,7 @@ package com.ossovita.userservice.controllers;
 
 import com.ossovita.userservice.core.entities.RefreshToken;
 import com.ossovita.userservice.core.entities.User;
-import com.ossovita.userservice.core.utilities.error.RefreshTokenException;
+import com.ossovita.userservice.core.utilities.error.exception.RefreshTokenException;
 import com.ossovita.userservice.core.entities.dto.request.LoginRequest;
 import com.ossovita.userservice.core.entities.dto.request.TokenRefreshRequest;
 import com.ossovita.userservice.core.entities.dto.response.JWTResponse;

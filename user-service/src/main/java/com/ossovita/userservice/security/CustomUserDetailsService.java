@@ -2,7 +2,7 @@ package com.ossovita.userservice.security;
 
 import com.ossovita.userservice.core.entities.User;
 import com.ossovita.userservice.business.abstracts.UserService;
-import com.ossovita.userservice.core.utilities.error.UserNotFoundException;
+import com.ossovita.userservice.core.utilities.error.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

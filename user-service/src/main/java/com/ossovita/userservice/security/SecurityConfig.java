@@ -20,9 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -65,13 +62,7 @@ public class SecurityConfig {
     //fully disable from security control
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        List<String> ignoringUrls = Arrays.asList(
-                SecurityConstants.CREATE_BOSS_URL,
-                SecurityConstants.CREATE_CUSTOMER_URL,
-                SecurityConstants.LOGIN_URL,
-                SecurityConstants.REFRESH_TOKEN_URL
-        );
-        return web -> web.ignoring().antMatchers(ignoringUrls.toArray(String[]::new));
+        return web -> web.ignoring().antMatchers(SecurityConstants.getIgnoringUrls().toArray(String[]::new));
     }
 
 
