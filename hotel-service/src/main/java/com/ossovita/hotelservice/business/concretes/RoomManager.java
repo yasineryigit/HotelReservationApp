@@ -31,4 +31,9 @@ public class RoomManager implements RoomService {
     public List<Room> getAllRooms() {
         return roomRepository.findAll();
     }
+
+    @Override
+    public boolean isRoomAvailable(long roomPk) {
+        return roomRepository.existsByRoomPk(roomPk);
+    }
 }

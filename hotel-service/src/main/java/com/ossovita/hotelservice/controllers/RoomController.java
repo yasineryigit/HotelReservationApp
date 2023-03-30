@@ -26,4 +26,11 @@ public class RoomController {
     public List<Room> getAllRooms() {
         return roomService.getAllRooms();
     }
+
+    @GetMapping("/is-room-available")
+    public boolean isRoomAvailable(@RequestParam long roomPk){
+        return roomService.isRoomAvailable(roomPk);
+    }
+
+    
 }

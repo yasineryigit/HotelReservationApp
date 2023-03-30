@@ -29,4 +29,9 @@ public class CustomerController {
     }
 
 
+    @GetMapping("/is-customer-available")
+    public boolean isCustomerAvailable(@RequestParam long customerPk){
+        return customerService.isCustomerAvailable(customerPk);
+    }
+
 }

@@ -10,6 +10,7 @@ import com.ossovita.hotelservice.business.abstracts.feign.UserClient;
 import com.ossovita.hotelservice.core.dataAccess.AddressRepository;
 import com.ossovita.hotelservice.core.dataAccess.HotelEmployeeRepository;
 import com.ossovita.hotelservice.core.dataAccess.HotelRepository;
+import com.ossovita.hotelservice.core.dataAccess.RoomRepository;
 import com.ossovita.hotelservice.core.entities.Address;
 import com.ossovita.hotelservice.core.entities.Hotel;
 import com.ossovita.hotelservice.core.entities.HotelEmployee;
@@ -26,13 +27,15 @@ public class HotelManager implements HotelService {
     HotelRepository hotelRepository;
     AddressRepository addressRepository;
     HotelEmployeeRepository hotelEmployeeRepository;
+    RoomRepository roomRepository;
     UserClient userClient;
     ModelMapper modelMapper;
 
-    public HotelManager(HotelRepository hotelRepository, AddressRepository addressRepository, HotelEmployeeRepository hotelEmployeeRepository, UserClient userClient, ModelMapper modelMapper) {
+    public HotelManager(HotelRepository hotelRepository, AddressRepository addressRepository, HotelEmployeeRepository hotelEmployeeRepository, RoomRepository roomRepository, UserClient userClient, ModelMapper modelMapper) {
         this.hotelRepository = hotelRepository;
         this.addressRepository = addressRepository;
         this.hotelEmployeeRepository = hotelEmployeeRepository;
+        this.roomRepository = roomRepository;
         this.userClient = userClient;
         this.modelMapper = modelMapper;
     }
@@ -82,6 +85,8 @@ public class HotelManager implements HotelService {
     public boolean isHotelAvailable(long hotelPk) {
         return hotelRepository.existsByHotelPk(hotelPk);
     }
+
+
 }
 
 

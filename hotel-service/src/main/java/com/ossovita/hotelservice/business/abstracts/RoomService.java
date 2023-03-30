@@ -10,4 +10,6 @@ public interface RoomService {
     Room createRoom(RoomRequest roomRequest);
 
     List<Room> getAllRooms();
+
+    boolean isRoomAvailable(long roomPk);
 }

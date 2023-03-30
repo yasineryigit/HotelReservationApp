@@ -52,4 +52,9 @@ public class CustomerManager implements CustomerService {
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
+
+    @Override
+    public boolean isCustomerAvailable(long customerPk) {
+        return customerRepository.existsByCustomerPk(customerPk);
+    }
 }

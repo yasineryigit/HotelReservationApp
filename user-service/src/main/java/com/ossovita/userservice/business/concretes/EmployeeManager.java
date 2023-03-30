@@ -87,7 +87,7 @@ public class EmployeeManager implements EmployeeService {
     }
 
     public void createHotelEmployeeInHotelService(long hotelFk, long employeeFk) {
-        //feign client will be implemented
+        //feign client
         HotelEmployeeRequest hotelEmployeeRequest = HotelEmployeeRequest.builder().hotelFk(hotelFk).employeeFk(employeeFk).build();
         hotelClient.createHotelEmployee(hotelEmployeeRequest);
     }

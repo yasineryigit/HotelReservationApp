@@ -1,15 +1,33 @@
 package com.ossovita.reservationservice.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.ossovita.reservationservice.business.abstracts.ReservationService;
+import com.ossovita.reservationservice.core.entities.Reservation;
+import com.ossovita.reservationservice.core.entities.dto.request.ReservationRequest;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/1.0/reservation")
 public class ReservationController {
 
+    ReservationService reservationService;
+
+    public ReservationController(ReservationService reservationService) {
+        this.reservationService = reservationService;
+    }
+
     @GetMapping("/status")
-    public String getStatus(){
+    public String getStatus() {
         return "Working..";
     }
+
+    @PostMapping("/create-reservation")
+    public Reservation createReservation(@RequestBody ReservationRequest reservationRequest) throws Exception {
+        return reservationService.createReservation(reservationRequest);
+    }
+
+    @GetMapping("/is-reservation-available")
+    public boolean isReservationAvailable(@RequestParam long reservationFk){
+        return reservationService.isReservationAvailable(reservationFk);
+    }
+
 }

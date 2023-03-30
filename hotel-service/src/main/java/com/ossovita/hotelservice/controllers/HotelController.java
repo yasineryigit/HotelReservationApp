@@ -44,6 +44,7 @@ public class HotelController {
         return hotelService.isHotelAvailable(hotelPk);
     }
 
+
     @PostMapping("/create-hotel-employee")
     public ResponseEntity<HotelEmployeeResponse> createHotelEmployee(@RequestBody HotelEmployeeRequest hotelEmployeeRequest) {
         return ResponseEntity.ok(hotelService.createHotelEmployee(hotelEmployeeRequest));

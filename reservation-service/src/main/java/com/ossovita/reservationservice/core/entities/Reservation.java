@@ -31,8 +31,17 @@ public class Reservation {
     @Column(name = "reservation_status")
     private String reservationStatus;//TODO BOOKED, EXPIRED etc. ENUM TYPE
 
-    @Column(name = "reservation_is_paid")
-    private boolean reservationIsPaid;
+    @Column(name = "reservation_is_approved")
+    private boolean reservationIsApproved;
+
+    @Column(name = "room_fk")
+    private long roomFk;
+
+    @Column(name = "employee_fk")
+    private long employeeFk;
+
+    @Column(name = "customer_fk")
+    private long customerFk;
 
 
 }

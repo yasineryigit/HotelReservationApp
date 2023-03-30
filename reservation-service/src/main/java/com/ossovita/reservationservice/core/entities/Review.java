@@ -28,17 +28,8 @@ public class Review {
     @Column(name = "review_point")
     private int reviewPoint;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "reservation_fk", insertable = false, updatable = false)
-    private Reservation reservation;
-
     @Column(name = "reservation_fk")
     private long reservationFk;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_fk", insertable = false, updatable = false)
-    @JsonIgnore
-    private Customer customer;
 
     @Column(name = "customer_fk")
     private long customerFk;

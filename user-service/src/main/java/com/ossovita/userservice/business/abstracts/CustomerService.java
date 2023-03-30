@@ -10,4 +10,6 @@ public interface CustomerService {
     CustomerSignUpDto createCustomer(CustomerSignUpDto customerSignUpDto);
 
     List<Customer> getAllCustomers();
+
+    boolean isCustomerAvailable(long customerPk);
 }

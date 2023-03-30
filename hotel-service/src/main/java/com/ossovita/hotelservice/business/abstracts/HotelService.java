@@ -17,4 +17,6 @@ public interface HotelService {
     HotelEmployeeResponse createHotelEmployee(HotelEmployeeRequest hotelEmployeeRequest);
 
     boolean isHotelAvailable(long hotelPk);
+
+
 }
