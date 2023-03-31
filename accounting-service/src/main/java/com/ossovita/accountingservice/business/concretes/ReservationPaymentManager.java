@@ -4,21 +4,27 @@ import com.ossovita.accountingservice.business.abstracts.ReservationPaymentServi
 import com.ossovita.accountingservice.business.abstracts.feign.ReservationClient;
 import com.ossovita.accountingservice.core.dataAccess.ReservationPaymentRepository;
 import com.ossovita.accountingservice.core.entities.ReservationPayment;
-import com.ossovita.accountingservice.core.entities.dto.request.ReservationPaymentRequest;
+import com.ossovita.commonservice.core.entities.dtos.request.ReservationPaymentRequest;
+import com.ossovita.commonservice.core.utilities.error.exception.ForeignKeyNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class ReservationPaymentManager implements ReservationPaymentService {
 
     ReservationClient reservationClient;
     ReservationPaymentRepository reservationPaymentRepository;
     ModelMapper modelMapper;
+    KafkaTemplate<String, ReservationPaymentRequest> kafkaTemplate;
 
-    public ReservationPaymentManager(ReservationClient reservationClient, ReservationPaymentRepository reservationPaymentRepository, ModelMapper modelMapper) {
+    public ReservationPaymentManager(ReservationClient reservationClient, ReservationPaymentRepository reservationPaymentRepository, ModelMapper modelMapper, KafkaTemplate<String, ReservationPaymentRequest> kafkaTemplate) {
         this.reservationClient = reservationClient;
         this.reservationPaymentRepository = reservationPaymentRepository;
         this.modelMapper = modelMapper;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
@@ -31,4 +37,22 @@ public class ReservationPaymentManager implements ReservationPaymentService {
             throw new Exception("This request contains invalid id");
         }
     }
+
+    @Override
+    public String updateReservationPayment(ReservationPaymentRequest reservationPaymentRequest) throws Exception {
+        if (reservationClient.isReservationAvailable(reservationPaymentRequest.getReservationFk())) {//if reservation available
+            ReservationPayment reservationPayment = modelMapper.map(reservationPaymentRequest, ReservationPayment.class);//update
+            reservationPaymentRepository.save(reservationPayment);
+            //send kafka message w/
+            //data added to message queue
+            kafkaTemplate.send("payment-update", reservationPaymentRequest);//todo | create new reservationPaymentUpdateRequestDto in common-service & replace
+            log.info("Payment Update Request sent | ReservationPaymentRequest: " + reservationPaymentRequest.toString());
+
+            return "Payment Successful.";
+        } else {
+            throw new ForeignKeyNotFoundException("Reservation not found by given reservationFk");
+        }
+    }
+
+
 }
