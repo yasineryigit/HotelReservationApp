@@ -24,9 +24,6 @@ public class KafkaConfiguration {
     private String kafkaAddress;
 
 
-    @Value("${spring.kafka.group.id}")
-    private String groupId;
-
 
     @Bean
     public KafkaTemplate<String, Object> kafkaTemplate() {

@@ -65,7 +65,7 @@ public class ReservationManager implements ReservationService {
             value.setReservationStatus(reservationPaymentRequest.getReservationPaymentStatus());//todo make constant
             reservationRepository.save(value);
 
-        }, () -> log.info("ReservationManager |Payment Update Failed | ReservationPaymentRequest: " + reservationPaymentRequest.toString()));
+        }, () -> log.info("ReservationManager | Payment Update Failed | ReservationPaymentRequest: " + reservationPaymentRequest.toString()));
     }
 
 
