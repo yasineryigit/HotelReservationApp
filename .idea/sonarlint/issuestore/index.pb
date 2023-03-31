@@ -161,8 +161,6 @@ maccounting-service/src/main/java/com/ossovita/accountingservice/security/jwt/Jw
 Zaccounting-service/src/main/java/com/ossovita/accountingservice/security/jwt/JwtUtils.java,3\3\33c25a36005bc8fcf58c28a2ee1824f933d94e00
 |
 Lapi-gateway/src/main/java/com/ossovita/apigateway/ApiGatewayApplication.java,e\e\eed2d470121de718da0ce7f84acb76f55dc02027
-¡
-qaccounting-service/src/main/java/com/ossovita/accountingservice/business/abstracts/ReservationPaymentService.java,1\2\12ae8109432c83c7c6c7ccb6914ae985e67e22a3
 J
 accounting-service/pom.xml,b\9\b9d1b4e54241890d477d63f2f4f633cf725dfd5e
 •
