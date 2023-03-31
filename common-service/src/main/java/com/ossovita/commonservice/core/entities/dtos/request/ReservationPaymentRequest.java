@@ -1,6 +1,7 @@
-package com.ossovita.accountingservice.core.entities.dto.request;
+package com.ossovita.commonservice.core.entities.dtos.request;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
