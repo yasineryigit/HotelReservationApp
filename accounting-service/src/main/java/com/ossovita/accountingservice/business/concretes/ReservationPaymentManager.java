@@ -18,9 +18,9 @@ public class ReservationPaymentManager implements ReservationPaymentService {
     ReservationClient reservationClient;
     ReservationPaymentRepository reservationPaymentRepository;
     ModelMapper modelMapper;
-    KafkaTemplate<String, ReservationPaymentRequest> kafkaTemplate;
+    KafkaTemplate<String, Object> kafkaTemplate;
 
-    public ReservationPaymentManager(ReservationClient reservationClient, ReservationPaymentRepository reservationPaymentRepository, ModelMapper modelMapper, KafkaTemplate<String, ReservationPaymentRequest> kafkaTemplate) {
+    public ReservationPaymentManager(ReservationClient reservationClient, ReservationPaymentRepository reservationPaymentRepository, ModelMapper modelMapper, KafkaTemplate<String, Object> kafkaTemplate) {
         this.reservationClient = reservationClient;
         this.reservationPaymentRepository = reservationPaymentRepository;
         this.modelMapper = modelMapper;

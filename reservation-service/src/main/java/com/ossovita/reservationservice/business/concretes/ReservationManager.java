@@ -54,7 +54,8 @@ public class ReservationManager implements ReservationService {
 
     @KafkaListener(
             topics = "payment-update",
-            groupId = "${spring.kafka.group.id}"
+            groupId = "foo",
+            containerFactory = "reservationPaymentRequestKafkaListenerContainerFactory"//we need to assign containerFactory
     )
     public void listenPaymentUpdate(ReservationPaymentRequest reservationPaymentRequest) {
         log.info("Payment Updated | ReservationPaymentRequest: " + reservationPaymentRequest.toString());

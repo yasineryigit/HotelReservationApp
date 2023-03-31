@@ -30,10 +30,11 @@ public class KafkaConfiguration {
 
 
     @Bean
-    public KafkaTemplate<String, ReservationPaymentRequest> kafkaTemplate() {
+    public KafkaTemplate<String, Object> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
+    //producer
     @Bean
     public ProducerFactory producerFactory() {
         Map<String, Object> config = new HashMap<>();
@@ -44,22 +45,30 @@ public class KafkaConfiguration {
         return new DefaultKafkaProducerFactory(config);
     }
 
+    //consumer
+    private Map<String, Object> consumerConfigs() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaAddress);
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializerWithJTM.class);
+        props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, 25000);
+        props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 35000);
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "100");
+        return props;
+    }
+
+    //consumer | kafkalistenercontainerfactory | NOTE: we need to create additional KafkaListenerContainerFactory for each data type we want to listen
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ReservationPaymentRequest> kafkaListenerContainerFactory() {
+    public ConcurrentKafkaListenerContainerFactory<String, ReservationPaymentRequest> reservationPaymentRequestKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, ReservationPaymentRequest> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
+        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(
+                consumerConfigs(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(ReservationPaymentRequest.class,false)));
         return factory;
     }
 
-    @Bean
-    public ConsumerFactory<String, ReservationPaymentRequest> consumerFactory() {
-        Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaAddress);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, ReservationPaymentRequest.class);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        return new DefaultKafkaConsumerFactory<>(props);
-    }
+
 }
