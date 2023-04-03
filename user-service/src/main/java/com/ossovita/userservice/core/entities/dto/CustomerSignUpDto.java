@@ -13,8 +13,6 @@ import javax.validation.constraints.Size;
 @Data
 public class CustomerSignUpDto {
 
-    private long customerPk;
-
     //user
     @NotNull(message = "{ossovita.constraint.email.NotNull.message}")
     @Size(min = 4, max = 255)

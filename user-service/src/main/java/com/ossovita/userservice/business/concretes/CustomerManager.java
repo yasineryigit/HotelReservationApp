@@ -42,8 +42,8 @@ public class CustomerManager implements CustomerService {
                 .userFk(savedUser.getUserPk())
                 .build();
 
-        Customer savedCustomer = customerRepository.save(customer);
-        customerSignUpDto.setCustomerPk(savedCustomer.getCustomerPk());
+        customerRepository.save(customer);
+
         return customerSignUpDto;
     }
 
