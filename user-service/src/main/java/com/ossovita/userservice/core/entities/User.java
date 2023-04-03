@@ -66,6 +66,10 @@ public class User {
     @JsonIgnore
     private Employee employee;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
+    private Boss boss;
+
     private boolean enabled = false;
 
     private boolean locked = false;

@@ -11,14 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/1.0/user/user-roles")
 public class UserRoleController {
 
-    UserRoleService userRoleService;
 
-    public UserRoleController(UserRoleService userRoleService) {
-        this.userRoleService = userRoleService;
-    }
 
-    @PostMapping("/create-user-role")
-    public UserRole createUserRole(@RequestBody UserRole userRole) {
-        return userRoleService.createUserRole(userRole);
-    }
 }

@@ -38,6 +38,7 @@ public class EmployeeSaveFormDto {
 
 
     //Hotel
+    @NotNull
     private long hotelFk;
 
 

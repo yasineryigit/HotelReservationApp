@@ -1,0 +1,9 @@
+
+i
+java:S1128"LRemove this unused import 'com.ossovita.userservice.core.entities.UserRole'.(ù‚ò8ÜÉÚ£ô0
+u
+java:S1128"XRemove this unused import 'com.ossovita.userservice.business.abstracts.UserRoleService'.(àà‚8â…Û£ô0
+r
+java:S1128"PRemove this unused import 'org.springframework.web.bind.annotation.PostMapping'.(äƒà°ùÿÿÿÿ8ÜÉÚ£ô0
+r
+java:S1128"PRemove this unused import 'org.springframework.web.bind.annotation.RequestBody'.(â­½Àıÿÿÿÿ8ÜÉÚ£ô0

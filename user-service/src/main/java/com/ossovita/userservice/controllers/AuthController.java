@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,7 +40,7 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         log.info("Login request received: " + loginRequest.toString());
         String userEmail = loginRequest.getUserEmail();
         String userPassword = loginRequest.getUserPassword();
@@ -77,7 +78,7 @@ public class AuthController {
         TODO fix | expired refresh token should return an exception and user should provide his credentials again to get new access token
     * */
     @PostMapping("/refresh-token")
-    public ResponseEntity<?> refreshToken(@RequestBody TokenRefreshRequest request) {
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();
         RefreshToken token = refreshTokenService.findByToken(requestRefreshToken)
                 .orElseThrow(() -> new RefreshTokenException(requestRefreshToken + "Refresh token is not in database!"));

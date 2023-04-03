@@ -5,7 +5,7 @@ import com.ossovita.accountingservice.business.abstracts.feign.ReservationClient
 import com.ossovita.accountingservice.core.dataAccess.ReservationPaymentRepository;
 import com.ossovita.accountingservice.core.entities.ReservationPayment;
 import com.ossovita.commonservice.core.entities.dtos.request.ReservationPaymentRequest;
-import com.ossovita.commonservice.core.utilities.error.exception.ForeignKeyNotFoundException;
+import com.ossovita.commonservice.core.utilities.error.exception.IdNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -50,7 +50,7 @@ public class ReservationPaymentManager implements ReservationPaymentService {
 
             return "Payment Successful.";
         } else {
-            throw new ForeignKeyNotFoundException("Reservation not found by given reservationFk");
+            throw new IdNotFoundException("Reservation not found by given reservationFk");
         }
     }
 

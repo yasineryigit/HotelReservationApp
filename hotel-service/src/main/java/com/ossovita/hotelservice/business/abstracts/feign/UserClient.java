@@ -10,4 +10,8 @@ public interface UserClient {
     @GetMapping("/employees/is-employee-available")
     boolean isEmployeeAvailable(@RequestParam long employeePk);
 
+
+    @GetMapping("/boss/is-boss-available")
+    boolean isBossAvailable(@RequestParam long bossPk);
+
 }

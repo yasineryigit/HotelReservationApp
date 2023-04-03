@@ -28,5 +28,5 @@ public class HotelRequest {
 
 
     @NotNull
-    private long employeeFk;
+    private long bossFk;
 }

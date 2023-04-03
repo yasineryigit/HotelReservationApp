@@ -1,12 +1,12 @@
 package com.ossovita.hotelservice.core.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -35,6 +35,18 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel")
     @JsonIgnore
     private List<Room> rooms;
+
+    @OneToMany(mappedBy = "hotel")
+    private List<HotelImage> hotelImages;
+
+    @OneToMany(mappedBy = "hotel")
+    @JsonIgnore
+    private List<HotelEmployee> hotelEmployees;
+
+    @OneToMany(mappedBy = "hotel")
+    @JsonIgnore
+    private List<HotelBoss> hotelBosses;
+
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_fk", insertable = false, updatable = false)

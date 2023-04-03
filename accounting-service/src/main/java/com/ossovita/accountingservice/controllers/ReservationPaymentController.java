@@ -6,6 +6,8 @@ import com.ossovita.commonservice.core.entities.dtos.request.ReservationPaymentR
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/1.0/accounting/reservation-payment")
 public class ReservationPaymentController {
@@ -17,12 +19,12 @@ public class ReservationPaymentController {
     }
 
     @PostMapping("/create-reservation-payment")
-    public ReservationPayment createReservationPayment(@Validated @RequestBody ReservationPaymentRequest reservationPaymentRequest) throws Exception {
+    public ReservationPayment createReservationPayment(@Valid @RequestBody ReservationPaymentRequest reservationPaymentRequest) throws Exception {
         return reservationPaymentService.createReservationPayment(reservationPaymentRequest);
     }
 
     @PutMapping("/update-reservation-payment")
-    public String updateReservationPayment(@Validated @RequestBody ReservationPaymentRequest reservationPaymentRequest) throws Exception {
+    public String updateReservationPayment(@Valid @RequestBody ReservationPaymentRequest reservationPaymentRequest) throws Exception {
         return reservationPaymentService.updateReservationPayment(reservationPaymentRequest);
     }
 

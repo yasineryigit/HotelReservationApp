@@ -5,6 +5,8 @@ import com.ossovita.reservationservice.core.entities.Reservation;
 import com.ossovita.reservationservice.core.entities.dto.request.ReservationRequest;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/1.0/reservation")
 public class ReservationController {
@@ -21,7 +23,7 @@ public class ReservationController {
     }
 
     @PostMapping("/create-reservation")
-    public Reservation createReservation(@RequestBody ReservationRequest reservationRequest) throws Exception {
+    public Reservation createReservation(@Valid @RequestBody ReservationRequest reservationRequest) throws Exception {
         return reservationService.createReservation(reservationRequest);
     }
 

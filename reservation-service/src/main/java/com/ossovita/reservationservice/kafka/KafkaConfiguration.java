@@ -52,7 +52,6 @@ public class KafkaConfiguration {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaAddress);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializerWithJTM.class);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, 25000);
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 35000);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
@@ -66,7 +65,7 @@ public class KafkaConfiguration {
         ConcurrentKafkaListenerContainerFactory<String, ReservationPaymentRequest> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(
-                consumerConfigs(),
+                consumerConfigs(),//
                 new StringDeserializer(),
                 new JsonDeserializer<>(ReservationPaymentRequest.class,false)));
         return factory;

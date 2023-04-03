@@ -29,12 +29,13 @@ public class Employee {
     @Column(name = "user_fk")
     private long userFk;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "employee_position_fk", insertable = false, updatable = false)
-    private EmployeePosition employeePosition;
 
-    @Column(name = "employee_position_fk")
-    private long employeePositionFk;
+    @ManyToOne
+    @JoinColumn(name = "business_position_fk", insertable = false, updatable = false)
+    private BusinessPosition businessPosition;
+
+    @Column(name = "business_position_fk")
+    private long businessPositionFk;
 
     @Column(name = "is_approved")
     private boolean isApproved;

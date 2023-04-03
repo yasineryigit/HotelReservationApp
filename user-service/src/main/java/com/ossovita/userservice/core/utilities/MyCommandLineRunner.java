@@ -1,9 +1,9 @@
 package com.ossovita.userservice.core.utilities;
 
-import com.ossovita.userservice.core.dataAccess.EmployeePositionRepository;
+import com.ossovita.userservice.core.dataAccess.BusinessPositionRepository;
 import com.ossovita.userservice.core.dataAccess.UserRepository;
 import com.ossovita.userservice.core.dataAccess.UserRoleRepository;
-import com.ossovita.userservice.core.entities.EmployeePosition;
+import com.ossovita.userservice.core.entities.BusinessPosition;
 import com.ossovita.userservice.core.entities.User;
 import com.ossovita.userservice.core.entities.UserRole;
 import lombok.extern.slf4j.Slf4j;
@@ -17,13 +17,13 @@ public class MyCommandLineRunner implements CommandLineRunner {
 
 
     UserRoleRepository userRoleRepository;
-    EmployeePositionRepository employeePositionRepository;
+    BusinessPositionRepository businessPositionRepository;
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
 
-    public MyCommandLineRunner(UserRoleRepository userRoleRepository, EmployeePositionRepository employeePositionRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public MyCommandLineRunner(UserRoleRepository userRoleRepository, BusinessPositionRepository businessPositionRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRoleRepository = userRoleRepository;
-        this.employeePositionRepository = employeePositionRepository;
+        this.businessPositionRepository = businessPositionRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -64,17 +64,17 @@ public class MyCommandLineRunner implements CommandLineRunner {
         }
 
         //check if not saved
-        if (employeePositionRepository.findAll().isEmpty()) {
+        if (businessPositionRepository.findAll().isEmpty()) {
             //save employeepositions into db
-            EmployeePosition employeePositionBoss = EmployeePosition.builder()
-                    .employeePositionName("Boss").build();
-            EmployeePosition employeePositionManager = EmployeePosition.builder()
-                    .employeePositionName("Manager").build();
-            EmployeePosition employeePositionFrontDesk = EmployeePosition.builder()
-                    .employeePositionName("FrontDesk").build();
-            employeePositionRepository.save(employeePositionBoss);
-            employeePositionRepository.save(employeePositionManager);
-            employeePositionRepository.save(employeePositionFrontDesk);
+            BusinessPosition businessPositionBoss = BusinessPosition.builder()
+                    .businessPositionName("Boss").build();
+            BusinessPosition businessPositionManager = BusinessPosition.builder()
+                    .businessPositionName("Manager").build();
+            BusinessPosition businessPositionFrontDesk = BusinessPosition.builder()
+                    .businessPositionName("FrontDesk").build();
+            businessPositionRepository.save(businessPositionBoss);
+            businessPositionRepository.save(businessPositionManager);
+            businessPositionRepository.save(businessPositionFrontDesk);
             log.info("UserService | My CommandLineRunner | employee position data initialized");
         }
 

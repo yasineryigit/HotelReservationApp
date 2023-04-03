@@ -25,7 +25,10 @@ public class CustomUserDetails implements UserDetails {
         authorities.add(new SimpleGrantedAuthority(user.getUserRole().getUserRole()));
 
         if (user.getEmployee() != null) {//eğer bir employee ise
-            authorities.add(new SimpleGrantedAuthority(user.getEmployee().getEmployeePosition().getEmployeePositionName()));
+            authorities.add(new SimpleGrantedAuthority(user.getEmployee().getBusinessPosition().getBusinessPositionName()));
+        }
+        if (user.getBoss() != null) {//eğer bir employee ise
+            authorities.add(new SimpleGrantedAuthority(user.getBoss().getBusinessPosition().getBusinessPositionName()));
         }
         System.out.println("authorities:" + authorities);
         return authorities;

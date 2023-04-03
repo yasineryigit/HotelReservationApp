@@ -1,12 +1,12 @@
 package com.ossovita.hotelservice.core.entities;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -32,7 +32,6 @@ public class HotelEmployee {
 
     @Column(name = "employee_fk")
     private long employeeFk;
-
 
 
 }

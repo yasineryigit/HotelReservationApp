@@ -6,6 +6,7 @@ import com.ossovita.userservice.business.abstracts.CustomerService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,7 +20,7 @@ public class CustomerController {
     }
 
     @PostMapping("/create-customer")
-    public CustomerSignUpDto createCustomerWithUser(@Validated @RequestBody CustomerSignUpDto customerSignUpDto) {
+    public CustomerSignUpDto createCustomerWithUser(@Valid @RequestBody CustomerSignUpDto customerSignUpDto) {
         return customerService.createCustomer(customerSignUpDto);
     }
 

@@ -2,67 +2,136 @@ package com.ossovita.hotelservice.business.concretes;
 
 import com.ossovita.commonservice.core.entities.dtos.request.HotelEmployeeRequest;
 import com.ossovita.commonservice.core.entities.dtos.request.HotelRequest;
-import com.ossovita.commonservice.core.entities.dtos.response.HotelEmployeeResponse;
-import com.ossovita.commonservice.core.utilities.error.exception.EmployeeNotFoundException;
-import com.ossovita.commonservice.core.utilities.error.exception.HotelNotFoundException;
+import com.ossovita.commonservice.core.utilities.error.exception.IdNotFoundException;
+import com.ossovita.commonservice.core.utilities.error.exception.UserNotFoundException;
 import com.ossovita.hotelservice.business.abstracts.HotelService;
 import com.ossovita.hotelservice.business.abstracts.feign.UserClient;
-import com.ossovita.hotelservice.core.dataAccess.AddressRepository;
-import com.ossovita.hotelservice.core.dataAccess.HotelEmployeeRepository;
-import com.ossovita.hotelservice.core.dataAccess.HotelRepository;
-import com.ossovita.hotelservice.core.dataAccess.RoomRepository;
-import com.ossovita.hotelservice.core.entities.Address;
-import com.ossovita.hotelservice.core.entities.Hotel;
-import com.ossovita.hotelservice.core.entities.HotelEmployee;
+import com.ossovita.hotelservice.core.dataAccess.*;
+import com.ossovita.hotelservice.core.entities.*;
+import com.ossovita.hotelservice.core.entities.dto.request.HotelWithImagesRequest;
+import com.ossovita.hotelservice.core.entities.dto.response.HotelEmployeeResponse;
+import com.ossovita.hotelservice.core.utilities.file.FileService;
+import com.ossovita.hotelservice.core.utilities.file.ImageResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
 @Slf4j
 public class HotelManager implements HotelService {
 
+    @Value("${file.hotel-images.upload-dir}")
+    private String hotelImagesUploadDir;
+    @Value("${hotel-service.api-prefix}")
+    String apiPrefix;
     HotelRepository hotelRepository;
     AddressRepository addressRepository;
     HotelEmployeeRepository hotelEmployeeRepository;
+    HotelBossRepository hotelBossRepository;
     RoomRepository roomRepository;
+    HotelImageRepository hotelImageRepository;
     UserClient userClient;
     ModelMapper modelMapper;
+    FileService fileService;
 
-    public HotelManager(HotelRepository hotelRepository, AddressRepository addressRepository, HotelEmployeeRepository hotelEmployeeRepository, RoomRepository roomRepository, UserClient userClient, ModelMapper modelMapper) {
+    public HotelManager(HotelRepository hotelRepository, AddressRepository addressRepository, HotelEmployeeRepository hotelEmployeeRepository, HotelBossRepository hotelBossRepository, RoomRepository roomRepository, HotelImageRepository hotelImageRepository, UserClient userClient, ModelMapper modelMapper, FileService fileService) {
         this.hotelRepository = hotelRepository;
         this.addressRepository = addressRepository;
         this.hotelEmployeeRepository = hotelEmployeeRepository;
+        this.hotelBossRepository = hotelBossRepository;
         this.roomRepository = roomRepository;
+        this.hotelImageRepository = hotelImageRepository;
         this.userClient = userClient;
         this.modelMapper = modelMapper;
+        this.fileService = fileService;
     }
 
     @Override
     public Hotel createHotel(HotelRequest hotelRequest) {
         //we need to check employeeFk is real or not
-        if (userClient.isEmployeeAvailable(hotelRequest.getEmployeeFk())) {
-            Address address = modelMapper.map(hotelRequest, Address.class);
+
+        Address address = modelMapper.map(hotelRequest, Address.class);
+        Address savedAddress = addressRepository.save(address);
+
+        Hotel hotel = modelMapper.map(hotelRequest, Hotel.class);
+        hotel.setAddressFk(savedAddress.getAddressPk());
+        hotel.setAddress(address);//to give more info at post request return
+
+        Hotel savedHotel = hotelRepository.save(hotel);
+
+        //also save to the hotelemployees table
+        createHotelBoss(savedHotel.getHotelPk(), hotelRequest.getBossFk());
+
+        return savedHotel;
+
+
+    }
+
+    @Override
+    public Hotel createHotelWithHotelImages(HotelWithImagesRequest hotelWithImagesRequest) throws IOException {
+        //check if boss is available in boss table
+        if ((userClient.isBossAvailable(hotelWithImagesRequest.getBossFk()))) {
+            //save address
+            Address address = modelMapper.map(hotelWithImagesRequest, Address.class);
             Address savedAddress = addressRepository.save(address);
 
-            Hotel hotel = modelMapper.map(hotelRequest, Hotel.class);
+            Hotel hotel = modelMapper.map(hotelWithImagesRequest, Hotel.class);
             hotel.setAddressFk(savedAddress.getAddressPk());
             hotel.setAddress(address);//to give more info at post request return
 
             Hotel savedHotel = hotelRepository.save(hotel);
 
-            //also save to the hotelemployees table
-            HotelEmployee hotelEmployee = HotelEmployee.builder()
-                    .hotelFk(savedHotel.getHotelPk())
-                    .employeeFk(hotelRequest.getEmployeeFk())
-                    .build();
-            hotelEmployeeRepository.save(hotelEmployee);
+
+            //save hotelImage
+
+            for (MultipartFile file : hotelWithImagesRequest.getHotelImages()) {
+
+                ImageResponse imageResponse = fileService.saveImage(file, hotelImagesUploadDir);
+                HotelImage hotelImage = new HotelImage();
+                hotelImage.setHotelImageName(imageResponse.getFileName());
+                hotelImage.setHotelImageUrl(apiPrefix + imageResponse.getImageUrl());// make url: /api/1.0/hotel/hotel-service/uploads/hotel-images/dsfks231asd.jpg
+                hotelImage.setHotelFk(savedHotel.getHotelPk());
+
+                hotelImageRepository.save(hotelImage);
+            }
+
+            //also save to hotel_employees table at the hotel-service
+            createHotelBoss(savedHotel.getHotelPk(), hotelWithImagesRequest.getBossFk());
+
             return savedHotel;
+
+        } else throw new IdNotFoundException("Boss not found by the given id");
+
+    }
+
+    @Override
+    public HotelEmployeeResponse createHotelEmployee(HotelEmployeeRequest hotelEmployeeRequest) {
+        hotelRepository.findById(hotelEmployeeRequest.getHotelFk()).orElseThrow(() -> new IdNotFoundException("Hotel not found by the given id"));
+        HotelEmployee hotelEmployee = modelMapper.map(hotelEmployeeRequest, HotelEmployee.class);
+        HotelEmployee savedHotelEmployee = hotelEmployeeRepository.save(hotelEmployee);
+        return modelMapper.map(savedHotelEmployee, HotelEmployeeResponse.class);
+    }
+
+    /*
+     * it checks bossFk from user-service, then create HotelBoss object in hotel-service
+     * */
+    public void createHotelBoss(long hotelFk, long bossFk) {
+        //we need to check bossFk is real or not
+        if (userClient.isBossAvailable(bossFk)) {
+            //also save to the hotelemployees table
+            HotelBoss hotelBoss = HotelBoss.builder()
+                    .hotelFk(hotelFk)
+                    .bossFk(bossFk)
+                    .build();
+            hotelBossRepository.save(hotelBoss);
         } else {
-            log.error("HotelManager | createHotel | Employee not found by the given id");
-            throw new EmployeeNotFoundException("Employee not found by the given id");
+            log.error("HotelManager | createHotel | Boss not found by the given id");
+            throw new UserNotFoundException("Boss not found by the given id");
         }
 
     }
@@ -72,14 +141,6 @@ public class HotelManager implements HotelService {
         return hotelRepository.findAll();
     }
 
-
-    @Override
-    public HotelEmployeeResponse createHotelEmployee(HotelEmployeeRequest hotelEmployeeRequest) {
-        hotelRepository.findById(hotelEmployeeRequest.getHotelFk()).orElseThrow(() -> new HotelNotFoundException("Hotel not found by the given id"));
-        HotelEmployee hotelEmployee = modelMapper.map(hotelEmployeeRequest, HotelEmployee.class);
-        HotelEmployee savedHotelEmployee = hotelEmployeeRepository.save(hotelEmployee);
-        return modelMapper.map(savedHotelEmployee, HotelEmployeeResponse.class);
-    }
 
     @Override
     public boolean isHotelAvailable(long hotelPk) {

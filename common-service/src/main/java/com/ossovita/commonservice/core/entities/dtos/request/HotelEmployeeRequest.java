@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
-//TODO move to the hotel-service
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

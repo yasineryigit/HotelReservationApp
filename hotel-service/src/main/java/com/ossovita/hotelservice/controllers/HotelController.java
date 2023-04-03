@@ -2,13 +2,19 @@ package com.ossovita.hotelservice.controllers;
 
 import com.ossovita.commonservice.core.entities.dtos.request.HotelEmployeeRequest;
 import com.ossovita.commonservice.core.entities.dtos.request.HotelRequest;
-import com.ossovita.commonservice.core.entities.dtos.response.HotelEmployeeResponse;
 import com.ossovita.hotelservice.business.abstracts.HotelService;
 import com.ossovita.hotelservice.core.entities.Hotel;
+import com.ossovita.hotelservice.core.entities.dto.request.HotelWithImagesRequest;
+import com.ossovita.hotelservice.core.entities.dto.response.HotelEmployeeResponse;
+import com.ossovita.hotelservice.core.utilities.file.FileService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -16,10 +22,15 @@ import java.util.List;
 @Slf4j
 public class HotelController {
 
-    HotelService hotelService;
+    @Value("${file.hotel-images.upload-dir}")
+    private String hotelImagesUploadDir;
 
-    public HotelController(HotelService hotelService) {
+    HotelService hotelService;
+    FileService fileService;
+
+    public HotelController(HotelService hotelService, FileService fileService) {
         this.hotelService = hotelService;
+        this.fileService = fileService;
     }
 
     @GetMapping("/status")
@@ -29,8 +40,13 @@ public class HotelController {
     }
 
     @PostMapping("/create-hotel")
-    public Hotel createHotel(@RequestBody HotelRequest hotelRequest) {
+    public Hotel createHotel(@Valid @RequestBody HotelRequest hotelRequest) {
         return hotelService.createHotel(hotelRequest);
+    }
+
+    @PostMapping(value = "/create-hotel-with-hotel-images", consumes = "multipart/form-data")
+    public Hotel createHotelWithHotelImages(@ModelAttribute HotelWithImagesRequest hotelWithImagesRequest) throws IOException {
+        return hotelService.createHotelWithHotelImages(hotelWithImagesRequest);
     }
 
     @GetMapping("/get-all-hotels")
@@ -46,9 +62,15 @@ public class HotelController {
 
 
     @PostMapping("/create-hotel-employee")
-    public ResponseEntity<HotelEmployeeResponse> createHotelEmployee(@RequestBody HotelEmployeeRequest hotelEmployeeRequest) {
+    public ResponseEntity<HotelEmployeeResponse> createHotelEmployee(@Valid @RequestBody HotelEmployeeRequest hotelEmployeeRequest) {
         return ResponseEntity.ok(hotelService.createHotelEmployee(hotelEmployeeRequest));
     }
 
+
+    @GetMapping("/uploads/hotel-images/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> serveHotelImage(@PathVariable String filename) throws IOException {
+        return fileService.serveImage(filename, hotelImagesUploadDir);
+    }
 
 }

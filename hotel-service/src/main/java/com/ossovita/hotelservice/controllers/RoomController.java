@@ -5,6 +5,7 @@ import com.ossovita.commonservice.core.entities.dtos.request.RoomRequest;
 import com.ossovita.hotelservice.business.abstracts.RoomService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,7 +19,7 @@ public class RoomController {
     }
 
     @PostMapping("/create-room")
-    public Room createRoom(@RequestBody RoomRequest roomRequest) {
+    public Room createRoom(@Valid @RequestBody RoomRequest roomRequest) {
         return roomService.createRoom(roomRequest);
     }
 

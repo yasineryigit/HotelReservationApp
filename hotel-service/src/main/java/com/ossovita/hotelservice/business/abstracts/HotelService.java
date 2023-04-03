@@ -1,11 +1,14 @@
 package com.ossovita.hotelservice.business.abstracts;
 
 import com.ossovita.commonservice.core.entities.dtos.request.HotelEmployeeRequest;
-import com.ossovita.commonservice.core.entities.dtos.response.HotelEmployeeResponse;
-import com.ossovita.hotelservice.core.entities.Hotel;
 import com.ossovita.commonservice.core.entities.dtos.request.HotelRequest;
-import com.ossovita.hotelservice.core.entities.HotelEmployee;
+import com.ossovita.hotelservice.core.entities.dto.response.HotelEmployeeResponse;
+import com.ossovita.hotelservice.core.entities.Hotel;
+import com.ossovita.hotelservice.core.entities.dto.request.HotelWithImagesRequest;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface HotelService {
@@ -18,5 +21,7 @@ public interface HotelService {
 
     boolean isHotelAvailable(long hotelPk);
 
+
+    Hotel createHotelWithHotelImages(HotelWithImagesRequest hotelWithImagesRequest) throws IOException;
 
 }
