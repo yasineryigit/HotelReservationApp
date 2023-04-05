@@ -1,6 +1,7 @@
 package com.ossovita.reservationservice.business.concretes;
 
 import com.ossovita.commonservice.core.entities.dtos.request.ReservationPaymentRequest;
+import com.ossovita.commonservice.core.entities.enums.RoomStatus;
 import com.ossovita.commonservice.core.utilities.error.exception.IdNotFoundException;
 import com.ossovita.reservationservice.business.abstracts.ReservationService;
 import com.ossovita.reservationservice.business.abstracts.feign.HotelClient;
@@ -15,7 +16,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -49,14 +49,17 @@ public class ReservationManager implements ReservationService {
             if (reservationRequest.getEmployeeFk() != 0 && userClient.isEmployeeAvailable(reservationRequest.getEmployeeFk())) {
                 reservation.setEmployeeFk(reservationRequest.getEmployeeFk());
             }
-            //assign reservationStatus
-            reservation.setReservationStatus(ReservationStatus.BOOKED);
 
             //assign reservationIsApproved
             reservation.setReservationIsApproved(false);
 
             //assign reservationTime
-            reservation.setReservationTime(LocalDateTime.now());
+            reservation.setReservationCreateTime(LocalDateTime.now());
+
+            //assign reservationStartTime
+            reservation.setReservationDayLength(reservationRequest.getReservationDayLength());
+
+
 
             //assign reservationPrice
             reservation.setReservationPrice(hotelClient.getRoomPriceWithRoomFk(reservation.getRoomFk()));
@@ -79,16 +82,19 @@ public class ReservationManager implements ReservationService {
     )
     public void listenPaymentUpdate(ReservationPaymentRequest reservationPaymentRequest) {
         log.info("Payment Updated | ReservationPaymentRequest: " + reservationPaymentRequest.toString());
-        Optional<Reservation> reservationInDB = reservationRepository.findById(reservationPaymentRequest.getReservationFk());
-        reservationInDB.ifPresentOrElse(value -> {
+        Reservation reservationInDB = reservationRepository.findById(reservationPaymentRequest.getReservationFk())
+                .orElseThrow(() -> new IdNotFoundException("Room not found with the given roomFk: " + reservationPaymentRequest.getReservationFk()));
 
-            if (reservationPaymentRequest.getReservationPaymentStatus().equals("PAID")) {//if reservationPaymentStatus = true, then approve the reservation
-                value.setReservationStatus(ReservationStatus.BOOKED);
-                value.setReservationIsApproved(true);
-            }
-            reservationRepository.save(value);
+        if (reservationPaymentRequest.getReservationPaymentStatus().equals("PAID")) {//if reservationPaymentStatus = true, then approve the reservation
+            reservationInDB.setReservationStatus(ReservationStatus.BOOKED);
+            reservationInDB.setReservationIsApproved(true);
+        }
 
-        }, () -> log.info("ReservationManager | Payment Update Failed | ReservationPaymentRequest: " + reservationPaymentRequest.toString()));
+        reservationRepository.save(reservationInDB);
+
+        //change roomStatus
+        hotelClient.setRoomStatusByRoomFk(RoomStatus.RESERVED, reservationInDB.getRoomFk());
+
     }
 
 

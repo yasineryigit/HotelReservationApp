@@ -1,4 +1,4 @@
-package com.ossovita.hotelservice.core.entities.enums;
+package com.ossovita.commonservice.core.entities.enums;
 
 public enum RoomStatus {
     AVAILABLE,

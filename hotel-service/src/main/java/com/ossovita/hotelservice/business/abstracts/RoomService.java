@@ -1,5 +1,6 @@
 package com.ossovita.hotelservice.business.abstracts;
 
+import com.ossovita.commonservice.core.entities.enums.RoomStatus;
 import com.ossovita.hotelservice.core.entities.Room;
 import com.ossovita.hotelservice.core.entities.dto.request.RoomRequest;
 
@@ -16,4 +17,6 @@ public interface RoomService {
     int getRoomPriceWithRoomFk(long roomFk);
 
     List<Room> getAvailableRoomsByHotelFk(long hotelFk);
+
+    void setRoomStatusByRoomFk(RoomStatus roomStatus, long roomFk);
 }

@@ -27,6 +27,7 @@ public class ReservationPaymentManager implements ReservationPaymentService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
+    //before payment page return
     @Override
     public ReservationPayment createReservationPayment(ReservationPaymentRequest reservationPaymentRequest) throws Exception {
         //check reservationfk w/ feign client
@@ -38,6 +39,7 @@ public class ReservationPaymentManager implements ReservationPaymentService {
         }
     }
 
+    //after payment page return
     @Override
     public String updateReservationPayment(ReservationPaymentRequest reservationPaymentRequest) throws Exception {
         if (reservationClient.isReservationAvailable(reservationPaymentRequest.getReservationFk())) {//if reservation available

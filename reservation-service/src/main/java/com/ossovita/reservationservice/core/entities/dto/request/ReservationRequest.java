@@ -17,9 +17,8 @@ public class ReservationRequest {
     @NotNull
     private long roomFk;
 
-
-
-
+    @NotNull
+    private int reservationDayLength;
 
 
 }

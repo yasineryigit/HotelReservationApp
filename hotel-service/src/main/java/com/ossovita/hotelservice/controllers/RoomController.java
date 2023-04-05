@@ -1,8 +1,9 @@
 package com.ossovita.hotelservice.controllers;
 
-import com.ossovita.hotelservice.core.entities.dto.request.RoomRequest;
+import com.ossovita.commonservice.core.entities.enums.RoomStatus;
 import com.ossovita.hotelservice.business.abstracts.RoomService;
 import com.ossovita.hotelservice.core.entities.Room;
+import com.ossovita.hotelservice.core.entities.dto.request.RoomRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,6 +34,11 @@ public class RoomController {
         return roomService.getAvailableRoomsByHotelFk(hotelFk);
     }
 
+    @PutMapping("/rooms/set-room-status-by-roomfk")
+    void setRoomStatusByRoomFk(RoomStatus roomStatus, long roomFk) {
+        roomService.setRoomStatusByRoomFk(roomStatus, roomFk);
+    }
+
     @GetMapping("/is-room-available")
     public boolean isRoomAvailable(@RequestParam long roomPk) {
         return roomService.isRoomAvailable(roomPk);
@@ -42,4 +48,6 @@ public class RoomController {
     public int getRoomPriceWithRoomFk(@RequestParam long roomFk) {
         return roomService.getRoomPriceWithRoomFk(roomFk);
     }
+
+
 }
