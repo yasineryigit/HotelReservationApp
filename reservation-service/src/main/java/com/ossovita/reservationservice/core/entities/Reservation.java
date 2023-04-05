@@ -1,5 +1,7 @@
 package com.ossovita.reservationservice.core.entities;
 
+import com.ossovita.commonservice.core.entities.enums.ReservationPaymentStatus;
+import com.ossovita.reservationservice.core.entities.enums.ReservationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +31,8 @@ public class Reservation {
     private int reservationPrice;
 
     @Column(name = "reservation_status")
-    private String reservationStatus;//TODO BOOKED, EXPIRED etc. ENUM TYPE
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus reservationStatus;
 
     @Column(name = "reservation_is_approved")
     private boolean reservationIsApproved;
@@ -42,6 +45,7 @@ public class Reservation {
 
     @Column(name = "customer_fk")
     private long customerFk;
+
 
 
 }

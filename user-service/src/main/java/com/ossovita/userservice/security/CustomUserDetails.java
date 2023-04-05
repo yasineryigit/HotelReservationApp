@@ -64,11 +64,6 @@ public class CustomUserDetails implements UserDetails {
         return user.isEnabled();
     }
 
-    public long getUserPk() {
-        return user.getUserPk();
-    }
 
-    public String getUserEmail() {
-        return user.getUserEmail();
-    }
+
 }

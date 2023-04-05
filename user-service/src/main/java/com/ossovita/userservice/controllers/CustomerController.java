@@ -20,7 +20,7 @@ public class CustomerController {
     }
 
     @PostMapping("/create-customer")
-    public CustomerSignUpDto createCustomerWithUser(@Valid @RequestBody CustomerSignUpDto customerSignUpDto) {
+    public CustomerSignUpDto createCustomerWithUser(@Validated @RequestBody CustomerSignUpDto customerSignUpDto) {
         return customerService.createCustomer(customerSignUpDto);
     }
 

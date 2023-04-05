@@ -2,11 +2,14 @@ package com.ossovita.userservice.controllers;
 
 import com.ossovita.userservice.core.entities.RefreshToken;
 import com.ossovita.userservice.core.entities.User;
-import com.ossovita.userservice.core.utilities.error.exception.RefreshTokenException;
 import com.ossovita.userservice.core.entities.dto.request.LoginRequest;
 import com.ossovita.userservice.core.entities.dto.request.TokenRefreshRequest;
-import com.ossovita.userservice.core.entities.dto.response.JWTResponse;
+import com.ossovita.userservice.core.entities.dto.response.AuthResponse;
 import com.ossovita.userservice.core.entities.dto.response.TokenRefreshResponse;
+import com.ossovita.userservice.core.entities.vm.BossVM;
+import com.ossovita.userservice.core.entities.vm.CustomerVM;
+import com.ossovita.userservice.core.entities.vm.EmployeeVM;
+import com.ossovita.userservice.core.utilities.error.exception.RefreshTokenException;
 import com.ossovita.userservice.security.CustomUserDetails;
 import com.ossovita.userservice.security.jwt.JwtUtils;
 import com.ossovita.userservice.security.service.RefreshTokenService;
@@ -40,7 +43,7 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<Object> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         log.info("Login request received: " + loginRequest.toString());
         String userEmail = loginRequest.getUserEmail();
         String userPassword = loginRequest.getUserPassword();
@@ -56,20 +59,37 @@ public class AuthController {
         List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getUserPk());
+        log.info("User roles: " + roles.stream().toList());
 
-        JWTResponse jwtResponse = new JWTResponse();
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getUser().getUserPk());
+
+        AuthResponse authResponse = new AuthResponse();
+
+        authResponse.setUserFirstName(userDetails.getUser().getUserFirstName());
+        authResponse.setUserLastName(userDetails.getUser().getUserLastName());
+        authResponse.setUserEmail(userDetails.getUser().getUserEmail());
+        authResponse.setUserPk(userDetails.getUser().getUserPk());
+        authResponse.setToken(jwt);
+        authResponse.setRefreshToken(refreshToken.getToken());
+        if (userDetails.getUser().getCustomer() != null) {//if user is a customer
+            CustomerVM customerVM = new CustomerVM();
+            customerVM.setCustomerFk(userDetails.getUser().getCustomer().getCustomerPk());
+            authResponse.setAdditionalData(customerVM);
+        }
+        if (userDetails.getUser().getEmployee() != null) {//if user is a employee
+            EmployeeVM employeeVM = new EmployeeVM();
+            employeeVM.setEmployeeFk(userDetails.getUser().getEmployee().getEmployeePk());
+            employeeVM.setBusinessPositionFk(userDetails.getUser().getEmployee().getBusinessPosition().getBusinessPositionPk());
+            authResponse.setAdditionalData(employeeVM);
+        }
+        if (userDetails.getUser().getBoss() != null) {//if user is a boss
+            BossVM bossVM = new BossVM();
+            bossVM.setBossFk(userDetails.getUser().getBoss().getBossPk());
+            authResponse.setAdditionalData(bossVM);
+        }
 
 
-        jwtResponse.setUserEmail(userDetails.getUsername());
-        jwtResponse.setUserPk(userDetails.getUserPk());
-        jwtResponse.setToken(jwt);
-        jwtResponse.setRefreshToken(refreshToken.getToken());
-        jwtResponse.setRoles(roles);
-
-        //TODO there is no need to return roles, instead return additionalData
-
-        return ResponseEntity.ok(jwtResponse);
+        return ResponseEntity.ok(authResponse);
 
     }
 

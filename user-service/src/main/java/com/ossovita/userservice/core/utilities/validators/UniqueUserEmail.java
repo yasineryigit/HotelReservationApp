@@ -14,7 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = {UniqueUserEmailValidator.class})
 public @interface UniqueUserEmail {
 
-    String message() default "{ossovita.constraint.email.UniqueUserEmail.message}";
+    String message() default "User email must be unique";
 
     Class<?>[] groups() default {};
 

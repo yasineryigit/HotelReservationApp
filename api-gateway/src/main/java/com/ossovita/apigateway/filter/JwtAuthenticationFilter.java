@@ -41,6 +41,7 @@ public class JwtAuthenticationFilter implements GatewayFilter {
 
         ServerHttpRequest request = exchange.getRequest();
 
+        log.info("Upcoming request path: " + request.getURI().getPath());
         log.info("JwtAuthenticationFilter | filter | isApiSecured.test(request) : " + routeValidator.isSecured.test(request));
 
         if (routeValidator.isSecured.test(request)) {

@@ -10,4 +10,8 @@ public interface HotelClient {
     @GetMapping("/rooms/is-room-available")
     boolean isRoomAvailable(@RequestParam long roomPk);
 
+    @GetMapping("/rooms/get-room-price-with-roomfk")
+    int getRoomPriceWithRoomFk(@RequestParam long roomFk);
+
+
 }

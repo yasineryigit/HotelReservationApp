@@ -1,10 +1,12 @@
 package com.ossovita.accountingservice.core.entities;
 
-import javax.persistence.*;
+import com.ossovita.commonservice.core.entities.enums.ReservationPaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -22,7 +24,8 @@ public class ReservationPayment {
     private long reservationPaymentPk;
 
     @Column(name = "reservation_payment_status")
-    private String reservationPaymentStatus;
+    @Enumerated(EnumType.STRING)
+    private ReservationPaymentStatus reservationPaymentStatus;
 
     @Column(name = "reservation_payment_type")
     private String reservationPaymentType;

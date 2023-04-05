@@ -13,6 +13,9 @@ public class HotelRequest {
     @NotNull
     private double hotelStar;
 
+    @NotNull
+    private String hotelPhone;
+
     //address
     @NotNull
     private String addressCountry;

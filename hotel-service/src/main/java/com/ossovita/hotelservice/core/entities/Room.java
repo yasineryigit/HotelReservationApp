@@ -1,14 +1,13 @@
 package com.ossovita.hotelservice.core.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.*;
-
+import com.ossovita.hotelservice.core.entities.enums.RoomStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -35,7 +34,8 @@ public class Room {
     private int roomPrice;
 
     @Column(name = "room_status")
-    private String roomStatus;
+    @Enumerated(EnumType.STRING)
+    private RoomStatus roomStatus;
 
     @ManyToOne
     @JoinColumn(name = "hotel_fk", insertable = false, updatable = false)

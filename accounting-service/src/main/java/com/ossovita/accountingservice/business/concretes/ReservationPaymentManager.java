@@ -43,8 +43,11 @@ public class ReservationPaymentManager implements ReservationPaymentService {
         if (reservationClient.isReservationAvailable(reservationPaymentRequest.getReservationFk())) {//if reservation available
             ReservationPayment reservationPayment = modelMapper.map(reservationPaymentRequest, ReservationPayment.class);//update
             reservationPaymentRepository.save(reservationPayment);
-            //send kafka message w/
-            //data added to message queue
+
+            //TODO | implement payment provider to receive reservationPaymentAmount.
+            //TODO | update reservationPayment object in the database
+
+            //send kafka message to the reservation-service to update its reservationStatus & reservationIsApproved fields
             kafkaTemplate.send("payment-update", reservationPaymentRequest);//todo | create new reservationPaymentUpdateRequestDto in common-service & replace
             log.info("Payment Update Request sent | ReservationPaymentRequest: " + reservationPaymentRequest.toString());
 
