@@ -1,17 +1,21 @@
 package com.ossovita.hotelservice.business.concretes;
 
+import com.ossovita.commonservice.core.entities.dtos.request.UpdateRoomStatusRequest;
 import com.ossovita.commonservice.core.entities.enums.RoomStatus;
 import com.ossovita.commonservice.core.utilities.error.exception.IdNotFoundException;
 import com.ossovita.hotelservice.business.abstracts.RoomService;
 import com.ossovita.hotelservice.core.dataAccess.RoomRepository;
 import com.ossovita.hotelservice.core.entities.Room;
 import com.ossovita.hotelservice.core.entities.dto.request.RoomRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class RoomManager implements RoomService {
 
 
@@ -51,11 +55,17 @@ public class RoomManager implements RoomService {
         return roomRepository.findByHotelFkAndRoomStatus(hotelFk, RoomStatus.AVAILABLE);
     }
 
-    @Override
-    public void setRoomStatusByRoomFk(RoomStatus roomStatus, long roomFk) {
-        Room room = roomRepository.findById(roomFk)
-                .orElseThrow(() -> new IdNotFoundException("Room not found with the given roomFk: " + roomFk));
-        room.setRoomStatus(roomStatus);
+
+    @KafkaListener(
+            topics = "room-status-update",
+            groupId = "foo",
+            containerFactory = "updateRoomStatusRequestConcurrentKafkaListenerContainerFactory"//we need to assign containerFactory
+    )
+    public void updateRoomStatusByRoomFk(UpdateRoomStatusRequest updateRoomStatusRequest) {
+        log.info("roomStatus Updated | UpdateRoomStatusRequest: " + updateRoomStatusRequest.toString());
+        Room room = roomRepository.findById(updateRoomStatusRequest.getRoomFk())
+                .orElseThrow(() -> new IdNotFoundException("Room not found with the given roomFk: " + updateRoomStatusRequest.getRoomFk()));
+        room.setRoomStatus(updateRoomStatusRequest.getRoomStatus());
         roomRepository.save(room);
     }
 

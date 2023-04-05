@@ -34,10 +34,6 @@ public class RoomController {
         return roomService.getAvailableRoomsByHotelFk(hotelFk);
     }
 
-    @PutMapping("/rooms/set-room-status-by-roomfk")
-    void setRoomStatusByRoomFk(RoomStatus roomStatus, long roomFk) {
-        roomService.setRoomStatusByRoomFk(roomStatus, roomFk);
-    }
 
     @GetMapping("/is-room-available")
     public boolean isRoomAvailable(@RequestParam long roomPk) {

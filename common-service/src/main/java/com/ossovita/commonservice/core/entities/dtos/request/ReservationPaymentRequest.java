@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ReservationPaymentRequest {
 
-    @NotBlank
+
     private ReservationPaymentStatus reservationPaymentStatus;
 
     @NotBlank

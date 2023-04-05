@@ -5,6 +5,7 @@ import com.ossovita.accountingservice.business.abstracts.feign.ReservationClient
 import com.ossovita.accountingservice.core.dataAccess.ReservationPaymentRepository;
 import com.ossovita.accountingservice.core.entities.ReservationPayment;
 import com.ossovita.commonservice.core.entities.dtos.request.ReservationPaymentRequest;
+import com.ossovita.commonservice.core.entities.enums.ReservationPaymentStatus;
 import com.ossovita.commonservice.core.utilities.error.exception.IdNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -44,10 +45,13 @@ public class ReservationPaymentManager implements ReservationPaymentService {
     public String updateReservationPayment(ReservationPaymentRequest reservationPaymentRequest) throws Exception {
         if (reservationClient.isReservationAvailable(reservationPaymentRequest.getReservationFk())) {//if reservation available
             ReservationPayment reservationPayment = modelMapper.map(reservationPaymentRequest, ReservationPayment.class);//update
+            reservationPayment.setReservationPaymentStatus(ReservationPaymentStatus.PAID);
             reservationPaymentRepository.save(reservationPayment);
 
-            //TODO | implement payment provider to receive reservationPaymentAmount.
-            //TODO | update reservationPayment object in the database
+            //TODO | implement payment provider
+            //TODO | getReservationPrice(reservationFk) from reservation-service
+            //TODO | update reservationPayment object
+            //TODO | if payment provider returns success, then send it to reservation-service
 
             //send kafka message to the reservation-service to update its reservationStatus & reservationIsApproved fields
             kafkaTemplate.send("payment-update", reservationPaymentRequest);//todo | create new reservationPaymentUpdateRequestDto in common-service & replace

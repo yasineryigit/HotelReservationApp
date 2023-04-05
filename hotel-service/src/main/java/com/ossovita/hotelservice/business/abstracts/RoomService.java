@@ -18,5 +18,5 @@ public interface RoomService {
 
     List<Room> getAvailableRoomsByHotelFk(long hotelFk);
 
-    void setRoomStatusByRoomFk(RoomStatus roomStatus, long roomFk);
+
 }

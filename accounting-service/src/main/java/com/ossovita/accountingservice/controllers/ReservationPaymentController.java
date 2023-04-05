@@ -18,10 +18,12 @@ public class ReservationPaymentController {
         this.reservationPaymentService = reservationPaymentService;
     }
 
+
     @PostMapping("/create-reservation-payment")
     public ReservationPayment createReservationPayment(@Valid @RequestBody ReservationPaymentRequest reservationPaymentRequest) throws Exception {
         return reservationPaymentService.createReservationPayment(reservationPaymentRequest);
     }
+
 
     @PutMapping("/update-reservation-payment")
     public String updateReservationPayment(@Valid @RequestBody ReservationPaymentRequest reservationPaymentRequest) throws Exception {

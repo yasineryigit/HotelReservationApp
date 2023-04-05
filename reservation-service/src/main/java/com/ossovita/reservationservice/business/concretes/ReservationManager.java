@@ -1,6 +1,7 @@
 package com.ossovita.reservationservice.business.concretes;
 
 import com.ossovita.commonservice.core.entities.dtos.request.ReservationPaymentRequest;
+import com.ossovita.commonservice.core.entities.dtos.request.UpdateRoomStatusRequest;
 import com.ossovita.commonservice.core.entities.enums.RoomStatus;
 import com.ossovita.commonservice.core.utilities.error.exception.IdNotFoundException;
 import com.ossovita.reservationservice.business.abstracts.ReservationService;
@@ -13,6 +14,7 @@ import com.ossovita.reservationservice.core.entities.enums.ReservationStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,20 +27,20 @@ public class ReservationManager implements ReservationService {
     HotelClient hotelClient;
     UserClient userClient;
     ModelMapper modelMapper;
+    KafkaTemplate<String, Object> kafkaTemplate;
 
 
-    public ReservationManager(ReservationRepository reservationRepository, HotelClient hotelClient, UserClient userClient, ModelMapper modelMapper) {
+    public ReservationManager(ReservationRepository reservationRepository, HotelClient hotelClient, UserClient userClient, ModelMapper modelMapper, KafkaTemplate<String, Object> kafkaTemplate) {
         this.reservationRepository = reservationRepository;
         this.hotelClient = hotelClient;
         this.userClient = userClient;
         this.modelMapper = modelMapper;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
     public Reservation createReservation(ReservationRequest reservationRequest) throws Exception {
-        //check from hotelclient | roomFk
-        //check from userclient | employeeFk
-        //check from userclient | customerFk
+
         if (hotelClient.isRoomAvailable(reservationRequest.getRoomFk())
                 && userClient.isCustomerAvailable(reservationRequest.getCustomerFk())) {
 
@@ -50,6 +52,7 @@ public class ReservationManager implements ReservationService {
                 reservation.setEmployeeFk(reservationRequest.getEmployeeFk());
             }
 
+
             //assign reservationIsApproved
             reservation.setReservationIsApproved(false);
 
@@ -59,10 +62,10 @@ public class ReservationManager implements ReservationService {
             //assign reservationStartTime
             reservation.setReservationDayLength(reservationRequest.getReservationDayLength());
 
-
+            reservation.setReservationStatus(ReservationStatus.CREATED);
 
             //assign reservationPrice
-            reservation.setReservationPrice(hotelClient.getRoomPriceWithRoomFk(reservation.getRoomFk()));
+            reservation.setReservationPrice(hotelClient.getRoomPriceWithRoomFk(reservation.getRoomFk()) * reservationRequest.getReservationDayLength());
 
             return reservationRepository.save(reservation);
         } else {
@@ -85,15 +88,19 @@ public class ReservationManager implements ReservationService {
         Reservation reservationInDB = reservationRepository.findById(reservationPaymentRequest.getReservationFk())
                 .orElseThrow(() -> new IdNotFoundException("Room not found with the given roomFk: " + reservationPaymentRequest.getReservationFk()));
 
-        if (reservationPaymentRequest.getReservationPaymentStatus().equals("PAID")) {//if reservationPaymentStatus = true, then approve the reservation
-            reservationInDB.setReservationStatus(ReservationStatus.BOOKED);
-            reservationInDB.setReservationIsApproved(true);
-        }
+        //if (reservationPaymentRequest.getReservationPaymentStatus().equals("PAID")) {//if reservationPaymentStatus = true, then approve the reservation
+        reservationInDB.setReservationStatus(ReservationStatus.BOOKED);
+        reservationInDB.setReservationIsApproved(true);
+
 
         reservationRepository.save(reservationInDB);
 
         //change roomStatus
-        hotelClient.setRoomStatusByRoomFk(RoomStatus.RESERVED, reservationInDB.getRoomFk());
+        UpdateRoomStatusRequest updateRoomStatusRequest = new UpdateRoomStatusRequest();
+        updateRoomStatusRequest.setRoomFk(reservationInDB.getRoomFk());
+        updateRoomStatusRequest.setRoomStatus(RoomStatus.RESERVED);
+        kafkaTemplate.send("room-status-update", updateRoomStatusRequest);
+
 
     }
 
