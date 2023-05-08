@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
 
             String jwt = parseJwt(req);
-            log.info("Hotel Service | JwtAuthenticationFilter | doFilterInternal | jwt: {}", jwt);
+            log.info("Accounting Service | JwtAuthenticationFilter | doFilterInternal | jwt: {}", jwt);
 
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 
@@ -53,7 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
         } catch (Exception e) {
-            log.error("Hotel Service | JwtAuthenticationFilter | doFilterInternal | Cannot set user authentication: {}", e.getMessage());
+            log.error("Accounting Service | JwtAuthenticationFilter | doFilterInternal | Cannot set user authentication: {}", e.getMessage());
         }
 
         chain.doFilter(req, res);

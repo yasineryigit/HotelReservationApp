@@ -1,5 +1,7 @@
 package com.ossovita.hotelservice.security.jwt;
 
+import com.netflix.discovery.converters.Auto;
+import com.ossovita.hotelservice.security.config.RouteValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,9 +27,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtUtils;
 
+    @Autowired
+    RouteValidator routeValidator;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
+
+        log.info("JwtAuthenticationFilter | filter | isApiSecured.test(request) : " + routeValidator.isSecured.test(req));
+        if (!routeValidator.isSecured.test(req)) { // Check if the request is for a non-secured URL
+            chain.doFilter(req, res);
+            return;
+        }
 
         try {
 
