@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class MyCommandLineRunner implements CommandLineRunner {
+public class DataInitializer implements CommandLineRunner {
 
 
     UserRoleRepository userRoleRepository;
@@ -21,7 +21,7 @@ public class MyCommandLineRunner implements CommandLineRunner {
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
 
-    public MyCommandLineRunner(UserRoleRepository userRoleRepository, BusinessPositionRepository businessPositionRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public DataInitializer(UserRoleRepository userRoleRepository, BusinessPositionRepository businessPositionRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRoleRepository = userRoleRepository;
         this.businessPositionRepository = businessPositionRepository;
         this.userRepository = userRepository;
@@ -75,7 +75,7 @@ public class MyCommandLineRunner implements CommandLineRunner {
             businessPositionRepository.save(businessPositionBoss);
             businessPositionRepository.save(businessPositionManager);
             businessPositionRepository.save(businessPositionFrontDesk);
-            log.info("UserService | My CommandLineRunner | employee position data initialized");
+            log.info("UserService | My CommandLineRunner | business position data initialized");
         }
 
 

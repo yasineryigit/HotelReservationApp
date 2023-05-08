@@ -13,16 +13,12 @@ Puser-service/src/main/java/com/ossovita/userservice/security/SecurityConfig.jav
 Vhotel-service/src/main/java/com/ossovita/hotelservice/controllers/HotelController.java,c\1\c16b74066549cd21c4ee620b320a7a98f4615cff
 …
 Uuser-service/src/main/java/com/ossovita/userservice/security/jwt/AuthTokenFilter.java,5\1\5135196c50ea54b4b0307836a33cfd897f1ff3df
-…
-Uapi-gateway/src/main/java/com/ossovita/apigateway/filter/JwtAuthenticationFilter.java,c\e\ce6bc163651e0e8db4ca342b94d47bee253fb3ea
 ‚
 Rapi-gateway/src/main/java/com/ossovita/apigateway/constants/SecurityConstants.java,7\b\7b1acf23510fad74e58a8282a80b800e184a99b4
 “
 cuser-service/src/main/java/com/ossovita/userservice/core/utilities/constants/SecurityConstants.java,2\1\21ce2281eb7846660adf17bc9706eb89718784b8
 •
 ehotel-service/src/main/java/com/ossovita/hotelservice/core/utilities/constants/SecurityConstants.java,b\4\b4aa6c28f902af293de85d39d8e41ed690433541
-œ
-lreservation-service/src/main/java/com/ossovita/reservationservice/business/abstracts/ReservationService.java,f\3\f3e14d70dfc2fb42ebfd6b082d35276c0f3d1bbc
 F
 common-service/pom.xml,1\4\1408429f24ad35bf29ab5e2ead2d77ae001f2da5
 ¡
@@ -37,3 +33,5 @@ Zhotel-service/src/main/java/com/ossovita/hotelservice/business/concretes/HotelM
 vhotel-service/src/main/java/com/ossovita/hotelservice/business/abstracts/feign/interceptor/FeignClientInterceptor.java,3\0\3074fc1f468fb3df0cc6e18c55263abb79e1c664
 Ž
 ^hotel-service/src/main/java/com/ossovita/hotelservice/business/abstracts/feign/UserClient.java,9\f\9f7baccb71c20f9dfa02fb8a345920fb5e767615
+Ÿ
+ocommon-service/src/main/java/com/ossovita/commonservice/core/entities/dtos/request/UpdateRoomStatusRequest.java,4\c\4c87b9cce666539c84a1c6dd7c236e2edad8f9e5
