@@ -34,7 +34,6 @@ public class RoomController {
         return roomService.getAvailableRoomsByHotelFk(hotelFk);
     }
 
-
     @GetMapping("/is-room-available")
     public boolean isRoomAvailable(@RequestParam long roomPk) {
         return roomService.isRoomAvailable(roomPk);

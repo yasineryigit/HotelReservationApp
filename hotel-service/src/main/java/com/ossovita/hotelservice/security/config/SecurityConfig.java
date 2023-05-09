@@ -33,8 +33,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
-                .cors()
-                .and()
+                .authorizeRequests(e->e.anyRequest().permitAll())//todo | remove
+                .cors().and()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .exceptionHandling()
@@ -49,7 +49,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("https://localhost:3000"));// if your front end running on localhost:5000
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -59,15 +59,12 @@ public class SecurityConfig {
     //fully disable from security control
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> {
-            web.ignoring().antMatchers(
-                    SecurityConstants.getIgnoringUrls().stream()
-                            .map(url -> url + "**")
-                            .toArray(String[]::new)
-            );
-        };
+        return web -> web.ignoring().antMatchers(
+                SecurityConstants.getIgnoringUrls().stream()
+                        .map(url -> url + "**")
+                        .toArray(String[]::new)
+        );
     }
-
 
 
 }

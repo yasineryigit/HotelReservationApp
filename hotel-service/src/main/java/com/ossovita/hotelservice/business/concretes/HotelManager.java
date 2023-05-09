@@ -68,8 +68,6 @@ public class HotelManager implements HotelService {
         createHotelBoss(savedHotel.getHotelPk(), hotelRequest.getBossFk());
 
         return savedHotel;
-
-
     }
 
     @Override
