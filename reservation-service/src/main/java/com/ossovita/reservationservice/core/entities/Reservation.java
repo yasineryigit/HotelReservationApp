@@ -30,7 +30,7 @@ public class Reservation {
     private int reservationDayLength;
 
     @Column(name = "reservation_price")
-    private int reservationPrice;
+    private double reservationPrice;
 
     @Column(name = "reservation_status")
     @Enumerated(EnumType.STRING)

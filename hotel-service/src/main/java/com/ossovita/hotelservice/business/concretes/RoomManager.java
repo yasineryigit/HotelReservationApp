@@ -1,7 +1,7 @@
 package com.ossovita.hotelservice.business.concretes;
 
-import com.ossovita.commonservice.core.entities.dtos.request.UpdateRoomStatusRequest;
-import com.ossovita.commonservice.core.entities.enums.RoomStatus;
+import com.ossovita.commonservice.core.payload.request.UpdateRoomStatusRequest;
+import com.ossovita.commonservice.core.enums.RoomStatus;
 import com.ossovita.commonservice.core.utilities.error.exception.IdNotFoundException;
 import com.ossovita.hotelservice.business.abstracts.RoomService;
 import com.ossovita.hotelservice.core.dataAccess.RoomRepository;
@@ -44,7 +44,7 @@ public class RoomManager implements RoomService {
     }
 
     @Override
-    public int getRoomPriceWithRoomFk(long roomFk) {
+    public double getRoomPriceWithRoomFk(long roomFk) {
         Room room = roomRepository.findById(roomFk)
                 .orElseThrow(() -> new IdNotFoundException("Room not found with the given roomFk: " + roomFk));
         return room.getRoomPrice();

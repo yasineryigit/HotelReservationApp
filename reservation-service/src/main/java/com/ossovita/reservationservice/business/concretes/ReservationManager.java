@@ -1,8 +1,10 @@
 package com.ossovita.reservationservice.business.concretes;
 
-import com.ossovita.commonservice.core.entities.dtos.request.ReservationPaymentRequest;
-import com.ossovita.commonservice.core.entities.dtos.request.UpdateRoomStatusRequest;
-import com.ossovita.commonservice.core.entities.enums.RoomStatus;
+import com.ossovita.commonservice.core.dto.ReservationDto;
+import com.ossovita.commonservice.core.enums.ReservationPaymentStatus;
+import com.ossovita.commonservice.core.enums.RoomStatus;
+import com.ossovita.commonservice.core.kafka.model.ReservationPaymentResponse;
+import com.ossovita.commonservice.core.payload.request.UpdateRoomStatusRequest;
 import com.ossovita.commonservice.core.utilities.error.exception.IdNotFoundException;
 import com.ossovita.reservationservice.business.abstracts.ReservationService;
 import com.ossovita.reservationservice.business.abstracts.feign.HotelClient;
@@ -40,18 +42,17 @@ public class ReservationManager implements ReservationService {
 
     @Override
     public Reservation createReservation(ReservationRequest reservationRequest) throws Exception {
-
+        //TODO | refactor | replace hotelclient methods with getRoomByRoomFk method
         if (hotelClient.isRoomAvailable(reservationRequest.getRoomFk())
                 && userClient.isCustomerAvailable(reservationRequest.getCustomerFk())) {
 
             //assign customerFk, roomFk
             Reservation reservation = modelMapper.map(reservationRequest, Reservation.class);
 
-            //assign employeeFk if available
+            //assign employeeFk if available//TODO | throw error if invalid employeeFk provided
             if (reservationRequest.getEmployeeFk() != 0 && userClient.isEmployeeAvailable(reservationRequest.getEmployeeFk())) {
                 reservation.setEmployeeFk(reservationRequest.getEmployeeFk());
             }
-
 
             //assign reservationIsApproved
             reservation.setReservationIsApproved(false);
@@ -67,6 +68,9 @@ public class ReservationManager implements ReservationService {
             //assign reservationPrice
             reservation.setReservationPrice(hotelClient.getRoomPriceWithRoomFk(reservation.getRoomFk()) * reservationRequest.getReservationDayLength());
 
+            //TODO | create-reservation event fill be fired & it will consumed by hotel-service to update its room status for PENDING_PAYMENT
+
+
             return reservationRepository.save(reservation);
         } else {
             throw new IdNotFoundException("This request contains invalid id");
@@ -78,30 +82,38 @@ public class ReservationManager implements ReservationService {
         return reservationRepository.existsByReservationPk(reservationFk);
     }
 
+    @Override
+    public ReservationDto getReservationDtoByReservationFk(long reservationFk) {
+        Reservation reservation = getReservation(reservationFk);
+        return modelMapper.map(reservation, ReservationDto.class);
+    }
+
     @KafkaListener(
-            topics = "payment-update",
+            topics = "reservation-payment-update",
             groupId = "foo",
-            containerFactory = "reservationPaymentRequestKafkaListenerContainerFactory"//we need to assign containerFactory
+            containerFactory = "reservationPaymentResponseKafkaListenerContainerFactory"//we need to assign containerFactory
     )
-    public void listenPaymentUpdate(ReservationPaymentRequest reservationPaymentRequest) {
-        log.info("Payment Updated | ReservationPaymentRequest: " + reservationPaymentRequest.toString());
-        Reservation reservationInDB = reservationRepository.findById(reservationPaymentRequest.getReservationFk())
-                .orElseThrow(() -> new IdNotFoundException("Room not found with the given roomFk: " + reservationPaymentRequest.getReservationFk()));
+    public void listenPaymentUpdate(ReservationPaymentResponse reservationPaymentResponse) {
+        log.info("Payment Updated | ReservationPaymentResponseModel: " + reservationPaymentResponse.toString());
+        Reservation reservationInDB = getReservation(reservationPaymentResponse.getReservationFk());
 
-        //if (reservationPaymentRequest.getReservationPaymentStatus().equals("PAID")) {//if reservationPaymentStatus = true, then approve the reservation
-        reservationInDB.setReservationStatus(ReservationStatus.BOOKED);
-        reservationInDB.setReservationIsApproved(true);
+        if (reservationPaymentResponse.getReservationPaymentStatus().equals(ReservationPaymentStatus.PAID)) {//if reservationPaymentStatus = true, then approve the reservation
+            reservationInDB.setReservationStatus(ReservationStatus.BOOKED);
+            reservationInDB.setReservationIsApproved(true);
 
+            reservationRepository.save(reservationInDB);
 
-        reservationRepository.save(reservationInDB);
+            //change roomStatus
+            UpdateRoomStatusRequest updateRoomStatusRequest = new UpdateRoomStatusRequest();
+            updateRoomStatusRequest.setRoomFk(reservationInDB.getRoomFk());
+            updateRoomStatusRequest.setRoomStatus(RoomStatus.RESERVED);
+            kafkaTemplate.send("room-status-update", updateRoomStatusRequest);
+        }//TODO | handle ReservationPaymentStatus.FAILED case
+    }
 
-        //change roomStatus
-        UpdateRoomStatusRequest updateRoomStatusRequest = new UpdateRoomStatusRequest();
-        updateRoomStatusRequest.setRoomFk(reservationInDB.getRoomFk());
-        updateRoomStatusRequest.setRoomStatus(RoomStatus.RESERVED);
-        kafkaTemplate.send("room-status-update", updateRoomStatusRequest);
-
-
+    private Reservation getReservation(long reservationFk) {
+        return reservationRepository.findById(reservationFk)
+                .orElseThrow(() -> new IdNotFoundException("Room not found with the given roomFk: " + reservationFk));
     }
 
 

@@ -1,6 +1,6 @@
 package com.ossovita.reservationservice.business.abstracts.feign;
 
-import com.ossovita.commonservice.core.entities.enums.RoomStatus;
+import com.ossovita.commonservice.core.enums.RoomStatus;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

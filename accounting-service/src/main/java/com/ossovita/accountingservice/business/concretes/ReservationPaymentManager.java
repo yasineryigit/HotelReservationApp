@@ -4,8 +4,11 @@ import com.ossovita.accountingservice.business.abstracts.ReservationPaymentServi
 import com.ossovita.accountingservice.business.abstracts.feign.ReservationClient;
 import com.ossovita.accountingservice.core.dataAccess.ReservationPaymentRepository;
 import com.ossovita.accountingservice.core.entities.ReservationPayment;
-import com.ossovita.commonservice.core.entities.dtos.request.ReservationPaymentRequest;
-import com.ossovita.commonservice.core.entities.enums.ReservationPaymentStatus;
+import com.ossovita.commonservice.core.enums.ReservationPaymentType;
+import com.ossovita.commonservice.core.dto.ReservationDto;
+import com.ossovita.commonservice.core.enums.ReservationPaymentStatus;
+import com.ossovita.commonservice.core.kafka.model.ReservationPaymentResponse;
+import com.ossovita.commonservice.core.payload.request.ReservationCreditCardPaymentRequest;
 import com.ossovita.commonservice.core.utilities.error.exception.IdNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -28,39 +31,40 @@ public class ReservationPaymentManager implements ReservationPaymentService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    //before payment page return
-    @Override
-    public ReservationPayment createReservationPayment(ReservationPaymentRequest reservationPaymentRequest) throws Exception {
-        //check reservationfk w/ feign client
-        if (reservationClient.isReservationAvailable(reservationPaymentRequest.getReservationFk())) {
-            ReservationPayment reservationPayment = modelMapper.map(reservationPaymentRequest, ReservationPayment.class);
-            return reservationPaymentRepository.save(reservationPayment);
-        } else {
-            throw new Exception("This request contains invalid id");
-        }
-    }
 
     //after payment page return
     @Override
-    public String updateReservationPayment(ReservationPaymentRequest reservationPaymentRequest) throws Exception {
-        if (reservationClient.isReservationAvailable(reservationPaymentRequest.getReservationFk())) {//if reservation available
-            ReservationPayment reservationPayment = modelMapper.map(reservationPaymentRequest, ReservationPayment.class);//update
-            reservationPayment.setReservationPaymentStatus(ReservationPaymentStatus.PAID);
-            reservationPaymentRepository.save(reservationPayment);
+    public String updateReservationPayment(ReservationCreditCardPaymentRequest reservationCreditCardPaymentRequest) {
+        //getReservationByReservationFk method from reservation-service
+        ReservationDto reservationDto = reservationClient.getReservationDtoByReservationFk(reservationCreditCardPaymentRequest.getReservationFk());
+        if(reservationDto!=null){
 
+            ReservationPayment reservationPayment = modelMapper.map(reservationCreditCardPaymentRequest, ReservationPayment.class);//update
             //TODO | implement payment provider
-            //TODO | getReservationPrice(reservationFk) from reservation-service
-            //TODO | update reservationPayment object
-            //TODO | if payment provider returns success, then send it to reservation-service
+            //TODO | update reservationPayment object depends on payment status from the payment sdk (handle PAID & FAILED status)
+            reservationPayment.setReservationPaymentStatus(ReservationPaymentStatus.PAID);
+            reservationPayment.setReservationPaymentAmount(reservationDto.getReservationPrice());
+            ReservationPayment savedReservationPayment = reservationPaymentRepository.save(reservationPayment);
+
+            //Send an event to the payment-update topic
+            ReservationPaymentResponse reservationPaymentResponse = ReservationPaymentResponse.builder()
+                    .reservationFk(reservationPayment.getReservationFk())
+                    .reservationPaymentPk(savedReservationPayment.getReservationPaymentPk())
+                    .reservationPaymentAmount(reservationPayment.getReservationPaymentAmount())
+                    .reservationPaymentType(ReservationPaymentType.CREDIT_CARD)
+                    .reservationPaymentStatus(reservationPayment.getReservationPaymentStatus())
+                    .build();
 
             //send kafka message to the reservation-service to update its reservationStatus & reservationIsApproved fields
-            kafkaTemplate.send("payment-update", reservationPaymentRequest);//todo | create new reservationPaymentUpdateRequestDto in common-service & replace
-            log.info("Payment Update Request sent | ReservationPaymentRequest: " + reservationPaymentRequest.toString());
+            kafkaTemplate.send("reservation-payment-update", reservationPaymentResponse);
+            log.info("Payment Update Request sent | ReservationPaymentRequest: " + reservationCreditCardPaymentRequest);
 
-            return "Payment Successful.";
-        } else {
+            return reservationPayment.getReservationPaymentStatus().toString();
+
+        }else{
             throw new IdNotFoundException("Reservation not found by given reservationFk");
         }
+
     }
 
 

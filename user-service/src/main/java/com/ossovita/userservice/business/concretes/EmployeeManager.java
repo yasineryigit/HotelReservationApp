@@ -1,6 +1,6 @@
 package com.ossovita.userservice.business.concretes;
 
-import com.ossovita.commonservice.core.entities.dtos.request.HotelEmployeeRequest;
+import com.ossovita.commonservice.core.payload.request.HotelEmployeeRequest;
 import com.ossovita.commonservice.core.utilities.error.exception.IdNotFoundException;
 import com.ossovita.userservice.business.abstracts.EmployeeService;
 import com.ossovita.userservice.business.abstracts.feign.HotelClient;

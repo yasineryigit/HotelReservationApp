@@ -1,7 +1,7 @@
 package com.ossovita.hotelservice.core.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ossovita.commonservice.core.entities.enums.RoomStatus;
+import com.ossovita.commonservice.core.enums.RoomStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,7 +31,7 @@ public class Room {
     private int roomNumber;
 
     @Column(name = "room_price")
-    private int roomPrice;
+    private double roomPrice;
 
     @Column(name = "room_status")
     @Enumerated(EnumType.STRING)

@@ -1,6 +1,6 @@
 package com.ossovita.userservice.business.abstracts.feign;
 
-import com.ossovita.commonservice.core.entities.dtos.request.HotelEmployeeRequest;
+import com.ossovita.commonservice.core.payload.request.HotelEmployeeRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

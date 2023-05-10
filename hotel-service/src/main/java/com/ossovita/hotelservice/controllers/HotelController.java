@@ -1,7 +1,7 @@
 package com.ossovita.hotelservice.controllers;
 
-import com.ossovita.commonservice.core.entities.dtos.request.HotelEmployeeRequest;
-import com.ossovita.commonservice.core.entities.dtos.request.HotelRequest;
+import com.ossovita.commonservice.core.payload.request.HotelEmployeeRequest;
+import com.ossovita.commonservice.core.payload.request.HotelRequest;
 import com.ossovita.hotelservice.business.abstracts.HotelService;
 import com.ossovita.hotelservice.core.entities.Hotel;
 import com.ossovita.hotelservice.core.entities.dto.request.HotelWithImagesRequest;

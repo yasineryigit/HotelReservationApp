@@ -1,4 +1,4 @@
-package com.ossovita.commonservice.core.entities.dtos.request;
+package com.ossovita.commonservice.core.payload.request;
 
 import javax.validation.constraints.*;
 import lombok.Data;

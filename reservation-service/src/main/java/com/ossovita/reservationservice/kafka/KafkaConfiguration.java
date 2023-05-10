@@ -1,7 +1,8 @@
 package com.ossovita.reservationservice.kafka;
 
 
-import com.ossovita.commonservice.core.entities.dtos.request.ReservationPaymentRequest;
+import com.ossovita.commonservice.core.kafka.model.ReservationPaymentResponse;
+import com.ossovita.commonservice.core.payload.request.ReservationCreditCardPaymentRequest;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -61,13 +62,13 @@ public class KafkaConfiguration {
 
     //consumer | kafkalistenercontainerfactory | NOTE: we need to create additional KafkaListenerContainerFactory for each data type we want to listen
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ReservationPaymentRequest> reservationPaymentRequestKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, ReservationPaymentRequest> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, ReservationPaymentResponse> reservationPaymentResponseKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ReservationPaymentResponse> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(
                 consumerConfigs(),//
                 new StringDeserializer(),
-                new JsonDeserializer<>(ReservationPaymentRequest.class,false)));
+                new JsonDeserializer<>(ReservationPaymentResponse.class,false)));
         return factory;
     }
 

@@ -33,8 +33,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
-                .authorizeRequests(e->e.anyRequest().permitAll())//todo | remove
-                .cors().and()
+                .authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .exceptionHandling()
@@ -60,9 +61,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().antMatchers(
-                SecurityConstants.getIgnoringUrls().stream()
-                        .map(url -> url + "**")
-                        .toArray(String[]::new)
+                SecurityConstants.getIgnoringUrls().toArray(String[]::new)
         );
     }
 

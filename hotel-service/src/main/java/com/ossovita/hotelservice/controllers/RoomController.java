@@ -1,6 +1,5 @@
 package com.ossovita.hotelservice.controllers;
 
-import com.ossovita.commonservice.core.entities.enums.RoomStatus;
 import com.ossovita.hotelservice.business.abstracts.RoomService;
 import com.ossovita.hotelservice.core.entities.Room;
 import com.ossovita.hotelservice.core.entities.dto.request.RoomRequest;
@@ -40,7 +39,7 @@ public class RoomController {
     }
 
     @GetMapping("/get-room-price-with-roomfk")
-    public int getRoomPriceWithRoomFk(@RequestParam long roomFk) {
+    public double getRoomPriceWithRoomFk(@RequestParam long roomFk) {
         return roomService.getRoomPriceWithRoomFk(roomFk);
     }
 

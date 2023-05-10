@@ -1,4 +1,4 @@
-package com.ossovita.commonservice.core.entities.dtos.request;
+package com.ossovita.commonservice.core.payload.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,12 +7,11 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class HotelEmployeeRequest {
+public class HotelBossRequest {
 
     //hotel
     @NotNull
@@ -20,5 +19,5 @@ public class HotelEmployeeRequest {
 
     //employee
     @NotNull
-    private long employeeFk;
+    private long bossFk;
 }

@@ -1,4 +1,4 @@
-package com.ossovita.commonservice.core.entities.enums;
+package com.ossovita.commonservice.core.enums;
 
 public enum ReservationPaymentStatus {
     PAID,

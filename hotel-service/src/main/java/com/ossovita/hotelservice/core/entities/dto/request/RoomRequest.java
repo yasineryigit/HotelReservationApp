@@ -2,7 +2,7 @@ package com.ossovita.hotelservice.core.entities.dto.request;
 
 import javax.validation.constraints.*;
 
-import com.ossovita.commonservice.core.entities.enums.RoomStatus;
+import com.ossovita.commonservice.core.enums.RoomStatus;
 import lombok.Data;
 
 @Data
@@ -20,7 +20,7 @@ public class RoomRequest {
     private int roomNumber;
 
     @NotNull
-    private int roomPrice;
+    private double roomPrice;
 
     @NotNull
     private RoomStatus roomStatus;
