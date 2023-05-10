@@ -27,7 +27,6 @@ public class ReservationCreditCardPaymentRequest {
     @NotBlank
     private String cvv;
 
-    private String cardType;
 
     @NotBlank
     private String billingAddress;

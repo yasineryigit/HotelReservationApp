@@ -1,15 +1,11 @@
-package com.ossovita.reservationservice.core.entities.dto.request;
+package com.ossovita.reservationservice.core.dto.request;
 
 import com.sun.istack.NotNull;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
-public class ReservationRequest {
+public class OnlineReservationRequest {
 
-
-    private long employeeFk;
 
     @NotNull
     private long customerFk;

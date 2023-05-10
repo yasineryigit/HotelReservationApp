@@ -1,6 +1,7 @@
 package com.ossovita.reservationservice.core.entities;
 
-import com.ossovita.reservationservice.core.entities.enums.ReservationStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ossovita.reservationservice.core.enums.ReservationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,8 +46,14 @@ public class Reservation {
     @Column(name = "employee_fk")
     private long employeeFk;
 
-    @Column(name = "customer_fk")
-    private long customerFk;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "reservation")
+    private OnlineReservation onlineReservation;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "reservation")
+    private WalkInReservation walkInReservation;
+
+
+
 
 
 }

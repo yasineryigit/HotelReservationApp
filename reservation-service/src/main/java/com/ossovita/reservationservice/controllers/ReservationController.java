@@ -3,11 +3,10 @@ package com.ossovita.reservationservice.controllers;
 import com.ossovita.commonservice.core.dto.ReservationDto;
 import com.ossovita.reservationservice.business.abstracts.ReservationService;
 import com.ossovita.reservationservice.core.entities.Reservation;
-import com.ossovita.reservationservice.core.entities.dto.request.ReservationRequest;
+import com.ossovita.reservationservice.core.dto.request.OnlineReservationRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/1.0/reservation")
@@ -24,9 +23,9 @@ public class ReservationController {
         return "Working..";
     }
 
-    @PostMapping("/create-reservation")
-    public Reservation createReservation(@Valid @RequestBody ReservationRequest reservationRequest) throws Exception {
-        return reservationService.createReservation(reservationRequest);
+    @PostMapping("/create-online-reservation")
+    public Reservation createOnlineReservation(@Valid @RequestBody OnlineReservationRequest onlineReservationRequest) throws Exception {
+        return reservationService.createOnlineReservation(onlineReservationRequest);
     }
 
     @GetMapping("/is-reservation-available")

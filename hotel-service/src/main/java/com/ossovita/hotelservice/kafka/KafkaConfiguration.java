@@ -2,7 +2,7 @@ package com.ossovita.hotelservice.kafka;
 
 
 import com.ossovita.commonservice.core.payload.request.ReservationCreditCardPaymentRequest;
-import com.ossovita.commonservice.core.payload.request.UpdateRoomStatusRequest;
+import com.ossovita.commonservice.core.kafka.model.RoomStatusUpdateRequest;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -76,13 +76,13 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, UpdateRoomStatusRequest> updateRoomStatusRequestConcurrentKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, UpdateRoomStatusRequest> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, RoomStatusUpdateRequest> roomStatusUpdateRequestConcurrentKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, RoomStatusUpdateRequest> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(
                 consumerConfigs(),//
                 new StringDeserializer(),
-                new JsonDeserializer<>(UpdateRoomStatusRequest.class,false)));
+                new JsonDeserializer<>(RoomStatusUpdateRequest.class,false)));
         return factory;
     }
 

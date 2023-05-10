@@ -23,4 +23,6 @@ public class ReservationPaymentResponse {
 
     private long reservationFk;
 
+
+
 }

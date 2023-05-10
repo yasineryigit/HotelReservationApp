@@ -1,18 +1,22 @@
 package com.ossovita.reservationservice.business.concretes;
 
 import com.ossovita.commonservice.core.dto.ReservationDto;
+import com.ossovita.commonservice.core.dto.RoomDto;
 import com.ossovita.commonservice.core.enums.ReservationPaymentStatus;
 import com.ossovita.commonservice.core.enums.RoomStatus;
 import com.ossovita.commonservice.core.kafka.model.ReservationPaymentResponse;
-import com.ossovita.commonservice.core.payload.request.UpdateRoomStatusRequest;
+import com.ossovita.commonservice.core.kafka.model.RoomStatusUpdateRequest;
 import com.ossovita.commonservice.core.utilities.error.exception.IdNotFoundException;
+import com.ossovita.commonservice.core.utilities.error.exception.RoomNotAvailableException;
 import com.ossovita.reservationservice.business.abstracts.ReservationService;
 import com.ossovita.reservationservice.business.abstracts.feign.HotelClient;
 import com.ossovita.reservationservice.business.abstracts.feign.UserClient;
+import com.ossovita.reservationservice.core.dataAccess.OnlineReservationRepository;
 import com.ossovita.reservationservice.core.dataAccess.ReservationRepository;
+import com.ossovita.reservationservice.core.dto.request.OnlineReservationRequest;
+import com.ossovita.reservationservice.core.entities.OnlineReservation;
 import com.ossovita.reservationservice.core.entities.Reservation;
-import com.ossovita.reservationservice.core.entities.dto.request.ReservationRequest;
-import com.ossovita.reservationservice.core.entities.enums.ReservationStatus;
+import com.ossovita.reservationservice.core.enums.ReservationStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -26,14 +30,15 @@ import java.time.LocalDateTime;
 public class ReservationManager implements ReservationService {
 
     ReservationRepository reservationRepository;
+    OnlineReservationRepository onlineReservationRepository;
     HotelClient hotelClient;
     UserClient userClient;
     ModelMapper modelMapper;
     KafkaTemplate<String, Object> kafkaTemplate;
 
-
-    public ReservationManager(ReservationRepository reservationRepository, HotelClient hotelClient, UserClient userClient, ModelMapper modelMapper, KafkaTemplate<String, Object> kafkaTemplate) {
+    public ReservationManager(ReservationRepository reservationRepository, OnlineReservationRepository onlineReservationRepository, HotelClient hotelClient, UserClient userClient, ModelMapper modelMapper, KafkaTemplate<String, Object> kafkaTemplate) {
         this.reservationRepository = reservationRepository;
+        this.onlineReservationRepository = onlineReservationRepository;
         this.hotelClient = hotelClient;
         this.userClient = userClient;
         this.modelMapper = modelMapper;
@@ -41,37 +46,41 @@ public class ReservationManager implements ReservationService {
     }
 
     @Override
-    public Reservation createReservation(ReservationRequest reservationRequest) throws Exception {
-        //TODO | refactor | replace hotelclient methods with getRoomByRoomFk method
-        if (hotelClient.isRoomAvailable(reservationRequest.getRoomFk())
-                && userClient.isCustomerAvailable(reservationRequest.getCustomerFk())) {
+    public Reservation createOnlineReservation(OnlineReservationRequest onlineReservationRequest) throws Exception {
+        RoomDto roomDto = hotelClient.getRoomDtoWithRoomFk(onlineReservationRequest.getRoomFk());
+        boolean isCustomerAvailable = userClient.isCustomerAvailable(onlineReservationRequest.getCustomerFk());
 
-            //assign customerFk, roomFk
-            Reservation reservation = modelMapper.map(reservationRequest, Reservation.class);
+        if (roomDto != null && isCustomerAvailable) {//if roomDto & customer available by given ids
+            if (roomDto.getRoomStatus().equals(RoomStatus.AVAILABLE)) {//if roomStatus available
+                //assign customerFk, roomFk
+                Reservation reservation = modelMapper.map(onlineReservationRequest, Reservation.class);
 
-            //assign employeeFk if available//TODO | throw error if invalid employeeFk provided
-            if (reservationRequest.getEmployeeFk() != 0 && userClient.isEmployeeAvailable(reservationRequest.getEmployeeFk())) {
-                reservation.setEmployeeFk(reservationRequest.getEmployeeFk());
+                //assign reservationIsApproved
+                reservation.setReservationIsApproved(false);
+
+                //assign reservationTime
+                reservation.setReservationCreateTime(LocalDateTime.now());
+
+                //assign reservationStartTime
+                reservation.setReservationDayLength(onlineReservationRequest.getReservationDayLength());
+
+                reservation.setReservationStatus(ReservationStatus.CREATED);
+
+                //assign reservationPrice
+                reservation.setReservationPrice(roomDto.getRoomPrice() * onlineReservationRequest.getReservationDayLength());
+
+                Reservation savedReservation = reservationRepository.save(reservation);
+                //also save OnlineReservation object to the database for completing relationship
+                OnlineReservation onlineReservation = OnlineReservation.builder()
+                        .reservationFk(savedReservation.getReservationPk())
+                        .build();
+                onlineReservationRepository.save(onlineReservation);
+
+                return savedReservation;
+            } else {
+                throw new RoomNotAvailableException("Selected room is not available.");
             }
 
-            //assign reservationIsApproved
-            reservation.setReservationIsApproved(false);
-
-            //assign reservationTime
-            reservation.setReservationCreateTime(LocalDateTime.now());
-
-            //assign reservationStartTime
-            reservation.setReservationDayLength(reservationRequest.getReservationDayLength());
-
-            reservation.setReservationStatus(ReservationStatus.CREATED);
-
-            //assign reservationPrice
-            reservation.setReservationPrice(hotelClient.getRoomPriceWithRoomFk(reservation.getRoomFk()) * reservationRequest.getReservationDayLength());
-
-            //TODO | create-reservation event fill be fired & it will consumed by hotel-service to update its room status for PENDING_PAYMENT
-
-
-            return reservationRepository.save(reservation);
         } else {
             throw new IdNotFoundException("This request contains invalid id");
         }
@@ -89,7 +98,7 @@ public class ReservationManager implements ReservationService {
     }
 
     @KafkaListener(
-            topics = "reservation-payment-update",
+            topics = "reservation-payment-update-response-topic",
             groupId = "foo",
             containerFactory = "reservationPaymentResponseKafkaListenerContainerFactory"//we need to assign containerFactory
     )
@@ -104,16 +113,18 @@ public class ReservationManager implements ReservationService {
             reservationRepository.save(reservationInDB);
 
             //change roomStatus
-            UpdateRoomStatusRequest updateRoomStatusRequest = new UpdateRoomStatusRequest();
-            updateRoomStatusRequest.setRoomFk(reservationInDB.getRoomFk());
-            updateRoomStatusRequest.setRoomStatus(RoomStatus.RESERVED);
-            kafkaTemplate.send("room-status-update", updateRoomStatusRequest);
+            RoomStatusUpdateRequest roomStatusUpdateRequest = RoomStatusUpdateRequest.builder()
+                    .roomFk(reservationInDB.getRoomFk())
+                    .roomStatus(RoomStatus.RESERVED)
+                    .reservationPaymentFk(reservationPaymentResponse.getReservationPaymentPk())
+                    .build();
+            kafkaTemplate.send("room-status-update-topic", roomStatusUpdateRequest);
         }//TODO | handle ReservationPaymentStatus.FAILED case
     }
 
     private Reservation getReservation(long reservationFk) {
         return reservationRepository.findById(reservationFk)
-                .orElseThrow(() -> new IdNotFoundException("Room not found with the given roomFk: " + reservationFk));
+                .orElseThrow(() -> new IdNotFoundException("Reservation not found with the given reservationFk: " + reservationFk));
     }
 
 
