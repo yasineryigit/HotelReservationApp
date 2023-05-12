@@ -1,6 +1,6 @@
 package com.ossovita.accountingservice.security.config;
 
-import com.ossovita.accountingservice.core.utilities.constants.SecurityConstants;
+import com.ossovita.accountingservice.utils.constants.SecurityConstants;
 import com.ossovita.accountingservice.security.jwt.JWTAccessDeniedHandler;
 import com.ossovita.accountingservice.security.jwt.JwtAuthenticationEntryPoint;
 import com.ossovita.accountingservice.security.jwt.JwtAuthenticationFilter;

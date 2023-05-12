@@ -1,6 +1,6 @@
 package com.ossovita.hotelservice.security.config;
 
-import com.ossovita.hotelservice.core.utilities.constants.SecurityConstants;
+import com.ossovita.hotelservice.utils.constants.SecurityConstants;
 import com.ossovita.hotelservice.security.jwt.JWTAccessDeniedHandler;
 import com.ossovita.hotelservice.security.jwt.JwtAuthenticationEntryPoint;
 import com.ossovita.hotelservice.security.jwt.JwtAuthenticationFilter;

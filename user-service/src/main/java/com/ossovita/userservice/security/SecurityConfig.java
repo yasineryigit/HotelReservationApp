@@ -1,6 +1,6 @@
 package com.ossovita.userservice.security;
 
-import com.ossovita.userservice.core.utilities.constants.SecurityConstants;
+import com.ossovita.userservice.utils.constants.SecurityConstants;
 import com.ossovita.userservice.security.jwt.AuthTokenFilter;
 import com.ossovita.userservice.security.jwt.JWTAccessDeniedHandler;
 import com.ossovita.userservice.security.jwt.JwtAuthenticationEntryPoint;
@@ -73,8 +73,6 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-
 
 
 

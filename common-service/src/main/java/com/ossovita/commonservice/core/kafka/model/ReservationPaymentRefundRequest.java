@@ -17,4 +17,6 @@ public class ReservationPaymentRefundRequest {
     private ReservationPaymentRefundReason reservationPaymentRefundReason;
 
     private String message;
+
+
 }

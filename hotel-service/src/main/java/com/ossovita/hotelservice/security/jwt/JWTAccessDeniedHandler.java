@@ -13,6 +13,8 @@ import java.io.IOException;
 @Component
 @Slf4j
 public class JWTAccessDeniedHandler implements AccessDeniedHandler {
+
+
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException)
             throws IOException, ServletException {

@@ -1,6 +1,6 @@
 package com.ossovita.userservice.security;
 
-import com.ossovita.userservice.core.entities.User;
+import com.ossovita.userservice.entity.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

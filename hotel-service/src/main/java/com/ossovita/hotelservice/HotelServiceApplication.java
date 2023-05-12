@@ -8,6 +8,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import java.util.Arrays;
+
 @SpringBootApplication
 @ComponentScan(basePackages = "com.ossovita.*")
 @EnableFeignClients
@@ -16,6 +18,7 @@ public class HotelServiceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HotelServiceApplication.class, args);
+        
     }
 
 }

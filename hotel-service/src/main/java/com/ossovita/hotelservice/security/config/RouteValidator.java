@@ -1,6 +1,6 @@
 package com.ossovita.hotelservice.security.config;
 
-import com.ossovita.hotelservice.core.utilities.constants.SecurityConstants;
+import com.ossovita.hotelservice.utils.constants.SecurityConstants;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
