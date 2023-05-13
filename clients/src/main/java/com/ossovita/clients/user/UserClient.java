@@ -1,4 +1,4 @@
-package com.ossovita.hotelservice.feign;
+package com.ossovita.clients.user;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,8 +10,10 @@ public interface UserClient {
     @GetMapping("/employees/is-employee-available")
     boolean isEmployeeAvailable(@RequestParam long employeePk);
 
-
     @GetMapping("/boss/is-boss-available")
     boolean isBossAvailable(@RequestParam long bossPk);
+
+    @GetMapping("/customers/is-customer-available")
+    boolean isCustomerAvailable(@RequestParam long customerPk);
 
 }

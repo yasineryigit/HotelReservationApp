@@ -22,6 +22,7 @@
         <java.version>17</java.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
         <jwt.version>0.9.1</jwt.version>
+        <feign.version>3.0.3</feign.version>
     </properties>
 
     <modules>
@@ -34,6 +35,7 @@
         <module>common-service</module>
         <module>infrastructure/kafka</module>
         <module>infrastructure</module>
+        <module>clients</module>
     </modules>
 
 

@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="common-service" />
+        <module name="clients" />
         <module name="accounting-service" />
         <module name="infrastructure" />
         <module name="reservation-service" />
@@ -25,6 +26,7 @@
       <module name="DiscoveryService" options="-parameters" />
       <module name="accounting-service" options="-parameters" />
       <module name="api-gateway" options="-parameters" />
+      <module name="clients" options="-parameters" />
       <module name="common-service" options="-parameters" />
       <module name="discovery-service" options="-parameters" />
       <module name="hotel-service" options="-parameters" />

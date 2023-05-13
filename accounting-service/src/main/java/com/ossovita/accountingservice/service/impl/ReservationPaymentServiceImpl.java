@@ -1,10 +1,10 @@
 package com.ossovita.accountingservice.service.impl;
 
 import com.ossovita.accountingservice.entity.ReservationPayment;
-import com.ossovita.accountingservice.feign.HotelClient;
-import com.ossovita.accountingservice.feign.ReservationClient;
 import com.ossovita.accountingservice.repository.ReservationPaymentRepository;
 import com.ossovita.accountingservice.service.ReservationPaymentService;
+import com.ossovita.clients.hotel.HotelClient;
+import com.ossovita.clients.reservation.ReservationClient;
 import com.ossovita.commonservice.dto.ReservationDto;
 import com.ossovita.commonservice.enums.ReservationPaymentStatus;
 import com.ossovita.commonservice.enums.ReservationPaymentType;

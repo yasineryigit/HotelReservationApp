@@ -1,15 +1,15 @@
 package com.ossovita.hotelservice.service.impl;
 
-import com.ossovita.commonservice.payload.request.HotelEmployeeRequest;
-import com.ossovita.commonservice.payload.request.HotelRequest;
+import com.ossovita.clients.user.UserClient;
 import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.commonservice.exception.UserNotFoundException;
+import com.ossovita.commonservice.payload.request.HotelEmployeeRequest;
+import com.ossovita.commonservice.payload.request.HotelRequest;
 import com.ossovita.hotelservice.entity.*;
-import com.ossovita.hotelservice.repository.*;
-import com.ossovita.hotelservice.service.HotelService;
-import com.ossovita.hotelservice.feign.UserClient;
 import com.ossovita.hotelservice.payload.request.HotelWithImagesRequest;
 import com.ossovita.hotelservice.payload.response.HotelEmployeeResponse;
+import com.ossovita.hotelservice.repository.*;
+import com.ossovita.hotelservice.service.HotelService;
 import com.ossovita.hotelservice.utils.file.FileService;
 import com.ossovita.hotelservice.utils.file.ImageResponse;
 import lombok.extern.slf4j.Slf4j;

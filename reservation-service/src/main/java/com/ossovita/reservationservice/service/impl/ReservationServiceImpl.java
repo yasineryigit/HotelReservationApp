@@ -1,5 +1,7 @@
 package com.ossovita.reservationservice.service.impl;
 
+import com.ossovita.clients.hotel.HotelClient;
+import com.ossovita.clients.user.UserClient;
 import com.ossovita.commonservice.dto.ReservationDto;
 import com.ossovita.commonservice.dto.RoomDto;
 import com.ossovita.commonservice.enums.ReservationPaymentStatus;
@@ -11,8 +13,6 @@ import com.ossovita.kafka.model.RoomStatusUpdateRequest;
 import com.ossovita.reservationservice.entity.OnlineReservation;
 import com.ossovita.reservationservice.entity.Reservation;
 import com.ossovita.reservationservice.enums.ReservationStatus;
-import com.ossovita.reservationservice.feign.HotelClient;
-import com.ossovita.reservationservice.feign.UserClient;
 import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
 import com.ossovita.reservationservice.repository.OnlineReservationRepository;
 import com.ossovita.reservationservice.repository.ReservationRepository;

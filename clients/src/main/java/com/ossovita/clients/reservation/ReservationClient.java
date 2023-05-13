@@ -1,4 +1,4 @@
-package com.ossovita.accountingservice.feign;
+package com.ossovita.clients.reservation;
 
 import com.ossovita.commonservice.dto.ReservationDto;
 import org.springframework.cloud.openfeign.FeignClient;

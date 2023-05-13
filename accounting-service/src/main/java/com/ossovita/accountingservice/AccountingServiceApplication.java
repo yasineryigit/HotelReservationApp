@@ -13,7 +13,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.ossovita.*")
-@EnableFeignClients
+@EnableFeignClients(
+        basePackages = "com.ossovita.clients"
+)
 public class AccountingServiceApplication {
 
     public static void main(String[] args) {

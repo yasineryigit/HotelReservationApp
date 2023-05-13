@@ -31,8 +31,6 @@ Lapi-gateway/src/main/java/com/ossovita/apigateway/ApiGatewayApplication.java,e
 Shotel-service/src/main/java/com/ossovita/hotelservice/kafka/KafkaConfiguration.java,e\7\e7259d55404e9887ebe6ebff210ceefe1a34cc7b
 |
 Lapi-gateway/src/main/java/com/ossovita/apigateway/config/SecurityConfig.java,b\4\b4c6f1375c3cde5dbdb6c4f24cd78a379bd9bf0f
-‚
-Rhotel-service/src/main/java/com/ossovita/hotelservice/HotelServiceApplication.java,e\a\ea6d7723044ed90bede38a0bd645f7c096a4204b
 ¡
 qaccounting-service/src/main/java/com/ossovita/accountingservice/business/concretes/ReservationPaymentManager.java,f\6\f69bcf1615d128323e8519b5d41aedfcd10943ff
 ‰

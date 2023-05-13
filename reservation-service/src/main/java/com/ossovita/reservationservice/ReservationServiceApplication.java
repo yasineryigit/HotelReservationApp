@@ -7,7 +7,9 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.ossovita.*")
-@EnableFeignClients
+@EnableFeignClients(
+        basePackages = "com.ossovita.clients"
+)
 public class ReservationServiceApplication {
 
     public static void main(String[] args) {

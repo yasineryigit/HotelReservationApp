@@ -12,8 +12,9 @@ import java.util.Arrays;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.ossovita.*")
-@EnableFeignClients
-@OpenAPIDefinition
+@EnableFeignClients(
+        basePackages = "com.ossovita.clients"
+)
 public class HotelServiceApplication {
 
     public static void main(String[] args) {
