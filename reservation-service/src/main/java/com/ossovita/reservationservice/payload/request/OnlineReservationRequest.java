@@ -3,6 +3,8 @@ package com.ossovita.reservationservice.payload.request;
 import com.sun.istack.NotNull;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class OnlineReservationRequest {
 
@@ -14,7 +16,10 @@ public class OnlineReservationRequest {
     private long roomFk;
 
     @NotNull
-    private int reservationDayLength;
+    private LocalDateTime reservationStartTime;
+
+    @NotNull
+    private LocalDateTime reservationEndTime;
 
 
 }

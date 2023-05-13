@@ -71,8 +71,6 @@ Wuser-service/src/main/java/com/ossovita/userservice/business/concretes/BossMana
 hcommon-service/src/main/java/com/ossovita/commonservice/core/kafka/model/ReservationPaymentResponse.java,9\6\96ab8d3216531b19b21c29f80298d6bb4109101b
 €
 Puser-service/src/main/java/com/ossovita/userservice/security/SecurityConfig.java,b\8\b850ed19b27c6ae652fa2e55bdb2e1b0980febca
-T
-$infrastructure/docker-compose/db.yml,c\b\cb0bb2a2f4ad83c533483a96dfb92e10fbe3a371
 ‰
 Yhotel-service/src/main/java/com/ossovita/hotelservice/security/config/SecurityConfig.java,0\c\0cf5591f3301b312d5608667e3a83fde03859e45
 “

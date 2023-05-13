@@ -1,6 +1,7 @@
 package com.ossovita.reservationservice.controller;
 
 import com.ossovita.commonservice.dto.ReservationDto;
+import com.ossovita.reservationservice.payload.response.OnlineReservationResponse;
 import com.ossovita.reservationservice.service.ReservationService;
 import com.ossovita.reservationservice.entity.Reservation;
 import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
@@ -24,7 +25,7 @@ public class ReservationController {
     }
 
     @PostMapping("/create-online-reservation")
-    public Reservation createOnlineReservation(@Valid @RequestBody OnlineReservationRequest onlineReservationRequest) throws Exception {
+    public OnlineReservationResponse createOnlineReservation(@Valid @RequestBody OnlineReservationRequest onlineReservationRequest) throws Exception {
         return reservationService.createOnlineReservation(onlineReservationRequest);
     }
 

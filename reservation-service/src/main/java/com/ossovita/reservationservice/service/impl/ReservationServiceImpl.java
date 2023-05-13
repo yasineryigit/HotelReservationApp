@@ -14,6 +14,7 @@ import com.ossovita.reservationservice.entity.OnlineReservation;
 import com.ossovita.reservationservice.entity.Reservation;
 import com.ossovita.reservationservice.enums.ReservationStatus;
 import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
+import com.ossovita.reservationservice.payload.response.OnlineReservationResponse;
 import com.ossovita.reservationservice.repository.OnlineReservationRepository;
 import com.ossovita.reservationservice.repository.ReservationRepository;
 import com.ossovita.reservationservice.service.ReservationService;
@@ -23,6 +24,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Service
@@ -46,7 +48,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation createOnlineReservation(OnlineReservationRequest onlineReservationRequest) throws Exception {
+    public OnlineReservationResponse createOnlineReservation(OnlineReservationRequest onlineReservationRequest) {
         RoomDto roomDto = hotelClient.getRoomDtoWithRoomFk(onlineReservationRequest.getRoomFk());
         boolean isCustomerAvailable = userClient.isCustomerAvailable(onlineReservationRequest.getCustomerFk());
 
@@ -62,21 +64,26 @@ public class ReservationServiceImpl implements ReservationService {
                 reservation.setReservationCreateTime(LocalDateTime.now());
 
                 //assign reservationStartTime
-                reservation.setReservationDayLength(onlineReservationRequest.getReservationDayLength());
+                reservation.setReservationStartTime(onlineReservationRequest.getReservationStartTime());
+
+                //assign reservationEndTime
+                reservation.setReservationEndTime(onlineReservationRequest.getReservationEndTime());
 
                 reservation.setReservationStatus(ReservationStatus.CREATED);
 
                 //assign reservationPrice
-                reservation.setReservationPrice(roomDto.getRoomPrice() * onlineReservationRequest.getReservationDayLength());
+                reservation.setReservationPrice(roomDto.getRoomPrice() * Duration.between(onlineReservationRequest.getReservationStartTime(), onlineReservationRequest.getReservationEndTime()).toDays());
 
                 Reservation savedReservation = reservationRepository.save(reservation);
                 //also save OnlineReservation object to the database for completing relationship
                 OnlineReservation onlineReservation = OnlineReservation.builder()
                         .reservationFk(savedReservation.getReservationPk())
                         .build();
-                onlineReservationRepository.save(onlineReservation);
+                OnlineReservation savedOnlineReservation = onlineReservationRepository.save(onlineReservation);
 
-                return savedReservation;
+                OnlineReservationResponse onlineReservationResponse = modelMapper.map(savedReservation, OnlineReservationResponse.class);
+                onlineReservationResponse.setOnlineReservationFk(savedOnlineReservation.getOnlineReservationPk());
+                return onlineReservationResponse;
             } else {
                 throw new RoomNotAvailableException("Selected room is not available.");
             }
