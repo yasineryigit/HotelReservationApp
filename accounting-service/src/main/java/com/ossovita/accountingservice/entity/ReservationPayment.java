@@ -1,7 +1,7 @@
 package com.ossovita.accountingservice.entity;
 
-import com.ossovita.commonservice.core.enums.ReservationPaymentType;
-import com.ossovita.commonservice.core.enums.ReservationPaymentStatus;
+import com.ossovita.commonservice.enums.ReservationPaymentType;
+import com.ossovita.commonservice.enums.ReservationPaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

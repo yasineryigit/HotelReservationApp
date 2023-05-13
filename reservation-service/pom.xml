@@ -35,9 +35,11 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
+            <groupId>com.ossovita</groupId>
+            <artifactId>kafka</artifactId>
+            <version>${project.version}</version>
         </dependency>
+
 
         <dependency>
             <groupId>com.ossovita</groupId>
@@ -67,6 +69,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>

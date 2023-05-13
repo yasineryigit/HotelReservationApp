@@ -1,7 +1,7 @@
 package com.ossovita.hotelservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ossovita.commonservice.core.enums.RoomStatus;
+import com.ossovita.commonservice.enums.RoomStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

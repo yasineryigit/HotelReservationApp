@@ -1,7 +1,7 @@
 package com.ossovita.userservice.service.impl;
 
-import com.ossovita.commonservice.core.payload.request.HotelEmployeeRequest;
-import com.ossovita.commonservice.core.exception.IdNotFoundException;
+import com.ossovita.commonservice.payload.request.HotelEmployeeRequest;
+import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.userservice.service.EmployeeService;
 import com.ossovita.userservice.feign.HotelClient;
 import com.ossovita.userservice.repository.BossRepository;

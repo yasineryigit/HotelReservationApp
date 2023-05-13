@@ -1,6 +1,6 @@
 package com.ossovita.hotelservice.service;
 
-import com.ossovita.commonservice.core.dto.RoomDto;
+import com.ossovita.commonservice.dto.RoomDto;
 import com.ossovita.hotelservice.entity.Room;
 import com.ossovita.hotelservice.payload.request.RoomRequest;
 

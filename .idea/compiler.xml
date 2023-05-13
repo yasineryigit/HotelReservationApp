@@ -9,7 +9,9 @@
         <outputRelativeToContentRoot value="true" />
         <module name="common-service" />
         <module name="accounting-service" />
+        <module name="infrastructure" />
         <module name="reservation-service" />
+        <module name="kafka" />
         <module name="api-gateway" />
         <module name="user-service" />
         <module name="DiscoveryService" />
@@ -26,6 +28,8 @@
       <module name="common-service" options="-parameters" />
       <module name="discovery-service" options="-parameters" />
       <module name="hotel-service" options="-parameters" />
+      <module name="infrastructure" options="-parameters" />
+      <module name="kafka" options="-parameters" />
       <module name="reservation-service" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>

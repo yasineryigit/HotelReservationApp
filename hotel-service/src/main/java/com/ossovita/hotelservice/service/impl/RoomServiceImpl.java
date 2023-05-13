@@ -1,15 +1,15 @@
 package com.ossovita.hotelservice.service.impl;
 
-import com.ossovita.commonservice.core.dto.RoomDto;
-import com.ossovita.commonservice.core.enums.ReservationPaymentRefundReason;
-import com.ossovita.commonservice.core.enums.RoomStatus;
-import com.ossovita.commonservice.core.kafka.model.ReservationPaymentRefundRequest;
-import com.ossovita.commonservice.core.kafka.model.RoomStatusUpdateRequest;
-import com.ossovita.commonservice.core.exception.IdNotFoundException;
-import com.ossovita.hotelservice.service.RoomService;
-import com.ossovita.hotelservice.repository.RoomRepository;
+import com.ossovita.commonservice.dto.RoomDto;
+import com.ossovita.commonservice.enums.ReservationPaymentRefundReason;
+import com.ossovita.commonservice.enums.RoomStatus;
+import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.hotelservice.entity.Room;
 import com.ossovita.hotelservice.payload.request.RoomRequest;
+import com.ossovita.hotelservice.repository.RoomRepository;
+import com.ossovita.hotelservice.service.RoomService;
+import com.ossovita.kafka.model.ReservationPaymentRefundRequest;
+import com.ossovita.kafka.model.RoomStatusUpdateRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.kafka.annotation.KafkaListener;

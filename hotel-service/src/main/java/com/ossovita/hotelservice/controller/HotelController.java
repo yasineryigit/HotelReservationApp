@@ -1,7 +1,7 @@
 package com.ossovita.hotelservice.controller;
 
-import com.ossovita.commonservice.core.payload.request.HotelEmployeeRequest;
-import com.ossovita.commonservice.core.payload.request.HotelRequest;
+import com.ossovita.commonservice.payload.request.HotelEmployeeRequest;
+import com.ossovita.commonservice.payload.request.HotelRequest;
 import com.ossovita.hotelservice.service.HotelService;
 import com.ossovita.hotelservice.entity.Hotel;
 import com.ossovita.hotelservice.payload.request.HotelWithImagesRequest;

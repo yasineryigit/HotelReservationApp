@@ -1,6 +1,6 @@
 package com.ossovita.accountingservice.service;
 
-import com.ossovita.commonservice.core.payload.request.ReservationCreditCardPaymentRequest;
+import com.ossovita.commonservice.payload.request.ReservationCreditCardPaymentRequest;
 
 public interface ReservationPaymentService {
 

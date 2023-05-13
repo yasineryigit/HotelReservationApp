@@ -1,6 +1,6 @@
 package com.ossovita.reservationservice.service;
 
-import com.ossovita.commonservice.core.dto.ReservationDto;
+import com.ossovita.commonservice.dto.ReservationDto;
 import com.ossovita.reservationservice.entity.Reservation;
 import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
 

@@ -1,6 +1,6 @@
 package com.ossovita.userservice.feign;
 
-import com.ossovita.commonservice.core.payload.request.HotelEmployeeRequest;
+import com.ossovita.commonservice.payload.request.HotelEmployeeRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

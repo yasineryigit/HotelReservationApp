@@ -32,6 +32,8 @@
         <module>user-service</module>
         <module>accounting-service</module>
         <module>common-service</module>
+        <module>infrastructure/kafka</module>
+        <module>infrastructure</module>
     </modules>
 
 

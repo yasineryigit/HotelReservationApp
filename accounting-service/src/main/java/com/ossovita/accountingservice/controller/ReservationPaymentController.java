@@ -1,7 +1,7 @@
 package com.ossovita.accountingservice.controller;
 
 import com.ossovita.accountingservice.service.ReservationPaymentService;
-import com.ossovita.commonservice.core.payload.request.ReservationCreditCardPaymentRequest;
+import com.ossovita.commonservice.payload.request.ReservationCreditCardPaymentRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

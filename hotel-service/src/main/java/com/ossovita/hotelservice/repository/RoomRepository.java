@@ -1,7 +1,7 @@
 package com.ossovita.hotelservice.repository;
 
 
-import com.ossovita.commonservice.core.enums.RoomStatus;
+import com.ossovita.commonservice.enums.RoomStatus;
 import com.ossovita.hotelservice.entity.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -26,8 +26,9 @@
     <dependencies>
 
         <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
+            <groupId>com.ossovita</groupId>
+            <artifactId>kafka</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

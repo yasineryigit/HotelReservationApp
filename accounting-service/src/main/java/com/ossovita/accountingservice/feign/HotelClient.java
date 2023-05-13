@@ -1,6 +1,6 @@
 package com.ossovita.accountingservice.feign;
 
-import com.ossovita.commonservice.core.dto.RoomDto;
+import com.ossovita.commonservice.dto.RoomDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

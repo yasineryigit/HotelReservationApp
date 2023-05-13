@@ -83,8 +83,6 @@ cuser-service/src/main/java/com/ossovita/userservice/business/concretes/Business
 Kapi-gateway/src/main/java/com/ossovita/apigateway/config/GatewayConfig.java,6\b\6b0b2fcdf91a24543244a7119656f307e500b5e9
 |
 Lapi-gateway/src/main/java/com/ossovita/apigateway/config/RouteValidator.java,2\d\2d9950e8bdca01ee259a3b3e5498c0dcf73c2787
-W
-'infrastructure/docker-compose/kafka.yml,3\a\3add7da1a03a2f67e31d7dfa2e1edbf6748cb8d3
 …
 Uapi-gateway/src/main/java/com/ossovita/apigateway/filter/JwtAuthenticationFilter.java,c\e\ce6bc163651e0e8db4ca342b94d47bee253fb3ea
 ‚

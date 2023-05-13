@@ -2,7 +2,7 @@ package com.ossovita.hotelservice.payload.request;
 
 import javax.validation.constraints.*;
 
-import com.ossovita.commonservice.core.enums.RoomStatus;
+import com.ossovita.commonservice.enums.RoomStatus;
 import lombok.Data;
 
 @Data

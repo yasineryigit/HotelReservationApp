@@ -81,8 +81,6 @@ Yhotel-service/src/main/java/com/ossovita/hotelservice/security/config/SecurityC
 cuser-service/src/main/java/com/ossovita/userservice/business/concretes/BusinessPositionManager.java,c\8\c8969c0abf48bf16c9374cf4d76700b4321afa52
 |
 Lapi-gateway/src/main/java/com/ossovita/apigateway/config/RouteValidator.java,2\d\2d9950e8bdca01ee259a3b3e5498c0dcf73c2787
-W
-'infrastructure/docker-compose/kafka.yml,3\a\3add7da1a03a2f67e31d7dfa2e1edbf6748cb8d3
 …
 Uapi-gateway/src/main/java/com/ossovita/apigateway/filter/JwtAuthenticationFilter.java,c\e\ce6bc163651e0e8db4ca342b94d47bee253fb3ea
 ‚
