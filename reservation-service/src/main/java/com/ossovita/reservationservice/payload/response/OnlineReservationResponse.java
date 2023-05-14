@@ -1,9 +1,8 @@
 package com.ossovita.reservationservice.payload.response;
 
-import com.ossovita.reservationservice.enums.ReservationStatus;
+import com.ossovita.commonservice.enums.ReservationStatus;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data

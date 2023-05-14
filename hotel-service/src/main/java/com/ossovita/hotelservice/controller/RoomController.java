@@ -1,6 +1,7 @@
 package com.ossovita.hotelservice.controller;
 
 import com.ossovita.commonservice.dto.RoomDto;
+import com.ossovita.hotelservice.payload.request.AvailableRoomsByDateRangeAndCityRequest;
 import com.ossovita.hotelservice.service.RoomService;
 import com.ossovita.hotelservice.entity.Room;
 import com.ossovita.hotelservice.payload.request.RoomRequest;
@@ -32,6 +33,11 @@ public class RoomController {
     @GetMapping("/get-available-rooms-by-hotelfk")
     public List<Room> getAvailableRoomsByHotelFk(@RequestParam long hotelFk) {
         return roomService.getAvailableRoomsByHotelFk(hotelFk);
+    }
+
+    @GetMapping("/get-available-rooms-by-date-range-and-city")
+    public List<Room> getAvailableRoomsByDateRangeAndCity(@RequestBody AvailableRoomsByDateRangeAndCityRequest availableRoomsByDateRangeAndCityRequest){
+        return roomService.getAvailableRoomsByDateRangeAndCity(availableRoomsByDateRangeAndCityRequest);
     }
 
 

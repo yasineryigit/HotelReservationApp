@@ -12,7 +12,7 @@ import com.ossovita.kafka.model.ReservationPaymentResponse;
 import com.ossovita.kafka.model.RoomStatusUpdateRequest;
 import com.ossovita.reservationservice.entity.OnlineReservation;
 import com.ossovita.reservationservice.entity.Reservation;
-import com.ossovita.reservationservice.enums.ReservationStatus;
+import com.ossovita.commonservice.enums.ReservationStatus;
 import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
 import com.ossovita.reservationservice.payload.response.OnlineReservationResponse;
 import com.ossovita.reservationservice.repository.OnlineReservationRepository;
@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -102,6 +103,14 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationDto getReservationDtoByReservationFk(long reservationFk) {
         Reservation reservation = getReservation(reservationFk);
         return modelMapper.map(reservation, ReservationDto.class);
+    }
+
+    @Override
+    public List<ReservationDto> getReservationDtoListByRoomFkList(List<Long> roomFks) {
+        List<Reservation> reservationList = reservationRepository.findByRoomFkIn(roomFks);
+        return reservationList.stream()
+                .map(reservation -> modelMapper.map(reservation, ReservationDto.class))
+                .toList();
     }
 
     @KafkaListener(

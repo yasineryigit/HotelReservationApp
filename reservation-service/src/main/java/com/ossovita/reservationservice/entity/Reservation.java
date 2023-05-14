@@ -1,6 +1,6 @@
 package com.ossovita.reservationservice.entity;
 
-import com.ossovita.reservationservice.enums.ReservationStatus;
+import com.ossovita.commonservice.enums.ReservationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
