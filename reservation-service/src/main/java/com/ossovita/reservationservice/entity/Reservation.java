@@ -1,6 +1,6 @@
 package com.ossovita.reservationservice.entity;
 
-import com.ossovita.reservationservice.enums.ReservationStatus;
+import com.ossovita.commonservice.enums.ReservationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,11 +23,14 @@ public class Reservation {
     @Column(name = "reservation_pk")
     private long reservationPk;
 
-    @Column(name = "reservation_time")
+    @Column(name = "reservation_create_time")
     private LocalDateTime reservationCreateTime;
 
-    @Column(name = "reservation_day_length")
-    private int reservationDayLength;
+    @Column(name = "reservation_start_time")
+    private LocalDateTime reservationStartTime;
+
+    @Column(name = "reservation_end_time")
+    private LocalDateTime reservationEndTime;
 
     @Column(name = "reservation_price")
     private double reservationPrice;
@@ -42,8 +45,9 @@ public class Reservation {
     @Column(name = "room_fk")
     private long roomFk;
 
-    @Column(name = "employee_fk")
-    private long employeeFk;
+    @Column(name = "customer_fk")
+    private long customerFk;
+
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "reservation")
     private OnlineReservation onlineReservation;

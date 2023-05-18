@@ -1,4 +1,4 @@
-package com.ossovita.reservationservice.enums;
+package com.ossovita.commonservice.enums;
 
 public enum ReservationStatus {
     CREATED,

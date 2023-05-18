@@ -15,5 +15,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     List<Room> findByHotelFkAndRoomStatus(long hotelFk, RoomStatus roomStatus);
 
+    List<Room> findRoomsByHotel_Address_AddressCity(String addressCity);
 
 }
