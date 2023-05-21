@@ -1,10 +1,11 @@
 package com.ossovita.hotelservice.security.config;
 
-import com.ossovita.hotelservice.utils.constants.SecurityConstants;
 import com.ossovita.hotelservice.security.jwt.JWTAccessDeniedHandler;
 import com.ossovita.hotelservice.security.jwt.JwtAuthenticationEntryPoint;
 import com.ossovita.hotelservice.security.jwt.JwtAuthenticationFilter;
+import com.ossovita.hotelservice.utils.constants.SecurityConstants;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -25,15 +26,19 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    @Value("${spring.cloud.gateway.ip-adress}")
+    private String springCloudGatewayIpAddress;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final JWTAccessDeniedHandler accessDeniedHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/**").hasIpAddress(springCloudGatewayIpAddress)
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()

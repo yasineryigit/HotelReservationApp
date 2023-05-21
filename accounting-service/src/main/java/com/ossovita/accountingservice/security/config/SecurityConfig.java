@@ -5,6 +5,7 @@ import com.ossovita.accountingservice.security.jwt.JWTAccessDeniedHandler;
 import com.ossovita.accountingservice.security.jwt.JwtAuthenticationEntryPoint;
 import com.ossovita.accountingservice.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -25,6 +26,8 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    @Value("${spring.cloud.gateway.ip-adress}")
+    private String springCloudGatewayIpAddress;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final JWTAccessDeniedHandler accessDeniedHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -34,6 +37,7 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/**").hasIpAddress(springCloudGatewayIpAddress)
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()
