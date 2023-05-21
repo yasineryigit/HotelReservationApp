@@ -5,14 +5,14 @@ import com.ossovita.clients.user.UserClient;
 import com.ossovita.commonservice.dto.ReservationDto;
 import com.ossovita.commonservice.dto.RoomDto;
 import com.ossovita.commonservice.enums.ReservationPaymentStatus;
+import com.ossovita.commonservice.enums.ReservationStatus;
 import com.ossovita.commonservice.enums.RoomStatus;
 import com.ossovita.commonservice.exception.IdNotFoundException;
-import com.ossovita.commonservice.exception.RoomNotAvailableException;
+import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
 import com.ossovita.kafka.model.ReservationPaymentResponse;
 import com.ossovita.kafka.model.RoomStatusUpdateRequest;
 import com.ossovita.reservationservice.entity.OnlineReservation;
 import com.ossovita.reservationservice.entity.Reservation;
-import com.ossovita.commonservice.enums.ReservationStatus;
 import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
 import com.ossovita.reservationservice.payload.response.OnlineReservationResponse;
 import com.ossovita.reservationservice.repository.OnlineReservationRepository;
@@ -50,44 +50,47 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public OnlineReservationResponse createOnlineReservation(OnlineReservationRequest onlineReservationRequest) {
-        RoomDto roomDto = hotelClient.getRoomDtoWithRoomFk(onlineReservationRequest.getRoomFk());
+        CheckRoomAvailabilityRequest checkRoomAvailabilityRequest = CheckRoomAvailabilityRequest
+                .builder()
+                .roomFk(onlineReservationRequest.getRoomFk())
+                .reservationStartTime(onlineReservationRequest.getReservationStartTime())
+                .reservationEndTime(onlineReservationRequest.getReservationEndTime())
+                .build();
+        RoomDto roomDto = hotelClient.getRoomDtoIfRoomAvailable(checkRoomAvailabilityRequest);
         boolean isCustomerAvailable = userClient.isCustomerAvailable(onlineReservationRequest.getCustomerFk());
 
-        if (roomDto != null && isCustomerAvailable) {//if roomDto & customer available by given ids
-            if (roomDto.getRoomStatus().equals(RoomStatus.AVAILABLE)) {//if roomStatus available
-                //assign customerFk, roomFk
-                Reservation reservation = modelMapper.map(onlineReservationRequest, Reservation.class);
+        if (isCustomerAvailable) {//if customer available by given ids
+            //assign customerFk, roomFk
+            Reservation reservation = modelMapper.map(onlineReservationRequest, Reservation.class);
 
-                //assign reservationIsApproved
-                reservation.setReservationIsApproved(false);
+            //assign reservationIsApproved
+            reservation.setReservationIsApproved(false);
 
-                //assign reservationTime
-                reservation.setReservationCreateTime(LocalDateTime.now());
+            //assign reservationTime
+            reservation.setReservationCreateTime(LocalDateTime.now());
 
-                //assign reservationStartTime
-                reservation.setReservationStartTime(onlineReservationRequest.getReservationStartTime());
+            //assign reservationStartTime
+            reservation.setReservationStartTime(onlineReservationRequest.getReservationStartTime());
 
-                //assign reservationEndTime
-                reservation.setReservationEndTime(onlineReservationRequest.getReservationEndTime());
+            //assign reservationEndTime
+            reservation.setReservationEndTime(onlineReservationRequest.getReservationEndTime());
 
-                reservation.setReservationStatus(ReservationStatus.CREATED);
+            reservation.setReservationStatus(ReservationStatus.CREATED);
 
-                //assign reservationPrice
-                reservation.setReservationPrice(roomDto.getRoomPrice() * Duration.between(onlineReservationRequest.getReservationStartTime(), onlineReservationRequest.getReservationEndTime()).toDays());
+            //assign reservationPrice
+            reservation.setReservationPrice(roomDto.getRoomPrice() * Duration.between(onlineReservationRequest.getReservationStartTime(), onlineReservationRequest.getReservationEndTime()).toDays());
 
-                Reservation savedReservation = reservationRepository.save(reservation);
-                //also save OnlineReservation object to the database for completing relationship
-                OnlineReservation onlineReservation = OnlineReservation.builder()
-                        .reservationFk(savedReservation.getReservationPk())
-                        .build();
-                OnlineReservation savedOnlineReservation = onlineReservationRepository.save(onlineReservation);
+            Reservation savedReservation = reservationRepository.save(reservation);
+            //also save OnlineReservation object to the database for completing relationship
+            OnlineReservation onlineReservation = OnlineReservation.builder()
+                    .reservationFk(savedReservation.getReservationPk())
+                    .build();
+            OnlineReservation savedOnlineReservation = onlineReservationRepository.save(onlineReservation);
 
-                OnlineReservationResponse onlineReservationResponse = modelMapper.map(savedReservation, OnlineReservationResponse.class);
-                onlineReservationResponse.setOnlineReservationFk(savedOnlineReservation.getOnlineReservationPk());
-                return onlineReservationResponse;
-            } else {
-                throw new RoomNotAvailableException("Selected room is not available.");
-            }
+            OnlineReservationResponse onlineReservationResponse = modelMapper.map(savedReservation, OnlineReservationResponse.class);
+            onlineReservationResponse.setOnlineReservationFk(savedOnlineReservation.getOnlineReservationPk());
+            return onlineReservationResponse;
+
 
         } else {
             throw new IdNotFoundException("This request contains invalid id");

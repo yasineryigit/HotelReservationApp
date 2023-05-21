@@ -1,10 +1,11 @@
 package com.ossovita.hotelservice.controller;
 
 import com.ossovita.commonservice.dto.RoomDto;
-import com.ossovita.hotelservice.payload.request.AvailableRoomsByDateRangeAndCityRequest;
-import com.ossovita.hotelservice.service.RoomService;
+import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
 import com.ossovita.hotelservice.entity.Room;
+import com.ossovita.hotelservice.payload.request.AvailableRoomsByDateRangeAndCityRequest;
 import com.ossovita.hotelservice.payload.request.RoomRequest;
+import com.ossovita.hotelservice.service.RoomService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,15 +37,19 @@ public class RoomController {
     }
 
     @GetMapping("/get-available-rooms-by-date-range-and-city")
-    public List<Room> getAvailableRoomsByDateRangeAndCity(@RequestBody AvailableRoomsByDateRangeAndCityRequest availableRoomsByDateRangeAndCityRequest){
+    public List<Room> getAvailableRoomsByDateRangeAndCity(@RequestBody AvailableRoomsByDateRangeAndCityRequest availableRoomsByDateRangeAndCityRequest) {
         return roomService.getAvailableRoomsByDateRangeAndCity(availableRoomsByDateRangeAndCityRequest);
     }
-
 
     @GetMapping("/get-room-dto-by-room-fk")
     public RoomDto getRoomDtoByRoomFk(@RequestParam long roomFk) {
         return roomService.getRoomDtoByRoomFk(roomFk);
     }
 
+
+    @GetMapping("/get-room-dto-if-room-available")
+    public RoomDto getRoomDtoIfRoomAvailable(@RequestBody CheckRoomAvailabilityRequest checkRoomAvailabilityRequest) {
+        return roomService.getRoomDtoIfRoomAvailable(checkRoomAvailabilityRequest);
+    }
 
 }
