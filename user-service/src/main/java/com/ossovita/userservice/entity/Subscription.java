@@ -44,5 +44,12 @@ public class Subscription {
     @Column(name = "is_active")
     private boolean isActive;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "subscription_plan_fk", insertable = false, updatable = false)
+    private SubscriptionPlan subscriptionPlan;
+
+    @Column(name = "subscription_plan_fk")
+    private long subscriptionPlanFk;
+
 
 }
