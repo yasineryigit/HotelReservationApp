@@ -32,8 +32,6 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Value("${spring.cloud.gateway.ip-adress}")
-    private String springCloudGatewayIpAddress;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final JWTAccessDeniedHandler accessDeniedHandler;
     private final JwtUtils jwtUtils;
@@ -54,9 +52,7 @@ public class SecurityConfig {
                 .cors()
                 .and()
                 .authorizeRequests(auth -> {
-                    auth.antMatchers("/**").hasIpAddress(springCloudGatewayIpAddress);
                     auth.anyRequest().permitAll();
-
                 })
                 .formLogin().disable()
                 .httpBasic().disable()
