@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/1.0/subscription-plans")
+@RequestMapping("/api/1.0/user/subscription-plans")
 public class SubscriptionPlanController {
 
     SubscriptionPlanService subscriptionPlanService;

@@ -34,7 +34,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public SubscriptionResponse createSubscription(SubscriptionRequest subscriptionRequest) {
         //check boss & subscriptionplanfk
         SubscriptionPlan subscriptionPlan = subscriptionPlanService.getSubscriptionPlan(subscriptionRequest.getSubscriptionPlanFk());
-        if (bossService.isBossAvailable(subscriptionRequest.getBossFk()) && subscriptionPlan != null) {
+        if (bossService.isBossAvailable(subscriptionRequest.getBossFk())) {
             //create subscription via data in the subscription plan
             Subscription subscription = Subscription.builder()
                     .bossFk(subscriptionRequest.getBossFk())
@@ -42,11 +42,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                     .subscriptionPrice(subscriptionPlan.getSubscriptionPrice())
                     .isApproved(false)
                     .isPaid(false)
-                    .isActive(false)
+                    .isActive(true)
                     .build();
             return modelMapper.map(subscriptionRepository.save(subscription), SubscriptionResponse.class);
         } else {
-            throw new IdNotFoundException("This request contains invalid ids");
+            throw new IdNotFoundException("Boss is not available by given id");
         }
     }
 
@@ -66,7 +66,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscription.setSubscriptionStartTime(LocalDateTime.now());
         subscription.setSubscriptionEndTime(LocalDateTime.now().plusDays(subscription.getSubscriptionPlan().getSubscriptionDayLength()));
 
-        return modelMapper.map(subscription, SubscriptionResponse.class);
+        return modelMapper.map(subscriptionRepository.save(subscription), SubscriptionResponse.class);
     }
 
 

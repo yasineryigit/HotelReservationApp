@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.time.Instant;
 
 @Entity
-@Table(name = "RefreshToken")
+@Table(name = "refresh_tokens")
 @Data
 public class RefreshToken implements Serializable {
 

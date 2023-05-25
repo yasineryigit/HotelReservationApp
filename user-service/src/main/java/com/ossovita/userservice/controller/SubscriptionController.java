@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/1.0/subscriptions")
+@RequestMapping("/api/1.0/user/subscriptions")
 public class SubscriptionController {
 
     SubscriptionService subscriptionService;
@@ -26,4 +26,6 @@ public class SubscriptionController {
     public SubscriptionResponse updateSubscriptionApproval(@RequestParam long subscriptionFk) {
         return subscriptionService.approveSubscription(subscriptionFk);
     }
+
+
 }
