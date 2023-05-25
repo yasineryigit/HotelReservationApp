@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -39,10 +40,17 @@ public class Subscription {
     private LocalDateTime subscriptionEndTime;
 
     @Column(name = "subscription_price")
-    private int subscriptionPrice;
+    private BigDecimal subscriptionPrice;
+
+    @Column(name = "is_paid")
+    private boolean isPaid;
+
+    @Column(name = "is_approved")
+    private boolean isApproved;
 
     @Column(name = "is_active")
     private boolean isActive;
+
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "subscription_plan_fk", insertable = false, updatable = false)

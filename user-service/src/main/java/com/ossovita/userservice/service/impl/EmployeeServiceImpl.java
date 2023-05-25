@@ -1,15 +1,15 @@
 package com.ossovita.userservice.service.impl;
 
-import com.ossovita.commonservice.payload.request.HotelEmployeeRequest;
+import com.ossovita.clients.hotel.HotelClient;
 import com.ossovita.commonservice.exception.IdNotFoundException;
-import com.ossovita.userservice.service.EmployeeService;
-import com.ossovita.userservice.feign.HotelClient;
-import com.ossovita.userservice.repository.BossRepository;
-import com.ossovita.userservice.repository.EmployeeRepository;
-import com.ossovita.userservice.repository.UserRepository;
+import com.ossovita.commonservice.payload.request.HotelEmployeeRequest;
 import com.ossovita.userservice.entity.Employee;
 import com.ossovita.userservice.entity.User;
 import com.ossovita.userservice.payload.EmployeeSaveFormDto;
+import com.ossovita.userservice.repository.BossRepository;
+import com.ossovita.userservice.repository.EmployeeRepository;
+import com.ossovita.userservice.repository.UserRepository;
+import com.ossovita.userservice.service.EmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     BossRepository bossRepository;
     EmployeeRepository employeeRepository;
     UserRepository userRepository;
-    HotelClient hotelClient; //feign client
+    HotelClient hotelClient;
     PasswordEncoder passwordEncoder;
     ModelMapper modelMapper;
 

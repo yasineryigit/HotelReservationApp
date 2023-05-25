@@ -1,11 +1,12 @@
 package com.ossovita.userservice.service.impl;
 
-import com.ossovita.userservice.service.BossService;
-import com.ossovita.userservice.repository.BossRepository;
-import com.ossovita.userservice.repository.UserRepository;
+import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.userservice.entity.Boss;
 import com.ossovita.userservice.entity.User;
 import com.ossovita.userservice.payload.BossSaveFormDto;
+import com.ossovita.userservice.repository.BossRepository;
+import com.ossovita.userservice.repository.UserRepository;
+import com.ossovita.userservice.service.BossService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -53,5 +54,10 @@ public class BossServiceImpl implements BossService {
         return bossRepository.existsByBossPk(bossPk);
     }
 
+    @Override
+    public Boss getBoss(long bossPk) {
+        return bossRepository.findById(bossPk)
+                .orElseThrow(() -> {throw new IdNotFoundException("Boss not available by given id");});
+    }
 
 }

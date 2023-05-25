@@ -9,7 +9,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.ossovita.*")
-@EnableFeignClients
+@EnableFeignClients(
+        basePackages = "com.ossovita.clients"
+)
 public class UserServiceApplication {
 
     public static void main(String[] args) {

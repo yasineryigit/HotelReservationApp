@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -27,7 +28,7 @@ public class SubscriptionPlan {
     private int subscriptionDayLength;
 
     @Column(name = "subscription_price")
-    private double subscriptionPrice;
+    private BigDecimal subscriptionPrice;
 
     @Column(name = "subscription_price_currency")
     @Enumerated(EnumType.STRING)
