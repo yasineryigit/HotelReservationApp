@@ -24,6 +24,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -78,7 +79,7 @@ public class ReservationServiceImpl implements ReservationService {
             reservation.setReservationStatus(ReservationStatus.CREATED);
 
             //assign reservationPrice
-            reservation.setReservationPrice(roomDto.getRoomPrice() * Duration.between(onlineReservationRequest.getReservationStartTime(), onlineReservationRequest.getReservationEndTime()).toDays());
+            reservation.setReservationPrice(roomDto.getRoomPrice().multiply(BigDecimal.valueOf(Duration.between(onlineReservationRequest.getReservationStartTime(), onlineReservationRequest.getReservationEndTime()).toDays())));
 
             Reservation savedReservation = reservationRepository.save(reservation);
             //also save OnlineReservation object to the database for completing relationship

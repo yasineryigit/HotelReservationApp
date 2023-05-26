@@ -39,7 +39,7 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
 
     //after payment page return
     @Override
-    public String updateReservationPayment(ReservationCreditCardPaymentRequest reservationCreditCardPaymentRequest) {
+    public String createReservationPayment(ReservationCreditCardPaymentRequest reservationCreditCardPaymentRequest) {
         //getReservationByReservationFk method from reservation-service
         ReservationDto reservationDto = reservationClient.getReservationDtoByReservationFk(reservationCreditCardPaymentRequest.getReservationFk());
 
@@ -75,7 +75,6 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
         } else {
             throw new IdNotFoundException("Reservation not found by given reservationFk");
         }
-
     }
 
     @KafkaListener(

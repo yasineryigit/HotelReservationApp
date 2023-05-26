@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,7 +14,7 @@ public class RoomDto {
 
     private long roomPk;
 
-    private double roomPrice;
+    private BigDecimal roomPrice;
 
     private RoomStatus roomStatus;
 

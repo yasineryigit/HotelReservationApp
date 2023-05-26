@@ -17,9 +17,9 @@ public class ReservationPaymentController {
     }
 
 
-    @PutMapping("/update-reservation-payment")
+    @PutMapping("/create-reservation-payment")
     public String updateReservationPayment(@Valid @RequestBody ReservationCreditCardPaymentRequest reservationCreditCardPaymentRequest) throws Exception {
-        return reservationPaymentService.updateReservationPayment(reservationCreditCardPaymentRequest);
+        return reservationPaymentService.createReservationPayment(reservationCreditCardPaymentRequest);
     }
 
 

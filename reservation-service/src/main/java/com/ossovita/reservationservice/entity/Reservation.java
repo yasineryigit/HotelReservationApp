@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,7 +34,7 @@ public class Reservation {
     private LocalDateTime reservationEndTime;
 
     @Column(name = "reservation_price")
-    private double reservationPrice;
+    private BigDecimal reservationPrice;
 
     @Column(name = "reservation_status")
     @Enumerated(EnumType.STRING)

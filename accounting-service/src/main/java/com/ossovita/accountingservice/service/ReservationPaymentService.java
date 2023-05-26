@@ -4,5 +4,5 @@ import com.ossovita.commonservice.payload.request.ReservationCreditCardPaymentRe
 
 public interface ReservationPaymentService {
 
-    String updateReservationPayment(ReservationCreditCardPaymentRequest reservationCreditCardPaymentRequest) throws Exception;
+    String createReservationPayment(ReservationCreditCardPaymentRequest reservationCreditCardPaymentRequest) throws Exception;
 }

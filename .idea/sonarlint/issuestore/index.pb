@@ -13,16 +13,12 @@ Yhotel-service/src/main/java/com/ossovita/hotelservice/security/config/RouteVali
 Ohotel-service/src/main/java/com/ossovita/hotelservice/service/HotelService.java,4\1\411a3511a76eb9851891dd20a68afcf8db8c6f43
 ñ
 faccounting-service/src/main/java/com/ossovita/accountingservice/utils/constants/SecurityConstants.java,b\3\b3a113937a994d4ddaabfaa108a51e4261d655c7
-ë
-auser-service/src/main/java/com/ossovita/userservice/feign/interceptor/FeignClientInterceptor.java,e\8\e8cf7383663fb935aa5120c7e52026ece13191bf
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 F
 infrastructure/pom.xml,2\b\2bb83dd43ff74bd2017133cd9dea6897cfe43de3
 L
 infrastructure/kafka/pom.xml,5\7\57d8d8349e1f824686cd44fe2200377b17148804
-ü
-oaccounting-service/src/main/java/com/ossovita/accountingservice/service/impl/ReservationPaymentServiceImpl.java,f\0\f00a94df22514334c49835c06a09a65bd08303fd
 ë
 aaccounting-service/src/main/java/com/ossovita/accountingservice/AccountingServiceApplication.java,e\f\ef0589cd6882495cd3162df9ed89eeef1528ff95
 J
@@ -45,18 +41,10 @@ M
 accounting-service/.gitignore,0\7\079a0997e14f5b432ae042ec425377f45a16235d
 V
 &infrastructure/docker-compose/init.sql,0\1\011e7f093425f485585273512abf7ebfee0569f9
-ü
-oreservation-service/src/main/java/com/ossovita/reservationservice/payload/request/OnlineReservationRequest.java,2\d\2d7cb7da695d47f9d0b1eb0908d496d70903226d
-x
-Hcommon-service/src/main/java/com/ossovita/commonservice/dto/RoomDto.java,4\2\425f3bc4ce484e56c2518574f4a55653ec8c4b19
-Ñ
-Thotel-service/src/main/java/com/ossovita/hotelservice/controller/RoomController.java,0\6\066ad9d290fd13eb9cf4858503903e3efe7fc3cc
 ~
 Nhotel-service/src/main/java/com/ossovita/hotelservice/service/RoomService.java,7\5\756bdaf1e3c67c3c4a5058c4fbdd45cf2984c7a0
 Å
 Qhotel-service/src/main/java/com/ossovita/hotelservice/utils/file/FileService.java,4\9\4943f2ae7a419e5673da9562bf59dc6cba202b25
-á
-Whotel-service/src/main/java/com/ossovita/hotelservice/service/impl/RoomServiceImpl.java,e\9\e98d3b6e13c5284da797984b064f2c64930ca396
 É
 Shotel-service/src/main/java/com/ossovita/hotelservice/utils/file/ImageResponse.java,d\c\dcb47f178ef311a40fb6bad98fa3becde04f45c1
 ó

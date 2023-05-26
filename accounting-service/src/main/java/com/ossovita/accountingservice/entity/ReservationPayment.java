@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -33,7 +34,7 @@ public class ReservationPayment {
     private ReservationPaymentType reservationPaymentType;
 
     @Column(name = "reservation_payment_amount")
-    private double reservationPaymentAmount;
+    private BigDecimal reservationPaymentAmount;
 
     @Column(name = "reservation_fk")
     private long reservationFk;
