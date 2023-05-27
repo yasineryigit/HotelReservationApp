@@ -1,4 +1,4 @@
-package com.ossovita.commonservice.payload.request;
+package com.ossovita.accountingservice.payload.request;
 
 import lombok.Data;
 
@@ -25,8 +25,7 @@ public class ReservationCreditCardPaymentRequest {
     private int expirationYear;
 
     @NotBlank
-    private String cvv;
-
+    private int cvv;
 
     @NotBlank
     private String billingAddress;

@@ -1,7 +1,7 @@
 package com.ossovita.accountingservice.entity;
 
 import com.ossovita.commonservice.enums.ReservationPaymentType;
-import com.ossovita.commonservice.enums.ReservationPaymentStatus;
+import com.ossovita.commonservice.enums.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +27,7 @@ public class ReservationPayment {
 
     @Column(name = "reservation_payment_status")
     @Enumerated(EnumType.STRING)
-    private ReservationPaymentStatus reservationPaymentStatus;
+    private PaymentStatus paymentStatus;
 
     @Column(name = "reservation_payment_type")
     @Enumerated(EnumType.STRING)

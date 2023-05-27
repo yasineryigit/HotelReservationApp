@@ -1,5 +1,6 @@
 package com.ossovita.userservice.controller;
 
+import com.ossovita.commonservice.dto.SubscriptionDto;
 import com.ossovita.userservice.payload.request.SubscriptionRequest;
 import com.ossovita.userservice.payload.response.SubscriptionResponse;
 import com.ossovita.userservice.service.SubscriptionService;
@@ -25,6 +26,11 @@ public class SubscriptionController {
     @PutMapping("/approve-subscription")
     public SubscriptionResponse updateSubscriptionApproval(@RequestParam long subscriptionFk) {
         return subscriptionService.approveSubscription(subscriptionFk);
+    }
+
+    @GetMapping("/get-subscription-dto-by-subscription-fk")
+    SubscriptionDto getSubscriptionDtoBySubscriptionFk(@RequestParam long subscriptionFk){
+        return subscriptionService.getSubscriptionDtoBySubscriptionFk(subscriptionFk);
     }
 
 

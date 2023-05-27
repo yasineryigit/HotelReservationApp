@@ -4,7 +4,7 @@ import com.ossovita.clients.hotel.HotelClient;
 import com.ossovita.clients.user.UserClient;
 import com.ossovita.commonservice.dto.ReservationDto;
 import com.ossovita.commonservice.dto.RoomDto;
-import com.ossovita.commonservice.enums.ReservationPaymentStatus;
+import com.ossovita.commonservice.enums.PaymentStatus;
 import com.ossovita.commonservice.enums.ReservationStatus;
 import com.ossovita.commonservice.enums.RoomStatus;
 import com.ossovita.commonservice.exception.IdNotFoundException;
@@ -118,15 +118,15 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @KafkaListener(
-            topics = "reservation-payment-update-response-topic",
+            topics = "reservation-payment-response-topic",
             groupId = "foo",
             containerFactory = "reservationPaymentResponseKafkaListenerContainerFactory"//we need to assign containerFactory
     )
-    public void listenPaymentUpdate(ReservationPaymentResponse reservationPaymentResponse) {
-        log.info("Payment Updated | ReservationPaymentResponseModel: " + reservationPaymentResponse.toString());
+    public void listenReservationPaymentResponse(ReservationPaymentResponse reservationPaymentResponse) {
+        log.info("Reservation Payment Updated | ReservationPaymentResponseModel: " + reservationPaymentResponse.toString());
         Reservation reservationInDB = getReservation(reservationPaymentResponse.getReservationFk());
 
-        if (reservationPaymentResponse.getReservationPaymentStatus().equals(ReservationPaymentStatus.PAID)) {//if reservationPaymentStatus = true, then approve the reservation
+        if (reservationPaymentResponse.getPaymentStatus().equals(PaymentStatus.PAID)) {//if reservationPaymentStatus = true, then approve the reservation
             reservationInDB.setReservationStatus(ReservationStatus.BOOKED);
             reservationInDB.setReservationIsApproved(true);
 
@@ -139,7 +139,7 @@ public class ReservationServiceImpl implements ReservationService {
                     .reservationPaymentFk(reservationPaymentResponse.getReservationPaymentPk())
                     .build();
             kafkaTemplate.send("room-status-update-topic", roomStatusUpdateRequest);
-        }//TODO | handle ReservationPaymentStatus.FAILED case
+        } //TODO | handle ReservationPaymentStatus.FAILED case
     }
 
     private Reservation getReservation(long reservationFk) {

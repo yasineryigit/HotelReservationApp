@@ -1,6 +1,6 @@
 package com.ossovita.kafka.model;
 
-import com.ossovita.commonservice.enums.ReservationPaymentStatus;
+import com.ossovita.commonservice.enums.PaymentStatus;
 import com.ossovita.commonservice.enums.ReservationPaymentType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +17,7 @@ public class ReservationPaymentResponse {
 
     private long reservationPaymentPk;
 
-    private ReservationPaymentStatus reservationPaymentStatus;
+    private PaymentStatus paymentStatus;
 
     private ReservationPaymentType reservationPaymentType;
 

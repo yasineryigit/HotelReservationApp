@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Data
@@ -34,9 +35,9 @@ public class SubscriptionPlan {
     @Enumerated(EnumType.STRING)
     private Currency subscriptionPriceCurrency;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "subscriptionPlan")
+    @OneToMany(mappedBy = "subscriptionPlan")
     @JsonIgnore
-    private Subscription subscription;
+    private List<Subscription> subscriptionList;
 
 
 

@@ -52,7 +52,7 @@ public class Subscription {
     private boolean isActive;
 
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "subscription_plan_fk", insertable = false, updatable = false)
     private SubscriptionPlan subscriptionPlan;
 

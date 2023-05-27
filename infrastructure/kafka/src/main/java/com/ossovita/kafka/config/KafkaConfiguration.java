@@ -4,6 +4,7 @@ package com.ossovita.kafka.config;
 import com.ossovita.kafka.model.ReservationPaymentRefundRequest;
 import com.ossovita.kafka.model.ReservationPaymentResponse;
 import com.ossovita.kafka.model.RoomStatusUpdateRequest;
+import com.ossovita.kafka.model.SubscriptionPaymentResponse;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -76,6 +77,16 @@ public class KafkaConfiguration {
         return factory;
     }
 
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, SubscriptionPaymentResponse> subscriptionPaymentResponseKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, SubscriptionPaymentResponse> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(
+                consumerConfigs(),//
+                new StringDeserializer(),
+                new JsonDeserializer<>(SubscriptionPaymentResponse.class, false)));
+        return factory;
+    }
 
 
     @Bean
@@ -85,7 +96,7 @@ public class KafkaConfiguration {
         factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(
                 consumerConfigs(),//
                 new StringDeserializer(),
-                new JsonDeserializer<>(RoomStatusUpdateRequest.class,false)));
+                new JsonDeserializer<>(RoomStatusUpdateRequest.class, false)));
         return factory;
     }
 
@@ -96,13 +107,9 @@ public class KafkaConfiguration {
         factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(
                 consumerConfigs(),//
                 new StringDeserializer(),
-                new JsonDeserializer<>(ReservationPaymentRefundRequest.class,false)));
+                new JsonDeserializer<>(ReservationPaymentRefundRequest.class, false)));
         return factory;
     }
-
-
-
-
 
 
 }

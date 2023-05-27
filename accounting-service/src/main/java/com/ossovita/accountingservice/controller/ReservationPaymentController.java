@@ -1,7 +1,7 @@
 package com.ossovita.accountingservice.controller;
 
 import com.ossovita.accountingservice.service.ReservationPaymentService;
-import com.ossovita.commonservice.payload.request.ReservationCreditCardPaymentRequest;
+import com.ossovita.accountingservice.payload.request.ReservationCreditCardPaymentRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,10 +17,12 @@ public class ReservationPaymentController {
     }
 
 
-    @PutMapping("/create-reservation-payment")
-    public String updateReservationPayment(@Valid @RequestBody ReservationCreditCardPaymentRequest reservationCreditCardPaymentRequest) throws Exception {
+    @PostMapping("/create-reservation-payment")
+    public String createReservationPayment(@Valid @RequestBody ReservationCreditCardPaymentRequest reservationCreditCardPaymentRequest) throws Exception {
         return reservationPaymentService.createReservationPayment(reservationCreditCardPaymentRequest);
     }
+
+
 
 
 }

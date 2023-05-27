@@ -25,8 +25,6 @@ J
 accounting-service/pom.xml,b\9\b9d1b4e54241890d477d63f2f4f633cf725dfd5e
 ?
 clients/pom.xml,e\8\e897e41994586ab73af075bc072526099d5eec43
-o
-?clients/src/main/java/com/ossovita/clients/user/UserClient.java,4\d\4dcda7cd01e0a5d2ccead573044df5e425cbc935
 €
 Puser-service/src/main/java/com/ossovita/userservice/service/CustomerService.java,3\8\388afdcfbea69bf267b88926ad44a9fbc2fd8bad
 W

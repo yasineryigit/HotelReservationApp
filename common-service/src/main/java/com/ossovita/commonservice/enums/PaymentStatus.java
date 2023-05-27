@@ -1,6 +1,6 @@
 package com.ossovita.commonservice.enums;
 
-public enum ReservationPaymentStatus {
+public enum PaymentStatus {
     PAID,
     PENDING,//to use in communication via payment provider
     FAILED,
