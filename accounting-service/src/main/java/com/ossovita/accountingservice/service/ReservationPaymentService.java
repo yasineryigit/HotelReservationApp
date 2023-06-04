@@ -1,8 +1,10 @@
 package com.ossovita.accountingservice.service;
 
-import com.ossovita.accountingservice.payload.request.ReservationCreditCardPaymentRequest;
+import com.ossovita.accountingservice.dto.CreatePaymentResponse;
+import com.ossovita.accountingservice.payload.request.ReservationPaymentRequest;
+import com.stripe.exception.StripeException;
 
 public interface ReservationPaymentService {
 
-    String createReservationPayment(ReservationCreditCardPaymentRequest reservationCreditCardPaymentRequest) throws Exception;
+    CreatePaymentResponse createReservationPaymentIntent(ReservationPaymentRequest reservationPaymentRequest);
 }

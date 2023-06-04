@@ -1,3 +1,5 @@
 
-l
-java:S1128"ORemove this unused import 'org.springframework.beans.factory.annotation.Value'.(ìø›8¼Öû„1
+J
+java:S1611%"/Remove the parentheses around the "x" parameter(ã£ªúøÿÿÿÿ
+e
+java:S1128"ORemove this unused import 'org.springframework.beans.factory.annotation.Value'.(ìø›

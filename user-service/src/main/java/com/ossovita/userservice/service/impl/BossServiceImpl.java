@@ -26,6 +26,7 @@ public class BossServiceImpl implements BossService {
         this.modelMapper = modelMapper;
     }
 
+    //TODO | refactor
     //Boss can ve saved without make relation with hotel initially
     @Override
     public BossSaveFormDto createBoss(BossSaveFormDto bossSaveFormDto) {
@@ -44,7 +45,6 @@ public class BossServiceImpl implements BossService {
                 .build();
 
         bossRepository.save(boss);
-
 
         return bossSaveFormDto;
     }

@@ -57,7 +57,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .reservationStartTime(onlineReservationRequest.getReservationStartTime())
                 .reservationEndTime(onlineReservationRequest.getReservationEndTime())
                 .build();
-        RoomDto roomDto = hotelClient.getRoomDtoIfRoomAvailable(checkRoomAvailabilityRequest);
+        RoomDto roomDto = hotelClient.fetchRoomDtoIfRoomAvailable(checkRoomAvailabilityRequest);
         boolean isCustomerAvailable = userClient.isCustomerAvailable(onlineReservationRequest.getCustomerFk());
 
         if (isCustomerAvailable) {//if customer available by given ids

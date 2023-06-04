@@ -4,7 +4,7 @@ import javax.validation.constraints.*;
 import lombok.Data;
 
 @Data
-public class FeatureRequest {
+public class FeatureRequest {//TODO | implement the feature part
 
     //hotel
     @NotNull

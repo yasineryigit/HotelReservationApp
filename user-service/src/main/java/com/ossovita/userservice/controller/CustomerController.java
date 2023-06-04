@@ -1,5 +1,6 @@
 package com.ossovita.userservice.controller;
 
+import com.ossovita.commonservice.dto.CustomerDto;
 import com.ossovita.userservice.entity.Customer;
 import com.ossovita.userservice.payload.CustomerSignUpDto;
 import com.ossovita.userservice.service.CustomerService;
@@ -32,6 +33,11 @@ public class CustomerController {
     @GetMapping("/is-customer-available")
     public boolean isCustomerAvailable(@RequestParam long customerPk){
         return customerService.isCustomerAvailable(customerPk);
+    }
+
+    @GetMapping("/get-customer-dto-by-customer-pk")
+    public CustomerDto getCustomerDtoByCustomerPk(@RequestParam long customerPk){
+        return customerService.getCustomerDtoByCustomerPk(customerPk);
     }
 
 }

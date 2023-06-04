@@ -80,7 +80,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public RoomDto getRoomDtoIfRoomAvailable(CheckRoomAvailabilityRequest checkRoomAvailabilityRequest) {
+    public RoomDto fetchRoomDtoIfRoomAvailable(CheckRoomAvailabilityRequest checkRoomAvailabilityRequest) {
         if (isRoomAvailable(checkRoomAvailabilityRequest)) {
             return modelMapper.map(getRoom(checkRoomAvailabilityRequest.getRoomFk()), RoomDto.class);
         } else {

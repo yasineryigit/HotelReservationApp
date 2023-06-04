@@ -47,9 +47,9 @@ public class RoomController {
     }
 
 
-    @GetMapping("/get-room-dto-if-room-available")
-    public RoomDto getRoomDtoIfRoomAvailable(@RequestBody CheckRoomAvailabilityRequest checkRoomAvailabilityRequest) {
-        return roomService.getRoomDtoIfRoomAvailable(checkRoomAvailabilityRequest);
+    @PostMapping("/fetch-room-dto-if-room-available")
+    public RoomDto fetchRoomDtoIfRoomAvailable(@RequestBody CheckRoomAvailabilityRequest checkRoomAvailabilityRequest) {
+        return roomService.fetchRoomDtoIfRoomAvailable(checkRoomAvailabilityRequest);
     }
 
 }

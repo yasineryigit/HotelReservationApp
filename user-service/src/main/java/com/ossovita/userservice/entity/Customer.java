@@ -28,5 +28,8 @@ public class Customer {
     @Column(name = "user_fk")
     private long userFk;
 
+    @Column(name = "customer_stripe_id")
+    private String customerStripeId;
+
 
 }

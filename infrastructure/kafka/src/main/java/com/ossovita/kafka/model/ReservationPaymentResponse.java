@@ -19,7 +19,7 @@ public class ReservationPaymentResponse {
 
     private PaymentStatus paymentStatus;
 
-    private ReservationPaymentType reservationPaymentType;
+    private ReservationPaymentType reservationPaymentType;//TODO: remove
 
     private BigDecimal reservationPaymentAmount;
 

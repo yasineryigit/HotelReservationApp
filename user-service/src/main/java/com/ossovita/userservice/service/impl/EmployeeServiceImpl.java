@@ -76,7 +76,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee savedEmployee = employeeRepository.save(employee);
 
-        //TODO throw an event | name:createEmployee payload:employeeSaveFormDto | Imlement Message Broker
+        //TODO throw an event | name:createEmployee payload:employeeSaveFormDto | Implement Message Broker
 
         createHotelEmployeeInHotelService(employeeSaveFormDto.getHotelFk(), savedEmployee.getEmployeePk());
 
