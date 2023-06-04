@@ -1,4 +1,0 @@
-stripe:
-  webhook:
-    secret:
-      key: xxx
