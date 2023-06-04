@@ -16,7 +16,7 @@ public interface HotelClient {
     @GetMapping("/rooms/get-room-dto-by-room-fk")
     RoomDto getRoomDtoWithRoomFk(@RequestParam long roomFk);
 
-    @GetMapping("/rooms/fetch-room-dto-if-room-available")
+    @PostMapping("/rooms/fetch-room-dto-if-room-available")
     RoomDto fetchRoomDtoIfRoomAvailable(@RequestBody CheckRoomAvailabilityRequest checkRoomAvailabilityRequest);
 
     @GetMapping("/is-hotel-available")

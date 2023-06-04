@@ -36,6 +36,7 @@
         <module>infrastructure/kafka</module>
         <module>infrastructure</module>
         <module>clients</module>
+        <module>stripe-service</module>
     </modules>
 
 

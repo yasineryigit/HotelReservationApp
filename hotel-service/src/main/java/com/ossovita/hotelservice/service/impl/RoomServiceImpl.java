@@ -90,6 +90,7 @@ public class RoomServiceImpl implements RoomService {
 
     public List<Room> getAvailableRoomsByGivenRoomListAndDateRange(List<Room> roomList, LocalDateTime requestStart, LocalDateTime requestEnd) {        //getAllReservationsByRoomFks
         List<Long> roomPkList = roomList.stream().map(Room::getRoomPk).toList();
+        log.info("roomPkList: " + roomList.size());
         List<ReservationDto> reservationDtoList = reservationClient.getAllReservationsByRoomFkList(roomPkList);
         log.info("reservationDtoList: " + reservationDtoList.size());
 

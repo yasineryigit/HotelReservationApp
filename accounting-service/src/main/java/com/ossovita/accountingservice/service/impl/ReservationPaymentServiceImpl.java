@@ -16,13 +16,15 @@ import com.ossovita.commonservice.enums.ReservationPaymentType;
 import com.ossovita.commonservice.enums.RoomStatus;
 import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.commonservice.exception.RoomNotAvailableException;
-import com.stripe.Stripe;
+import com.ossovita.kafka.model.ReservationPaymentRefundRequest;
+import com.ossovita.kafka.model.ReservationPaymentResponse;
+import com.ossovita.stripe.service.StripePaymentService;
 import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -35,16 +37,17 @@ import java.util.Map;
 @Slf4j
 public class ReservationPaymentServiceImpl implements ReservationPaymentService {
 
+    StripePaymentService stripePaymentService;
     ReservationClient reservationClient;
     HotelClient hotelClient;
     UserClient userClient;
     ReservationPaymentRepository reservationPaymentRepository;
     ModelMapper modelMapper;
     KafkaTemplate<String, Object> kafkaTemplate;
-    @Value("${stripe.api.key}")
-    private String stripeApiKey;
 
-    public ReservationPaymentServiceImpl(ReservationClient reservationClient, HotelClient hotelClient, UserClient userClient, ReservationPaymentRepository reservationPaymentRepository, ModelMapper modelMapper, KafkaTemplate<String, Object> kafkaTemplate) {
+
+    public ReservationPaymentServiceImpl(StripePaymentService stripePaymentService, ReservationClient reservationClient, HotelClient hotelClient, UserClient userClient, ReservationPaymentRepository reservationPaymentRepository, ModelMapper modelMapper, KafkaTemplate<String, Object> kafkaTemplate) {
+        this.stripePaymentService = stripePaymentService;
         this.reservationClient = reservationClient;
         this.hotelClient = hotelClient;
         this.userClient = userClient;
@@ -71,8 +74,6 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
         }
 
 
-        //process payment
-        Stripe.apiKey = stripeApiKey;
         //fetch stripeCustomerId from user client & use it
         CustomerDto customerDto = userClient.getCustomerDtoByCustomerPk(reservationPaymentRequest.getCustomerFk());
 
@@ -82,10 +83,15 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
                 .reservationPaymentAmount(reservationDto.getReservationPrice())
                 .reservationPaymentType(ReservationPaymentType.CREDIT_CARD)
                 .build();
+        ReservationPayment savedReservationPayment = reservationPaymentRepository.save(reservationPayment);
 
         //put customer email as metadata
         Map<String, String> metadata = new HashMap<>();
         metadata.put("customer_email", customerDto.getCustomerEmail());
+        metadata.put("reservation_fk", String.valueOf(reservationDto.getReservationPk()));//reservationFk
+        metadata.put("customer_fk", String.valueOf(customerDto.getCustomerPk()));//customerFk
+        metadata.put("reservation_payment_fk", String.valueOf(savedReservationPayment.getReservationPaymentPk()));//reservationPaymentFk
+
 
         PaymentIntentCreateParams createParams = new PaymentIntentCreateParams.Builder()
                 .setCustomer(customerDto.getCustomerStripeId())
@@ -94,44 +100,84 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
                 .putAllMetadata(metadata)
                 .build();
 
-        //Create a PaymentIntent with the order amount and currency
-        PaymentIntent intent = null;
+
+        //Create a PaymentIntent with params
+        PaymentIntent intent;
         try {
-            intent = PaymentIntent.create(createParams);
-            ReservationPayment savedReservationPayment = reservationPaymentRepository.save(reservationPayment);
+            intent = stripePaymentService.createPaymentIntent(createParams);
             return new CreatePaymentResponse(intent.getClientSecret());
-        } catch (StripeException e) {
+        } catch (StripeException e) {//if fails, reflect to the database
+            ReservationPayment reservationPaymentInDB = getReservationPayment(savedReservationPayment.getReservationPaymentPk());
+            reservationPaymentInDB.setPaymentStatus(PaymentStatus.FAILED);
+            reservationPaymentRepository.save(reservationPaymentInDB);
             throw new RuntimeException(e);
         }
 
-        /*
-        //TODO: implement result listener for the payment
-        //TODO: update reservation object in the database
-
-        ReservationPaymentResponse reservationPaymentResponse = ReservationPaymentResponse.builder()
-                .reservationPaymentPk(savedReservationPayment.getReservationPaymentPk())
-                .reservationFk(savedReservationPayment.getReservationFk())
-                .reservationPaymentAmount(savedReservationPayment.getReservationPaymentAmount())
-                .reservationPaymentType(ReservationPaymentType.CREDIT_CARD)
-                .paymentStatus(savedReservationPayment.getPaymentStatus())
-                .build();
-
-        //TODO: send kafka message to the reservation-service to update its reservationStatus & reservationIsApproved fields
-        kafkaTemplate.send("reservation-payment-response-topic", reservationPaymentResponse);
-        log.info("Payment Update Response sent | ReservationPaymentResponse: " + reservationPaymentResponse.toString());
-
-        return savedReservationPayment.getPaymentStatus().toString();*/
-
     }
-
 
     @KafkaListener(
             topics = "reservation-payment-refund-request-topic",
             groupId = "foo",
             containerFactory = "reservationPaymentRefundRequestKafkaListenerContainerFactory"//we need to assign containerFactory
     )
-    public void consumeReservationPaymentRefundRequest() {
-        //TODO | refund balance
+    public void consumeReservationPaymentRefundRequest(ReservationPaymentRefundRequest reservationPaymentRefundRequest) {
+        //retrieve reservationPayment object from the database
+        ReservationPayment reservationPaymentInDB = getReservationPayment(reservationPaymentRefundRequest.getReservationPaymentPk());
+        //prepare metadata
+        Map<String, Object> metadata = new HashMap<>();
+        metadata.put("reservation_payment_pk", reservationPaymentRefundRequest.getReservationPaymentPk());
+        metadata.put("message", reservationPaymentRefundRequest.getMessage());
+        //prepare params
+        Map<String, Object> params = new HashMap<>();
+        params.put("charge", reservationPaymentInDB.getReservationPaymentStripeChargeId());
+        params.put("metadata", metadata);
+        params.put("reason", reservationPaymentRefundRequest.getReservationPaymentRefundReason());
+
+        try {
+            //refund balance
+            stripePaymentService.createPaymentRefund(reservationPaymentInDB.getReservationPaymentStripeChargeId(), params);
+        } catch (StripeException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+    @Override
+    public void processReservationPaymentCharge(Charge charge) {
+        Map<String, String> chargeMetadata = charge.getMetadata();
+        long customerFk = Long.parseLong(chargeMetadata.get("customer_fk"));
+        long reservationFk = Long.parseLong(chargeMetadata.get("reservation_fk"));
+        long reservationPaymentFk = Long.parseLong(chargeMetadata.get("reservation_payment_fk"));
+
+        log.info("processReservationPaymentCharge" + "customerFk: " + customerFk + " reservationFk: " + reservationFk + " reservationPaymentFk: " + reservationPaymentFk);
+
+        //update reservationPaymentStripeChargeId in the database
+        ReservationPayment reservationPaymentInDB = getReservationPayment(reservationPaymentFk);
+        reservationPaymentInDB.setReservationPaymentStripeChargeId(charge.getId());
+        reservationPaymentRepository.save(reservationPaymentInDB);
+
+        //update reservation object in the reservation-service with an event
+        ReservationPaymentResponse reservationPaymentResponse = ReservationPaymentResponse.builder()
+                .reservationPaymentPk(reservationPaymentInDB.getReservationPaymentPk())
+                .reservationFk(reservationPaymentInDB.getReservationFk())
+                .reservationPaymentAmount(reservationPaymentInDB.getReservationPaymentAmount())
+                .reservationPaymentType(ReservationPaymentType.CREDIT_CARD)
+                .paymentStatus(PaymentStatus.PAID)
+                .build();
+
+        //send kafka message to the reservation-service to update its reservationStatus & reservationIsApproved fields
+        kafkaTemplate.send("reservation-payment-response-topic", reservationPaymentResponse);
+        log.info("Payment Update Response sent | ReservationPaymentResponse: " + reservationPaymentResponse.toString());
+
+
+    }
+
+
+    public ReservationPayment getReservationPayment(long reservationPaymentPk) {
+        return reservationPaymentRepository.findById(reservationPaymentPk).orElseThrow(() -> {
+            throw new IdNotFoundException("Reservation not found by given id");
+        });
     }
 
 }

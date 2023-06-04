@@ -11,6 +11,7 @@
         <module name="clients" />
         <module name="accounting-service" />
         <module name="infrastructure" />
+        <module name="stripe-service" />
         <module name="reservation-service" />
         <module name="kafka" />
         <module name="api-gateway" />
@@ -33,6 +34,7 @@
       <module name="infrastructure" options="-parameters" />
       <module name="kafka" options="-parameters" />
       <module name="reservation-service" options="-parameters" />
+      <module name="stripe-service" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>
   </component>

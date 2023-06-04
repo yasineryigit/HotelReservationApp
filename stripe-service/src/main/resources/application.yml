@@ -2,3 +2,5 @@ stripe:
   webhook:
     secret:
       key: xxx
+  api:
+    key: xxx

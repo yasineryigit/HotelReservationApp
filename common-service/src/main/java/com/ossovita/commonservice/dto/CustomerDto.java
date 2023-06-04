@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CustomerDto {
 
+    private long customerPk;
+
     private String customerEmail;
 
     private String customerStripeId;

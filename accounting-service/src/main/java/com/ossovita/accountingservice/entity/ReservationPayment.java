@@ -1,7 +1,7 @@
 package com.ossovita.accountingservice.entity;
 
-import com.ossovita.commonservice.enums.ReservationPaymentType;
 import com.ossovita.commonservice.enums.PaymentStatus;
+import com.ossovita.commonservice.enums.ReservationPaymentType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,6 +38,10 @@ public class ReservationPayment {
 
     @Column(name = "reservation_fk")
     private long reservationFk;
+
+    @Column(name = "reservation_payment_stripe_charge_id")
+    private String reservationPaymentStripeChargeId;
+
 
 
 }

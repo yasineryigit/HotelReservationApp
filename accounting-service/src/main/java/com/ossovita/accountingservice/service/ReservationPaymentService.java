@@ -2,9 +2,11 @@ package com.ossovita.accountingservice.service;
 
 import com.ossovita.accountingservice.dto.CreatePaymentResponse;
 import com.ossovita.accountingservice.payload.request.ReservationPaymentRequest;
-import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
 
 public interface ReservationPaymentService {
 
     CreatePaymentResponse createReservationPaymentIntent(ReservationPaymentRequest reservationPaymentRequest);
+
+    void processReservationPaymentCharge(Charge charge);
 }
