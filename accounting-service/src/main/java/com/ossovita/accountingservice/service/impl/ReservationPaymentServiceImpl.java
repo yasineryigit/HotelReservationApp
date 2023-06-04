@@ -155,6 +155,7 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
         //update reservationPaymentStripeChargeId in the database
         ReservationPayment reservationPaymentInDB = getReservationPayment(reservationPaymentFk);
         reservationPaymentInDB.setReservationPaymentStripeChargeId(charge.getId());
+        reservationPaymentInDB.setPaymentStatus(PaymentStatus.PAID);
         reservationPaymentRepository.save(reservationPaymentInDB);
 
         //update reservation object in the reservation-service with an event
