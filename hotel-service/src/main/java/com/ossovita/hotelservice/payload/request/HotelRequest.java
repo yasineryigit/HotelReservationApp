@@ -1,4 +1,4 @@
-package com.ossovita.commonservice.payload.request;
+package com.ossovita.hotelservice.payload.request;
 
 import javax.validation.constraints.*;
 import lombok.Data;

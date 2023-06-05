@@ -4,5 +4,5 @@ public enum ReservationStatus {
     CREATED,
     BOOKED,
     EXPIRED,
-    CANCELED//if payment fails
+    CANCELED
 }

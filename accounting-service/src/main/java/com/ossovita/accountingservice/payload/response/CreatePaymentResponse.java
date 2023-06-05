@@ -1,4 +1,4 @@
-package com.ossovita.commonservice.payload.response;
+package com.ossovita.accountingservice.payload.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

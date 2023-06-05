@@ -4,7 +4,7 @@ import com.ossovita.clients.user.UserClient;
 import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.commonservice.exception.UserNotFoundException;
 import com.ossovita.commonservice.payload.request.HotelEmployeeRequest;
-import com.ossovita.commonservice.payload.request.HotelRequest;
+import com.ossovita.hotelservice.payload.request.HotelRequest;
 import com.ossovita.hotelservice.entity.*;
 import com.ossovita.hotelservice.payload.request.HotelWithImagesRequest;
 import com.ossovita.hotelservice.payload.response.HotelEmployeeResponse;

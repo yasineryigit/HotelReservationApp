@@ -11,7 +11,7 @@ import com.ossovita.commonservice.dto.SubscriptionDto;
 import com.ossovita.commonservice.enums.PaymentStatus;
 import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.commonservice.exception.UnexpectedRequestException;
-import com.ossovita.commonservice.payload.response.CreatePaymentResponse;
+import com.ossovita.accountingservice.payload.response.CreatePaymentResponse;
 import com.ossovita.kafka.model.SubscriptionPaymentResponse;
 import com.ossovita.stripe.service.StripePaymentService;
 import com.stripe.exception.StripeException;

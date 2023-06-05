@@ -15,7 +15,7 @@ import com.ossovita.commonservice.enums.ReservationPaymentType;
 import com.ossovita.commonservice.enums.RoomStatus;
 import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.commonservice.exception.RoomNotAvailableException;
-import com.ossovita.commonservice.payload.response.CreatePaymentResponse;
+import com.ossovita.accountingservice.payload.response.CreatePaymentResponse;
 import com.ossovita.kafka.model.ReservationPaymentRefundRequest;
 import com.ossovita.kafka.model.ReservationPaymentResponse;
 import com.ossovita.stripe.service.StripePaymentService;

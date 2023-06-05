@@ -2,8 +2,7 @@ package com.ossovita.accountingservice.controller;
 
 import com.ossovita.accountingservice.payload.request.SubscriptionPaymentRequest;
 import com.ossovita.accountingservice.service.SubscriptionPaymentService;
-import com.ossovita.commonservice.payload.response.CreatePaymentResponse;
-import com.ossovita.kafka.model.SubscriptionPaymentResponse;
+import com.ossovita.accountingservice.payload.response.CreatePaymentResponse;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
