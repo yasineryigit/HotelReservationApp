@@ -23,6 +23,11 @@
         <spring-cloud.version>2021.0.3</spring-cloud.version>
         <jwt.version>0.9.1</jwt.version>
         <feign.version>3.0.3</feign.version>
+        <stripe.version>22.21.0</stripe.version>
+        <gson.version>2.10.1</gson.version>
+        <modelmapper.version>3.1.1</modelmapper.version>
+        <javax.xml.bind.version>2.3.0</javax.xml.bind.version>
+
     </properties>
 
     <modules>

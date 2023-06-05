@@ -19,10 +19,6 @@ q
 Aclients/src/main/java/com/ossovita/clients/hotel/HotelClient.java,2\e\2ed8e52256dc6a69f483e0aa05a8cdf84f5f4fd6
 „
 Thotel-service/src/main/java/com/ossovita/hotelservice/controller/RoomController.java,0\6\066ad9d290fd13eb9cf4858503903e3efe7fc3cc
-F
-common-service/pom.xml,1\4\1408429f24ad35bf29ab5e2ead2d77ae001f2da5
-7
-pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 M
 accounting-service/.gitignore,0\7\079a0997e14f5b432ae042ec425377f45a16235d
 –

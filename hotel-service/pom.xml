@@ -16,13 +16,6 @@
     <description>Demo project for Spring Boot</description>
 
 
-    <properties>
-        <java.version>17</java.version>
-        <spring-cloud.version>2021.0.3</spring-cloud.version>
-        <jwt.version>0.9.1</jwt.version>
-    </properties>
-
-
     <dependencies>
 
         <dependency>
@@ -56,7 +49,7 @@
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
-            <version>3.1.1</version>
+            <version>${modelmapper.version}</version>
         </dependency>
 
 
