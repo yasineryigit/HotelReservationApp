@@ -1,5 +1,6 @@
 package com.ossovita.userservice.service.impl;
 
+import com.ossovita.commonservice.dto.BossDto;
 import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.userservice.entity.Boss;
 import com.ossovita.userservice.entity.User;
@@ -55,9 +56,22 @@ public class BossServiceImpl implements BossService {
     }
 
     @Override
+    public BossDto getBossDtoByBossPk(long bossPk) {
+        Boss bossInDB = getBoss(bossPk);
+        return BossDto.builder()
+                .bossPk(bossInDB.getBossPk())
+                .bossEmail(bossInDB.getUser().getUserEmail())
+                .bossStripeId(bossInDB.getBossStripeId())
+                .build();
+    }
+
+    @Override
     public Boss getBoss(long bossPk) {
         return bossRepository.findById(bossPk)
-                .orElseThrow(() -> {throw new IdNotFoundException("Boss not available by given id");});
+                .orElseThrow(() -> {
+                    throw new IdNotFoundException("Boss not available by given id");
+                });
     }
+
 
 }

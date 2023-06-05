@@ -2,16 +2,18 @@ package com.ossovita.accountingservice.payload.request;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class ReservationPaymentRequest {
+public class SubscriptionPaymentRequest {
 
     @NotNull
-    private long reservationFk;
+    private long bossFk;
 
     @NotNull
-    private long customerFk;
+    private long subscriptionFk;
+
 
 
 }

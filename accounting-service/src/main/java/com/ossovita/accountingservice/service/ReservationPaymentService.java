@@ -1,6 +1,6 @@
 package com.ossovita.accountingservice.service;
 
-import com.ossovita.accountingservice.dto.CreatePaymentResponse;
+import com.ossovita.commonservice.payload.response.CreatePaymentResponse;
 import com.ossovita.accountingservice.payload.request.ReservationPaymentRequest;
 import com.stripe.model.Charge;
 

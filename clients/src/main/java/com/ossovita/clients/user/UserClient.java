@@ -1,5 +1,6 @@
 package com.ossovita.clients.user;
 
+import com.ossovita.commonservice.dto.BossDto;
 import com.ossovita.commonservice.dto.CustomerDto;
 import com.ossovita.commonservice.dto.SubscriptionDto;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -21,6 +22,9 @@ public interface UserClient {
 
     @GetMapping("/customers/get-customer-dto-by-customer-pk")
     CustomerDto getCustomerDtoByCustomerPk(@RequestParam long customerPk);
+
+    @GetMapping("/boss/get-boss-dto-by-boss-pk")
+    BossDto getBossDtoByBossPk(@RequestParam long bossPk);
 
     @GetMapping("/subscriptions/get-subscription-dto-by-subscription-fk")
     SubscriptionDto getSubscriptionDtoBySubscriptionFk(@RequestParam long subscriptionFk);

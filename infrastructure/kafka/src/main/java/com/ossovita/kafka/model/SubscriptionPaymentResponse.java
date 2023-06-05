@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SubscriptionPaymentResponse {
+public class SubscriptionPaymentResponse {//TODO: delete this class
 
 
     private long subscriptionPaymentPk;

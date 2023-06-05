@@ -1,6 +1,6 @@
 package com.ossovita.accountingservice.controller;
 
-import com.ossovita.accountingservice.dto.CreatePaymentResponse;
+import com.ossovita.commonservice.payload.response.CreatePaymentResponse;
 import com.ossovita.accountingservice.service.ReservationPaymentService;
 import com.ossovita.accountingservice.payload.request.ReservationPaymentRequest;
 import org.springframework.web.bind.annotation.*;

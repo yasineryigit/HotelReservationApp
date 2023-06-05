@@ -1,13 +1,18 @@
 package com.ossovita.accountingservice.controller;
 
 import com.google.gson.JsonSyntaxException;
+import com.ossovita.accountingservice.enums.PaymentType;
 import com.ossovita.accountingservice.service.ReservationPaymentService;
+import com.ossovita.accountingservice.service.SubscriptionPaymentService;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.model.*;
 import com.stripe.net.Webhook;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/1.0/accounting")
@@ -24,9 +29,11 @@ public class StripeWebhookController {
     String endpointSecret;
 
     ReservationPaymentService reservationPaymentService;
+    SubscriptionPaymentService subscriptionPaymentService;
 
-    public StripeWebhookController(ReservationPaymentService reservationPaymentService) {
+    public StripeWebhookController(ReservationPaymentService reservationPaymentService, SubscriptionPaymentService subscriptionPaymentService) {
         this.reservationPaymentService = reservationPaymentService;
+        this.subscriptionPaymentService = subscriptionPaymentService;
     }
 
     @PostMapping("/stripe/events")
@@ -77,10 +84,20 @@ public class StripeWebhookController {
                 break;
             }
             case "charge.succeeded": {
-                //TODO: seperate reservation-payment & subscription-payment depends on the metadata
-                Charge charge = (Charge) stripeObject;
                 //charge succeeded
-                reservationPaymentService.processReservationPaymentCharge(charge);
+                Charge charge = (Charge) stripeObject;
+                Map<String, String> metadata = Objects.requireNonNull(charge).getMetadata();
+                log.info("Charge Succeeded {} " + charge.getId());
+                if (metadata.get("payment_type").equals(String.valueOf(PaymentType.RESERVATION_PAYMENT))) {
+                    log.info("Charge Succeeded | Payment Type: RESERVATION_PAYMENT {} " + charge.getId());
+                    reservationPaymentService.processReservationPaymentCharge(charge);
+                } else if (metadata.get("payment_type").equals(String.valueOf(PaymentType.SUBSCRIPTION_PAYMENT))) {
+                    log.info("Charge Succeeded | Payment Type: SUBSCRIPTION_PAYMENT {} " + charge.getId());
+                    subscriptionPaymentService.processSubscriptionPaymentCharge(charge);
+                } else {
+                    log.warn("Unknown payment type received: " + metadata.get("payment_type"));
+                }
+
             }
             // ... handle other event types
             default:

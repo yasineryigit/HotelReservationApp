@@ -43,4 +43,6 @@ public class Boss {
     @JsonIgnore
     private List<Subscription> subscriptionList;
 
+    @Column(name = "boss_stripe_id")
+    private String bossStripeId;
 }

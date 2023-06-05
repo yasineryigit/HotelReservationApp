@@ -36,5 +36,8 @@ public class SubscriptionPayment {
     @Column(name = "subscription_payment_amount")
     private BigDecimal subscriptionPaymentAmount;
 
+    @Column(name = "subscription_payment_stripe_charge_id")
+    private String subscriptionPaymentStripeChargeId;
+
 
 }

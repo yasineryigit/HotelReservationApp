@@ -1,7 +1,7 @@
 package com.ossovita.accountingservice.service.impl;
 
-import com.ossovita.accountingservice.dto.CreatePaymentResponse;
 import com.ossovita.accountingservice.entity.ReservationPayment;
+import com.ossovita.accountingservice.enums.PaymentType;
 import com.ossovita.accountingservice.payload.request.ReservationPaymentRequest;
 import com.ossovita.accountingservice.repository.ReservationPaymentRepository;
 import com.ossovita.accountingservice.service.ReservationPaymentService;
@@ -16,6 +16,7 @@ import com.ossovita.commonservice.enums.ReservationPaymentType;
 import com.ossovita.commonservice.enums.RoomStatus;
 import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.commonservice.exception.RoomNotAvailableException;
+import com.ossovita.commonservice.payload.response.CreatePaymentResponse;
 import com.ossovita.kafka.model.ReservationPaymentRefundRequest;
 import com.ossovita.kafka.model.ReservationPaymentResponse;
 import com.ossovita.stripe.service.StripePaymentService;
@@ -85,8 +86,9 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
                 .build();
         ReservationPayment savedReservationPayment = reservationPaymentRepository.save(reservationPayment);
 
-        //put customer email as metadata
+        //put extra information to the metadata
         Map<String, String> metadata = new HashMap<>();
+        metadata.put("payment_type", String.valueOf(PaymentType.RESERVATION_PAYMENT));
         metadata.put("customer_email", customerDto.getCustomerEmail());
         metadata.put("reservation_fk", String.valueOf(reservationDto.getReservationPk()));//reservationFk
         metadata.put("customer_fk", String.valueOf(customerDto.getCustomerPk()));//customerFk
@@ -107,7 +109,7 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
             intent = stripePaymentService.createPaymentIntent(createParams);
             return new CreatePaymentResponse(intent.getClientSecret());
         } catch (StripeException e) {//if fails, reflect to the database
-            ReservationPayment reservationPaymentInDB = getReservationPayment(savedReservationPayment.getReservationPaymentPk());
+            ReservationPayment reservationPaymentInDB = getReservationPayment(savedReservationPayment.getReservationPaymentPk());//TODO: optimize
             reservationPaymentInDB.setPaymentStatus(PaymentStatus.FAILED);
             reservationPaymentRepository.save(reservationPaymentInDB);
             throw new RuntimeException(e);

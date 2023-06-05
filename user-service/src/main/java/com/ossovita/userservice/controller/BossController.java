@@ -1,5 +1,6 @@
 package com.ossovita.userservice.controller;
 
+import com.ossovita.commonservice.dto.BossDto;
 import com.ossovita.userservice.service.BossService;
 import com.ossovita.userservice.payload.BossSaveFormDto;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,11 @@ public class BossController {
     @PostMapping("/create-boss")
     public BossSaveFormDto createBoss(@Valid @RequestBody BossSaveFormDto bossSaveFormDto) {
         return bossService.createBoss(bossSaveFormDto);
+    }
+
+    @GetMapping("/boss/get-boss-dto-by-boss-pk")
+    public BossDto getBossDtoByBossPk(@RequestParam long bossPk){
+        return bossService.getBossDtoByBossPk(bossPk);
     }
 
     @GetMapping("/is-boss-available")
