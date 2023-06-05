@@ -51,7 +51,6 @@ public class Subscription {
     @Column(name = "is_active")
     private boolean isActive;
 
-
     @ManyToOne
     @JoinColumn(name = "subscription_plan_fk", insertable = false, updatable = false)
     private SubscriptionPlan subscriptionPlan;

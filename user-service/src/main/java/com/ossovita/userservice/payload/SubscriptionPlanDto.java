@@ -10,12 +10,12 @@ import java.math.BigDecimal;
 public class SubscriptionPlanDto {
 
     @NotNull
-    private int subscriptionDayLength;
+    private int subscriptionPlanDayLength;
 
     @NotNull
-    private BigDecimal subscriptionPrice;
+    private BigDecimal subscriptionPlanPrice;
 
     @NotNull
-    private Currency subscriptionPriceCurrency;
+    private Currency subscriptionPlanPriceCurrency;
 
 }

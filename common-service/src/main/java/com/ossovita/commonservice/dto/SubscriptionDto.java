@@ -1,5 +1,6 @@
 package com.ossovita.commonservice.dto;
 
+import com.ossovita.commonservice.enums.Currency;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,4 +13,6 @@ public class SubscriptionDto {
     private long bossFk;
 
     private BigDecimal subscriptionPrice;
+
+    private Currency subscriptionPriceCurrency;
 }

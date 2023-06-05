@@ -25,15 +25,15 @@ public class SubscriptionPlan {
     @Column(name = "subscription_plan_pk")
     private long subscriptionPlanPk;
 
-    @Column(name = "subscription_day_length")
-    private int subscriptionDayLength;
+    @Column(name = "subscription_plan_day_length")
+    private int subscriptionPlanDayLength;
 
-    @Column(name = "subscription_price")
-    private BigDecimal subscriptionPrice;
+    @Column(name = "subscription_plan_price")
+    private BigDecimal subscriptionPlanPrice;
 
-    @Column(name = "subscription_price_currency")
+    @Column(name = "subscription_plan_price_currency")
     @Enumerated(EnumType.STRING)
-    private Currency subscriptionPriceCurrency;
+    private Currency subscriptionPlanPriceCurrency;
 
     @OneToMany(mappedBy = "subscriptionPlan")
     @JsonIgnore

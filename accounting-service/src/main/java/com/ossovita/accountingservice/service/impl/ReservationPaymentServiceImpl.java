@@ -10,7 +10,6 @@ import com.ossovita.clients.reservation.ReservationClient;
 import com.ossovita.clients.user.UserClient;
 import com.ossovita.commonservice.dto.CustomerDto;
 import com.ossovita.commonservice.dto.ReservationDto;
-import com.ossovita.commonservice.enums.Currency;
 import com.ossovita.commonservice.enums.PaymentStatus;
 import com.ossovita.commonservice.enums.ReservationPaymentType;
 import com.ossovita.commonservice.enums.RoomStatus;
@@ -65,7 +64,7 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
         ReservationDto reservationDto = reservationClient.getReservationDtoByReservationFk(reservationPaymentRequest.getReservationFk());
 
         if (reservationDto == null) {
-            throw new IdNotFoundException("Reservation not found by given reservationFk");
+            throw new IdNotFoundException("Reservation not found by given id");
         }
 
         boolean isRoomStatusEqualsAvailable = hotelClient.getRoomDtoWithRoomFk(reservationDto.getRoomFk()).getRoomStatus().equals(RoomStatus.AVAILABLE);//checking for avoid to create duplicate reservation payment
@@ -97,7 +96,7 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
 
         PaymentIntentCreateParams createParams = new PaymentIntentCreateParams.Builder()
                 .setCustomer(customerDto.getCustomerStripeId())
-                .setCurrency(Currency.USD.toString().toLowerCase(Locale.ENGLISH))
+                .setCurrency(reservationDto.getReservationPriceCurrency().toString().toLowerCase(Locale.ENGLISH))
                 .setAmount(reservationDto.getReservationPrice().longValue() * 100L)//product cost
                 .putAllMetadata(metadata)
                 .build();

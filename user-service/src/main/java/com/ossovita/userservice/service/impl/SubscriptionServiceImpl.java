@@ -45,7 +45,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             Subscription subscription = Subscription.builder()
                     .bossFk(subscriptionRequest.getBossFk())
                     .subscriptionPlanFk(subscriptionPlan.getSubscriptionPlanPk())
-                    .subscriptionPrice(subscriptionPlan.getSubscriptionPrice())
+                    .subscriptionPrice(subscriptionPlan.getSubscriptionPlanPrice())
                     .isApproved(false)
                     .isPaid(false)
                     .isActive(false)
@@ -71,7 +71,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscription.setApproved(true);
         subscription.setActive(true);
         subscription.setSubscriptionStartTime(LocalDateTime.now());
-        subscription.setSubscriptionEndTime(LocalDateTime.now().plusDays(subscription.getSubscriptionPlan().getSubscriptionDayLength()));
+        subscription.setSubscriptionEndTime(LocalDateTime.now().plusDays(subscription.getSubscriptionPlan().getSubscriptionPlanDayLength()));
 
         return modelMapper.map(subscriptionRepository.save(subscription), SubscriptionResponse.class);
     }
@@ -79,7 +79,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public SubscriptionDto getSubscriptionDtoBySubscriptionFk(long subscriptionFk) {
         Subscription subscription = getSubscription(subscriptionFk);
-        return modelMapper.map(subscription, SubscriptionDto.class);
+        SubscriptionDto subscriptionDto = modelMapper.map(subscription, SubscriptionDto.class);
+        subscriptionDto.setSubscriptionPriceCurrency(subscription.getSubscriptionPlan().getSubscriptionPlanPriceCurrency());
+        return subscriptionDto;
     }
 
     @KafkaListener(

@@ -58,44 +58,52 @@ public class ReservationServiceImpl implements ReservationService {
                 .reservationEndTime(onlineReservationRequest.getReservationEndTime())
                 .build();
         RoomDto roomDto = hotelClient.fetchRoomDtoIfRoomAvailable(checkRoomAvailabilityRequest);
+
+        if (roomDto == null) {
+            throw new IdNotFoundException("Room not found by given id");
+        }
+
         boolean isCustomerAvailable = userClient.isCustomerAvailable(onlineReservationRequest.getCustomerFk());
 
-        if (isCustomerAvailable) {//if customer available by given ids
-            //assign customerFk, roomFk
-            Reservation reservation = modelMapper.map(onlineReservationRequest, Reservation.class);
-
-            //assign reservationIsApproved
-            reservation.setReservationIsApproved(false);
-
-            //assign reservationTime
-            reservation.setReservationCreateTime(LocalDateTime.now());
-
-            //assign reservationStartTime
-            reservation.setReservationStartTime(onlineReservationRequest.getReservationStartTime());
-
-            //assign reservationEndTime
-            reservation.setReservationEndTime(onlineReservationRequest.getReservationEndTime());
-
-            reservation.setReservationStatus(ReservationStatus.CREATED);
-
-            //assign reservationPrice
-            reservation.setReservationPrice(roomDto.getRoomPrice().multiply(BigDecimal.valueOf(Duration.between(onlineReservationRequest.getReservationStartTime(), onlineReservationRequest.getReservationEndTime()).toDays())));
-
-            Reservation savedReservation = reservationRepository.save(reservation);
-            //also save OnlineReservation object to the database for completing relationship
-            OnlineReservation onlineReservation = OnlineReservation.builder()
-                    .reservationFk(savedReservation.getReservationPk())
-                    .build();
-            OnlineReservation savedOnlineReservation = onlineReservationRepository.save(onlineReservation);
-
-            OnlineReservationResponse onlineReservationResponse = modelMapper.map(savedReservation, OnlineReservationResponse.class);
-            onlineReservationResponse.setOnlineReservationFk(savedOnlineReservation.getOnlineReservationPk());
-            return onlineReservationResponse;
-
-
-        } else {
-            throw new IdNotFoundException("This request contains invalid id");
+        if (!isCustomerAvailable) {
+            throw new IdNotFoundException("Customer not found by given id");
         }
+
+        //assign customerFk, roomFk
+        Reservation reservation = modelMapper.map(onlineReservationRequest, Reservation.class);
+
+        //assign reservationIsApproved
+        reservation.setReservationIsApproved(false);
+
+        //assign reservationTime
+        reservation.setReservationCreateTime(LocalDateTime.now());
+
+        //assign reservationStartTime
+        reservation.setReservationStartTime(onlineReservationRequest.getReservationStartTime());
+
+        //assign reservationEndTime
+        reservation.setReservationEndTime(onlineReservationRequest.getReservationEndTime());
+
+        reservation.setReservationStatus(ReservationStatus.CREATED);
+
+        //assign reservationPrice
+        reservation.setReservationPrice(roomDto.getRoomPrice().multiply(BigDecimal.valueOf(Duration.between(onlineReservationRequest.getReservationStartTime(), onlineReservationRequest.getReservationEndTime()).toDays())));
+
+        //assign reservationPriceCurrency
+        reservation.setReservationPriceCurrency(roomDto.getRoomPriceCurrency());
+
+        Reservation savedReservation = reservationRepository.save(reservation);
+        //also save OnlineReservation object to the database for completing relationship
+        OnlineReservation onlineReservation = OnlineReservation.builder()
+                .reservationFk(savedReservation.getReservationPk())
+                .build();
+        OnlineReservation savedOnlineReservation = onlineReservationRepository.save(onlineReservation);
+
+        OnlineReservationResponse onlineReservationResponse = modelMapper.map(savedReservation, OnlineReservationResponse.class);
+        onlineReservationResponse.setOnlineReservationFk(savedOnlineReservation.getOnlineReservationPk());
+        return onlineReservationResponse;
+
+
     }
 
     @Override

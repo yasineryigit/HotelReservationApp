@@ -1,5 +1,6 @@
 package com.ossovita.commonservice.dto;
 
+import com.ossovita.commonservice.enums.Currency;
 import com.ossovita.commonservice.enums.ReservationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,8 @@ public class ReservationDto {
     public ReservationStatus reservationStatus;
 
     public BigDecimal reservationPrice;
+
+    public Currency reservationPriceCurrency;
 
     private LocalDateTime reservationStartTime;
 

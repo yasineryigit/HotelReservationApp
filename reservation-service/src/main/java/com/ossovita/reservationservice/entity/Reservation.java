@@ -1,5 +1,6 @@
 package com.ossovita.reservationservice.entity;
 
+import com.ossovita.commonservice.enums.Currency;
 import com.ossovita.commonservice.enums.ReservationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,6 +44,10 @@ public class Reservation {
     @Column(name = "reservation_is_approved")
     private boolean reservationIsApproved;
 
+    @Column(name = "reservation_price_currency")
+    @Enumerated(EnumType.STRING)
+    private Currency reservationPriceCurrency;
+
     @Column(name = "room_fk")
     private long roomFk;
 
@@ -55,9 +60,6 @@ public class Reservation {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "reservation")
     private WalkInReservation walkInReservation;
-
-
-
 
 
 }

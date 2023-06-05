@@ -8,7 +8,6 @@ import com.ossovita.accountingservice.service.SubscriptionPaymentService;
 import com.ossovita.clients.user.UserClient;
 import com.ossovita.commonservice.dto.BossDto;
 import com.ossovita.commonservice.dto.SubscriptionDto;
-import com.ossovita.commonservice.enums.Currency;
 import com.ossovita.commonservice.enums.PaymentStatus;
 import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.commonservice.exception.UnexpectedRequestException;
@@ -81,8 +80,8 @@ public class SubscriptionPaymentServiceImpl implements SubscriptionPaymentServic
 
         PaymentIntentCreateParams createParams = new PaymentIntentCreateParams.Builder()
                 .setCustomer(bossDto.getBossStripeId())
-                .setCurrency(Currency.USD.toString().toLowerCase(Locale.ENGLISH))//TODO: fetch currency type
-                .setAmount(savedSubscriptionPayment.getSubscriptionPaymentAmount().longValue() * 100L)//product cost
+                .setCurrency(subscriptionDto.getSubscriptionPriceCurrency().toString().toLowerCase(Locale.ENGLISH))
+                .setAmount(savedSubscriptionPayment.getSubscriptionPaymentAmount().longValue() * 100L)
                 .putAllMetadata(metadata)
                 .build();
 

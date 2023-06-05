@@ -150,8 +150,6 @@ public class RoomServiceImpl implements RoomService {
             room.setRoomStatus(roomStatusUpdateRequest.getRoomStatus());
             roomRepository.save(room);
         }
-
-
     }
 
 

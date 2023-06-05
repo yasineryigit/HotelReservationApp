@@ -1,6 +1,7 @@
 package com.ossovita.hotelservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ossovita.commonservice.enums.Currency;
 import com.ossovita.commonservice.enums.RoomStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,6 +38,10 @@ public class Room {
     @Enumerated(EnumType.STRING)
     private RoomStatus roomStatus;
 
+    @Column(name = "room_price_currency")
+    @Enumerated(EnumType.STRING)
+    private Currency roomPriceCurrency;
+
     @ManyToOne
     @JoinColumn(name = "hotel_fk", insertable = false, updatable = false)
     @JsonIgnore
@@ -44,6 +49,8 @@ public class Room {
 
     @Column(name = "hotel_fk")
     private long hotelFk;
+
+
 
 
 }
