@@ -14,11 +14,6 @@
     <name>user-service</name>
     <description>Demo project for Spring Boot</description>
 
-    <properties>
-        <java.version>17</java.version>
-        <spring-cloud.version>2021.0.3</spring-cloud.version>
-        <jwt.version>0.9.1</jwt.version>
-    </properties>
 
 
     <dependencies>
@@ -34,7 +29,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-            <version>3.0.3</version>
+            <version>${feign.version}</version>
         </dependency>
 
         <dependency>
@@ -88,7 +83,7 @@
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
-            <version>3.1.1</version>
+            <version>${modelmapper.version}</version>
         </dependency>
 
 
@@ -108,6 +103,16 @@
             <groupId>com.ossovita</groupId>
             <artifactId>stripe-service</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
         </dependency>
 
         <dependency>

@@ -10,21 +10,33 @@
         <module name="common-service" />
         <module name="clients" />
         <module name="accounting-service" />
-        <module name="infrastructure" />
         <module name="stripe-service" />
-        <module name="reservation-service" />
+        <module name="infrastructure" />
         <module name="kafka" />
+        <module name="reservation-service" />
         <module name="api-gateway" />
         <module name="user-service" />
-        <module name="DiscoveryService" />
         <module name="discovery-service" />
         <module name="hotel-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="accounting-service" target="17" />
+      <module name="api-gateway" target="17" />
+      <module name="clients" target="17" />
+      <module name="common-service" target="17" />
+      <module name="discovery-service" target="17" />
+      <module name="hotel-reservation-app" target="17" />
+      <module name="hotel-service" target="17" />
+      <module name="infrastructure" target="17" />
+      <module name="kafka" target="17" />
+      <module name="reservation-service" target="17" />
+      <module name="stripe-service" target="17" />
+      <module name="user-service" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="DiscoveryService" options="-parameters" />
       <module name="accounting-service" options="-parameters" />
       <module name="api-gateway" options="-parameters" />
       <module name="clients" options="-parameters" />
