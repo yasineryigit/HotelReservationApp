@@ -1,0 +1,11 @@
+
+h
+java:S1192["MDefine a constant instead of duplicating this literal "payment_type" 3 times.(³”×ïÿÿÿÿÿ
+f
+java:S2259S"KA "NullPointerException" could be thrown; "paymentIntent" is nullable here.(ØòŸüùÿÿÿÿ
+a
+java:S2259N"KA "NullPointerException" could be thrown; "paymentIntent" is nullable here.(É¨æ¼
+f
+java:S3655B"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(ÆÉ—±
+a	java:S128V"LEnd this switch case with an unconditional break, return or throw statement.(Œ«­à
+a	java:S128K"LEnd this switch case with an unconditional break, return or throw statement.(è¿Õ

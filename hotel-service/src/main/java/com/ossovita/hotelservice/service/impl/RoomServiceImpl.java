@@ -8,6 +8,7 @@ import com.ossovita.commonservice.enums.ReservationStatus;
 import com.ossovita.commonservice.enums.RoomStatus;
 import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.commonservice.exception.RoomNotAvailableException;
+import com.ossovita.commonservice.exception.UnexpectedRequestException;
 import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
 import com.ossovita.hotelservice.entity.Room;
 import com.ossovita.hotelservice.payload.request.AvailableRoomsByDateRangeAndCityRequest;
@@ -84,7 +85,7 @@ public class RoomServiceImpl implements RoomService {
         if (isRoomAvailable(checkRoomAvailabilityRequest)) {
             return modelMapper.map(getRoom(checkRoomAvailabilityRequest.getRoomFk()), RoomDto.class);
         } else {
-            throw new RoomNotAvailableException("Room is not available by given date range");
+            throw new UnexpectedRequestException("Room is not available by given date range");
         }
     }
 

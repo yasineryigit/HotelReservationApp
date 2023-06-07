@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
 public class UnexpectedRequestException extends RuntimeException {
 
+
     public UnexpectedRequestException() {
         super();
     }
@@ -13,4 +14,6 @@ public class UnexpectedRequestException extends RuntimeException {
     public UnexpectedRequestException(String message) {
         super(message);
     }
+
+
 }
