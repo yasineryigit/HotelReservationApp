@@ -2,7 +2,6 @@ package com.ossovita.clients.error;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ossovita.commonservice.exception.ExceptionMessage;
 import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.commonservice.exception.UnexpectedRequestException;
 import feign.Response;
@@ -39,21 +38,21 @@ public class RetrieveMessageErrorDecoder implements ErrorDecoder {
         } catch (IOException e) {
             return new IOException(e);
         }
-
     }
 
     public ExceptionMessage convertFeignResponseToExceptionMessage(Response response) throws IOException {
 
         try (InputStream body = response.body().asInputStream()) {//this line provides us to close input stream automatically in case of exception
-            return new ExceptionMessage((String) response.headers().get("date").toArray()[0],
-                    response.status(),
-                    HttpStatus.resolve(response.status()).getReasonPhrase(),
+            return new ExceptionMessage(
+                    (String) response.headers().get("date").toArray()[0],//date
+                    response.status(),//status
+                    HttpStatus.resolve(response.status()).getReasonPhrase(),//error name
                     /*
                     * Replaceable with just IOUtils.toString(body, StandardCharsets.UTF_8))
-                    * Because we may want to see multiple exception messages in one body object.
+                    * Because we may want to see multiple exception messages in one message object in the future
                     * */
-                    parseMessageFromJson(IOUtils.toString(body, StandardCharsets.UTF_8)),
-                    response.request().url());
+                    parseMessageFromJson(IOUtils.toString(body, StandardCharsets.UTF_8)),//message
+                    response.request().url());//url
 
         } catch (IOException e) {
             throw new IOException(e.getMessage());

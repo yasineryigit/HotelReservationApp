@@ -7,7 +7,6 @@ import com.ossovita.commonservice.enums.ReservationPaymentRefundReason;
 import com.ossovita.commonservice.enums.ReservationStatus;
 import com.ossovita.commonservice.enums.RoomStatus;
 import com.ossovita.commonservice.exception.IdNotFoundException;
-import com.ossovita.commonservice.exception.RoomNotAvailableException;
 import com.ossovita.commonservice.exception.UnexpectedRequestException;
 import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
 import com.ossovita.hotelservice.entity.Room;
@@ -71,15 +70,6 @@ public class RoomServiceImpl implements RoomService {
         return getAvailableRoomsByGivenRoomListAndDateRange(roomsByCity, availableRoomsByDateRangeAndCityRequest.getReservationStartTime(), availableRoomsByDateRangeAndCityRequest.getReservationEndTime());
     }
 
-    public boolean isRoomAvailable(CheckRoomAvailabilityRequest checkRoomAvailabilityRequest) {
-        List<Room> availableRooms = getAvailableRoomsByGivenRoomListAndDateRange(List.of(getRoom(checkRoomAvailabilityRequest.getRoomFk())),
-                checkRoomAvailabilityRequest.getReservationStartTime(),
-                checkRoomAvailabilityRequest.getReservationEndTime());
-
-        return availableRooms.stream()
-                .anyMatch(room -> room.getRoomPk() == checkRoomAvailabilityRequest.getRoomFk());
-    }
-
     @Override
     public RoomDto fetchRoomDtoIfRoomAvailable(CheckRoomAvailabilityRequest checkRoomAvailabilityRequest) {
         if (isRoomAvailable(checkRoomAvailabilityRequest)) {
@@ -89,16 +79,32 @@ public class RoomServiceImpl implements RoomService {
         }
     }
 
-    public List<Room> getAvailableRoomsByGivenRoomListAndDateRange(List<Room> roomList, LocalDateTime requestStart, LocalDateTime requestEnd) {        //getAllReservationsByRoomFks
+    public boolean isRoomAvailable(CheckRoomAvailabilityRequest checkRoomAvailabilityRequest) {
+        //get available rooms by given room list and date range
+        List<Room> availableRooms = getAvailableRoomsByGivenRoomListAndDateRange(List.of(getRoom(checkRoomAvailabilityRequest.getRoomFk())),
+                checkRoomAvailabilityRequest.getReservationStartTime(),
+                checkRoomAvailabilityRequest.getReservationEndTime());
+
+        //return true if the room is in the available room list
+        return availableRooms.stream()
+                .anyMatch(room -> room.getRoomPk() == checkRoomAvailabilityRequest.getRoomFk());
+    }
+
+
+    public List<Room> getAvailableRoomsByGivenRoomListAndDateRange(List<Room> roomList, LocalDateTime requestStart, LocalDateTime requestEnd) {
+        //assign roomPks into a list
         List<Long> roomPkList = roomList.stream().map(Room::getRoomPk).toList();
         log.info("roomPkList: " + roomList.size());
+        //get all reservations by room fk list
         List<ReservationDto> reservationDtoList = reservationClient.getAllReservationsByRoomFkList(roomPkList);
         log.info("reservationDtoList: " + reservationDtoList.size());
-
+        //fetch booked reservation dto list by given date range
         List<ReservationDto> bookedReservationDtoListByGivenDateRange = fetchBookedReservationDtoListByGivenDateRange(requestStart, requestEnd, reservationDtoList);
         log.info("bookedReservationDtoListByGivenDateRange: " + bookedReservationDtoListByGivenDateRange.size());
+        //assign reserved room fks into a list
         List<Long> reservedRoomFkListByGivenDateRange = bookedReservationDtoListByGivenDateRange.stream().map(ReservationDto::getRoomFk).toList();
 
+        //return only the rooms which is available and not in the reserved room fk list
         return roomList.stream()
                 .filter(room -> !reservedRoomFkListByGivenDateRange.contains(room.getRoomPk())) // reservedRoomFkListByGivenDateRange'te olmayan Room nesnelerini filtrele
                 .filter(room -> room.getRoomStatus().toString().equals(RoomStatus.AVAILABLE.toString()))
@@ -107,21 +113,19 @@ public class RoomServiceImpl implements RoomService {
 
 
     //refactor: filterReservationDtoListByGivenDateRangeAndRoomStatus(List<ReservationDto> reservationDtoList, LocalDateTime requestStart,LocalDateTime requestEnd, RoomStatus roomStatus)
-    @NotNull
     private List<ReservationDto> fetchBookedReservationDtoListByGivenDateRange(LocalDateTime requestStart, LocalDateTime requestEnd, List<ReservationDto> reservationDtoList) {
         return reservationDtoList.stream()
                 .filter(reservationDto -> {
                     LocalDateTime reservationStart = reservationDto.getReservationStartTime();
                     LocalDateTime reservationEnd = reservationDto.getReservationEndTime();
 
-                    // çakışmıyorsa
+                    // is non-overlap
                     boolean isNonOverlap = (reservationStart.isBefore(requestStart) && reservationEnd.isBefore(requestStart)
                             || reservationStart.isAfter(requestEnd) && reservationEnd.isAfter(requestEnd));
 
-                    // çakışan tarihler arasında booked reservation varsa getir
                     return !isNonOverlap && reservationDto.toString().equals(ReservationStatus.BOOKED.toString());
 
-                }).toList();
+                }).toList();// return only overlap and booked reservations
     }
 
     private List<Room> getRoomsByCity(String addressCity) {

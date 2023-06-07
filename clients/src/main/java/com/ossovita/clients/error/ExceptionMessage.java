@@ -1,4 +1,4 @@
-package com.ossovita.commonservice.exception;
+package com.ossovita.clients.error;
 
 public record ExceptionMessage(String timestamp,
                                int status,

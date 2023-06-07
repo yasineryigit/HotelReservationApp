@@ -5,34 +5,63 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c0f9203-f384-468f-9fac-7d168b26c0da" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/b/2bfa2b108f2439e99e004f4085b58c22cf995f73" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/9/b9d1b4e54241890d477d63f2f4f633cf725dfd5e" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/2/d2f5d1978e5f519100a679c4109f89296278badc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/1/e1c31dc5eaadbf42e58abcc645bd1549eafa34d1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/7/e76f61f3e02703424e0e14c1499c330e8276b1a2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/f/ef0589cd6882495cd3162df9ed89eeef1528ff95" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/2/b/2bfa2b108f2439e99e004f4085b58c22cf995f73" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/9/b9d1b4e54241890d477d63f2f4f633cf725dfd5e" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/d/2/d2f5d1978e5f519100a679c4109f89296278badc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/1/e1c31dc5eaadbf42e58abcc645bd1549eafa34d1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/7/e76f61f3e02703424e0e14c1499c330e8276b1a2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/f/ef0589cd6882495cd3162df9ed89eeef1528ff95" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/error/FeignConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/error/RetrieveMessageErrorDecoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common-service/src/main/java/com/ossovita/commonservice/exception/ExceptionMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_12_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_resilience4j_resilience4j_annotations_1_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_resilience4j_resilience4j_circuitbreaker_1_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_resilience4j_resilience4j_circularbuffer_1_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_resilience4j_resilience4j_consumer_1_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_resilience4j_resilience4j_core_1_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_resilience4j_resilience4j_framework_common_1_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_resilience4j_resilience4j_micrometer_1_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_resilience4j_resilience4j_ratelimiter_1_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_resilience4j_resilience4j_retry_1_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_resilience4j_resilience4j_spring_1_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_resilience4j_resilience4j_spring_boot2_1_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_resilience4j_resilience4j_timelimiter_1_7_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_vavr_vavr_0_10_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_vavr_vavr_match_0_10_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_circuitbreaker_resilience4j_2_1_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/c/0c7de8ba15b32c427f28a0b517bb3874f86b821f" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/4/24a9a01bb7db21e04616e8a9f644c390e18341c2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/5/2596633f4c7453cf6066c2d1f1bbcd96bcc8823d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/4/442292b8a7efeabbe4cc176709b833b1792140ec" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/6/463acd558b9ed56590bc2294931c1632234b555d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/e/4ed341012669eda926f6a6c87ec6d9202b123da4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/d/6d853250d0f91cdeb3c7c8e4fa4ff3e9bdc705de" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/9/99028c8e3e86af2fbb16217a13d9d84a01002627" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/8/e897e41994586ab73af075bc072526099d5eec43" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/9/e98c5410346b42c59fe589cd505abbab944726a0" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/e/eed2d470121de718da0ce7f84acb76f55dc02027" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/1/f15dd99eaed05e7ed0325304511ff3a630925c95" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/0/c/0c7de8ba15b32c427f28a0b517bb3874f86b821f" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/2/4/24a9a01bb7db21e04616e8a9f644c390e18341c2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/2/5/2596633f4c7453cf6066c2d1f1bbcd96bcc8823d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/4/4/442292b8a7efeabbe4cc176709b833b1792140ec" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/4/6/463acd558b9ed56590bc2294931c1632234b555d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/4/e/4ed341012669eda926f6a6c87ec6d9202b123da4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/6/d/6d853250d0f91cdeb3c7c8e4fa4ff3e9bdc705de" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/9/9/99028c8e3e86af2fbb16217a13d9d84a01002627" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/8/e897e41994586ab73af075bc072526099d5eec43" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/9/e98c5410346b42c59fe589cd505abbab944726a0" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/e/eed2d470121de718da0ce7f84acb76f55dc02027" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/f/1/f15dd99eaed05e7ed0325304511ff3a630925c95" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/9/b9d1b4e54241890d477d63f2f4f633cf725dfd5e" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/1/e1c31dc5eaadbf42e58abcc645bd1549eafa34d1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/7/e76f61f3e02703424e0e14c1499c330e8276b1a2" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/9/b9d1b4e54241890d477d63f2f4f633cf725dfd5e" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/1/e1c31dc5eaadbf42e58abcc645bd1549eafa34d1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/7/e76f61f3e02703424e0e14c1499c330e8276b1a2" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounting-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/accounting-service/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounting-service/src/main/java/com/ossovita/accountingservice/service/impl/ReservationPaymentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/accounting-service/src/main/java/com/ossovita/accountingservice/service/impl/ReservationPaymentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clients/clients.iml" beforeDir="false" afterPath="$PROJECT_DIR$/clients/clients.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clients/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/clients/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common-service/src/main/java/com/ossovita/commonservice/exception/IdNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/common-service/src/main/java/com/ossovita/commonservice/exception/IdNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common-service/src/main/java/com/ossovita/commonservice/exception/UnexpectedRequestException.java" beforeDir="false" afterPath="$PROJECT_DIR$/common-service/src/main/java/com/ossovita/commonservice/exception/UnexpectedRequestException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/impl/HotelServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/impl/HotelServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/error/FeignConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/config/FeignError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/error/RetrieveMessageErrorDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/config/RetrieveMessageErrorDecoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-service/src/main/java/com/ossovita/commonservice/exception/RoomNotAvailableException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotel-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-service/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/impl/RoomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/impl/RoomServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/kafka/kafka.iml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/kafka/kafka.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reservation-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,32 +104,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "ToolWindowBuild.ShowToolbar": "false",
-    "WebServerToolWindowFactoryState": "false",
-    "jdk.selected.JAVA_MODULE": "17",
-    "last_opened_file_path": "C:/javawork2/HotelReservationApp",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.runner",
-    "spring.configuration.checksum": "9a3022f118a11faca3f5a00e2adc4bd6",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ToolWindowBuild.ShowToolbar&quot;: &quot;false&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/javawork2/HotelReservationApp&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.runner&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;9a3022f118a11faca3f5a00e2adc4bd6&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -290,7 +319,8 @@
       <workItem from="1686076625252" duration="1801000" />
       <workItem from="1686078448498" duration="946000" />
       <workItem from="1686079412517" duration="2349000" />
-      <workItem from="1686082669939" duration="11135000" />
+      <workItem from="1686082669939" duration="13573000" />
+      <workItem from="1686148174509" duration="7524000" />
     </task>
     <servers />
   </component>

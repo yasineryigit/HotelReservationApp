@@ -14,7 +14,6 @@ import com.ossovita.commonservice.enums.PaymentStatus;
 import com.ossovita.commonservice.enums.ReservationPaymentType;
 import com.ossovita.commonservice.enums.RoomStatus;
 import com.ossovita.commonservice.exception.IdNotFoundException;
-import com.ossovita.commonservice.exception.RoomNotAvailableException;
 import com.ossovita.accountingservice.payload.response.CreatePaymentResponse;
 import com.ossovita.commonservice.exception.UnexpectedRequestException;
 import com.ossovita.kafka.model.ReservationPaymentRefundRequest;
@@ -68,6 +67,7 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
             throw new IdNotFoundException("Reservation not found by given id");
         }
 
+        //check is room still available
         boolean isRoomStatusEqualsAvailable = hotelClient.getRoomDtoWithRoomFk(reservationDto.getRoomFk()).getRoomStatus().equals(RoomStatus.AVAILABLE);//checking for avoid to create duplicate reservation payment
 
         if (!isRoomStatusEqualsAvailable) {//if roomStatus is not available

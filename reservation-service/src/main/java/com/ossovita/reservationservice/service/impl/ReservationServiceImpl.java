@@ -51,6 +51,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public OnlineReservationResponse createOnlineReservation(OnlineReservationRequest onlineReservationRequest) {
+
         CheckRoomAvailabilityRequest checkRoomAvailabilityRequest = CheckRoomAvailabilityRequest
                 .builder()
                 .roomFk(onlineReservationRequest.getRoomFk())
@@ -93,6 +94,7 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setReservationPriceCurrency(roomDto.getRoomPriceCurrency());
 
         Reservation savedReservation = reservationRepository.save(reservation);
+
         //also save OnlineReservation object to the database for completing relationship
         OnlineReservation onlineReservation = OnlineReservation.builder()
                 .reservationFk(savedReservation.getReservationPk())
@@ -101,9 +103,8 @@ public class ReservationServiceImpl implements ReservationService {
 
         OnlineReservationResponse onlineReservationResponse = modelMapper.map(savedReservation, OnlineReservationResponse.class);
         onlineReservationResponse.setOnlineReservationFk(savedOnlineReservation.getOnlineReservationPk());
+
         return onlineReservationResponse;
-
-
     }
 
     @Override
