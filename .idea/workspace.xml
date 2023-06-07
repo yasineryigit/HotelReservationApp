@@ -20,13 +20,8 @@
       <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_vavr_vavr_0_10_2.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_vavr_vavr_match_0_10_2.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_circuitbreaker_resilience4j_2_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/c/0c7de8ba15b32c427f28a0b517bb3874f86b821f" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/4/24a9a01bb7db21e04616e8a9f644c390e18341c2" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/5/2596633f4c7453cf6066c2d1f1bbcd96bcc8823d" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/4/442292b8a7efeabbe4cc176709b833b1792140ec" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/6/463acd558b9ed56590bc2294931c1632234b555d" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/e/4ed341012669eda926f6a6c87ec6d9202b123da4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/d/6d853250d0f91cdeb3c7c8e4fa4ff3e9bdc705de" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/9/99028c8e3e86af2fbb16217a13d9d84a01002627" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/8/e897e41994586ab73af075bc072526099d5eec43" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/9/e98c5410346b42c59fe589cd505abbab944726a0" afterDir="false" />
@@ -45,23 +40,25 @@
       <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/e/eed2d470121de718da0ce7f84acb76f55dc02027" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/f/1/f15dd99eaed05e7ed0325304511ff3a630925c95" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/9/b9d1b4e54241890d477d63f2f4f633cf725dfd5e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/1/e1c31dc5eaadbf42e58abcc645bd1549eafa34d1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/9/b9d1b4e54241890d477d63f2f4f633cf725dfd5e" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/c/0c7de8ba15b32c427f28a0b517bb3874f86b821f" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/1/e1c31dc5eaadbf42e58abcc645bd1549eafa34d1" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/4/24a9a01bb7db21e04616e8a9f644c390e18341c2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/7/e76f61f3e02703424e0e14c1499c330e8276b1a2" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/9/b9d1b4e54241890d477d63f2f4f633cf725dfd5e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/1/e1c31dc5eaadbf42e58abcc645bd1549eafa34d1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/7/e76f61f3e02703424e0e14c1499c330e8276b1a2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/9/b9d1b4e54241890d477d63f2f4f633cf725dfd5e" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/4/442292b8a7efeabbe4cc176709b833b1792140ec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/1/e1c31dc5eaadbf42e58abcc645bd1549eafa34d1" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/e/4ed341012669eda926f6a6c87ec6d9202b123da4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/7/e76f61f3e02703424e0e14c1499c330e8276b1a2" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/d/6d853250d0f91cdeb3c7c8e4fa4ff3e9bdc705de" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounting-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/accounting-service/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounting-service/src/main/java/com/ossovita/accountingservice/service/impl/ReservationPaymentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/accounting-service/src/main/java/com/ossovita/accountingservice/service/impl/ReservationPaymentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/error/FeignConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/config/FeignError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/error/RetrieveMessageErrorDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/config/RetrieveMessageErrorDecoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/error/FeignConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/error/FeignError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/error/RetrieveMessageErrorDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/error/RetrieveMessageErrorDecoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-service/src/main/java/com/ossovita/commonservice/exception/ExceptionMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/error/ExceptionMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common-service/src/main/java/com/ossovita/commonservice/exception/RoomNotAvailableException.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/hotel-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-service/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/impl/RoomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/impl/RoomServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reservation-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/service/impl/ReservationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/service/impl/ReservationServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -320,7 +317,7 @@
       <workItem from="1686078448498" duration="946000" />
       <workItem from="1686079412517" duration="2349000" />
       <workItem from="1686082669939" duration="13573000" />
-      <workItem from="1686148174509" duration="7524000" />
+      <workItem from="1686148174509" duration="7905000" />
     </task>
     <servers />
   </component>
