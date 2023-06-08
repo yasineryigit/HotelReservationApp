@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c0f9203-f384-468f-9fac-7d168b26c0da" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/reservation/ReservationClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/clients/src/main/java/com/ossovita/clients/reservation/ReservationClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clients/target/classes/com/ossovita/clients/reservation/ReservationClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/clients/target/classes/com/ossovita/clients/reservation/ReservationClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common-service/src/main/java/com/ossovita/commonservice/enums/RoomStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/common-service/src/main/java/com/ossovita/commonservice/enums/RoomStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/controller/RoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/controller/RoomController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/impl/RoomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/impl/RoomServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/controller/ReservationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/controller/ReservationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/repository/ReservationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/repository/ReservationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/service/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/service/ReservationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/service/impl/ReservationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/service/impl/ReservationServiceImpl.java" afterDir="false" />
-    </list>
+    <list default="true" id="2c0f9203-f384-468f-9fac-7d168b26c0da" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -281,7 +268,7 @@
       <workItem from="1686079412517" duration="2349000" />
       <workItem from="1686082669939" duration="13573000" />
       <workItem from="1686148174509" duration="7905000" />
-      <workItem from="1686236580475" duration="17188000" />
+      <workItem from="1686236580475" duration="18167000" />
     </task>
     <servers />
   </component>
