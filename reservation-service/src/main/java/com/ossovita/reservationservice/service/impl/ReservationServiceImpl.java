@@ -135,6 +135,13 @@ public class ReservationServiceImpl implements ReservationService {
                 checkRoomAvailabilityRequest.getReservationEndTime());
     }
 
+    @Override
+    public List<Long> getReservedRoomFkListByGivenDateRange(List<Long> roomFkList, LocalDateTime requestStart, LocalDateTime requestEnd) {
+        //get reserved reservations by given date range
+        return reservationRepository.getReservedRoomFkListByGivenDateRange(roomFkList, requestStart, requestEnd);
+
+    }
+
     @KafkaListener(
             topics = "reservation-payment-response-topic",
             groupId = "foo",

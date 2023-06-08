@@ -18,8 +18,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("SELECT CASE WHEN COUNT(r) > 0 THEN false ELSE true END " +
             "FROM Reservation r " +
             "WHERE r.roomFk = :roomFk " +
-            "AND r.reservationStatus = com.ossovita.commonservice.enums.ReservationStatus.BOOKED " +
-            "AND NOT (" +
+            "AND r.reservationStatus = com.ossovita.commonservice.enums.ReservationStatus.BOOKED " +//if booked
+            "AND NOT (" +//if dates are overlapping
             "   (r.reservationStartTime < :requestStart AND r.reservationEndTime < :requestStart) " +
             "   OR (r.reservationStartTime > :requestEnd AND r.reservationEndTime > :requestEnd)" +
             ")")
@@ -29,9 +29,17 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             @Param("requestEnd") LocalDateTime requestEnd);
 
 
-
-
-
-
+    @Query("SELECT r.roomFk " +
+            "FROM Reservation r " +
+            "WHERE r.roomFk IN :roomFkList " +
+            "AND r.reservationStatus = com.ossovita.commonservice.enums.ReservationStatus.BOOKED " +//if booked
+            "AND NOT (" +//if dates are overlapping
+            "   (r.reservationStartTime < :requestStart AND r.reservationEndTime < :requestStart) " +
+            "   OR (r.reservationStartTime > :requestEnd AND r.reservationEndTime > :requestEnd)" +
+            ")")
+    List<Long> getReservedRoomFkListByGivenDateRange(
+            @Param("roomFkList") List<Long> roomFkList,
+            @Param("requestStart") LocalDateTime requestStart,
+            @Param("requestEnd") LocalDateTime requestEnd);
 
 }

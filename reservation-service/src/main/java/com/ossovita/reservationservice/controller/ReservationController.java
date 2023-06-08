@@ -8,6 +8,7 @@ import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -43,6 +44,11 @@ public class ReservationController {
     @GetMapping("/get-reservation-dto-list-by-room-fk-list")
     public List<ReservationDto> getReservationDtoListByRoomFkList(@RequestParam List<Long> roomFkList){
         return reservationService.getReservationDtoListByRoomFkList(roomFkList);
+    }
+
+    @GetMapping("/get-reserved-room-fk-list-by-given-date-range")
+    List<Long> getReservedRoomFkListByGivenDateRange(@RequestParam List<Long> roomFkList, @RequestParam LocalDateTime requestStart, @RequestParam LocalDateTime requestEnd){
+        return reservationService.getReservedRoomFkListByGivenDateRange(roomFkList, requestStart, requestEnd);
     }
 
 

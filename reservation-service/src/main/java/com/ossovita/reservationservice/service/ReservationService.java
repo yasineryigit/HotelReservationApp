@@ -5,6 +5,7 @@ import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
 import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
 import com.ossovita.reservationservice.payload.response.OnlineReservationResponse;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ReservationService {
@@ -18,4 +19,6 @@ public interface ReservationService {
     List<ReservationDto> getReservationDtoListByRoomFkList(List<Long> roomFks);
 
     boolean isRoomAvailableByGivenDateRange(CheckRoomAvailabilityRequest checkRoomAvailabilityRequest);
+
+    List<Long> getReservedRoomFkListByGivenDateRange(List<Long> roomFkList, LocalDateTime requestStart, LocalDateTime requestEnd);
 }

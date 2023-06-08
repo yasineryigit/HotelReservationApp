@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @FeignClient(value = "reservation-service", url = "http://localhost:8888/api/1.0/reservation")
@@ -20,4 +21,6 @@ public interface ReservationClient {
     List<ReservationDto> getAllReservationsByRoomFkList(@RequestParam List<Long> roomFkList);
 
 
+    @GetMapping("/get-reserved-room-fk-list-by-given-date-range")
+    List<Long> getReservedRoomFkListByGivenDateRange(@RequestParam List<Long> roomFkList, @RequestParam LocalDateTime requestStart, @RequestParam LocalDateTime requestEnd);
 }

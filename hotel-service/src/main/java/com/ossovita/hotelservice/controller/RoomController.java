@@ -5,6 +5,7 @@ import com.ossovita.hotelservice.entity.Room;
 import com.ossovita.hotelservice.payload.request.AvailableRoomsByDateRangeAndCityRequest;
 import com.ossovita.hotelservice.payload.request.RoomRequest;
 import com.ossovita.hotelservice.service.RoomService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/1.0/hotel/rooms")
+@Valid
 public class RoomController {
 
     RoomService roomService;
@@ -21,7 +23,7 @@ public class RoomController {
     }
 
     @PostMapping("/create-room")
-    public Room createRoom(@Valid @RequestBody RoomRequest roomRequest) {
+    public Room createRoom(@RequestBody RoomRequest roomRequest) {
         return roomService.createRoom(roomRequest);
     }
 
@@ -35,7 +37,7 @@ public class RoomController {
         return roomService.getAvailableRoomsByHotelFk(hotelFk);
     }
 
-    @GetMapping("/get-available-rooms-by-date-range-and-city")
+    @PostMapping("/get-available-rooms-by-date-range-and-city")
     public List<Room> getAvailableRoomsByDateRangeAndCity(@RequestBody AvailableRoomsByDateRangeAndCityRequest availableRoomsByDateRangeAndCityRequest) {
         return roomService.getAvailableRoomsByDateRangeAndCity(availableRoomsByDateRangeAndCityRequest);
     }

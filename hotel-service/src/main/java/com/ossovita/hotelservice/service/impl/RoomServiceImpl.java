@@ -4,11 +4,8 @@ import com.ossovita.clients.reservation.ReservationClient;
 import com.ossovita.commonservice.dto.ReservationDto;
 import com.ossovita.commonservice.dto.RoomDto;
 import com.ossovita.commonservice.enums.ReservationPaymentRefundReason;
-import com.ossovita.commonservice.enums.ReservationStatus;
 import com.ossovita.commonservice.enums.RoomStatus;
 import com.ossovita.commonservice.exception.IdNotFoundException;
-import com.ossovita.commonservice.exception.UnexpectedRequestException;
-import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
 import com.ossovita.hotelservice.entity.Room;
 import com.ossovita.hotelservice.payload.request.AvailableRoomsByDateRangeAndCityRequest;
 import com.ossovita.hotelservice.payload.request.RoomRequest;
@@ -75,40 +72,22 @@ public class RoomServiceImpl implements RoomService {
         List<Long> roomPkList = roomList.stream().map(Room::getRoomPk).toList();
         log.info("roomPkList: " + roomList.size());
 
-        //get all reservations by room fk list
-        List<ReservationDto> reservationDtoList = reservationClient.getAllReservationsByRoomFkList(roomPkList);
-        log.info("reservationDtoList: " + reservationDtoList.size());
 
-        //fetch booked reservation dto list by given date range
-        //TODO: refactor | replace with: getBookedRoomFkList(List<Long> roomFkList, start, end)
-        List<ReservationDto> bookedReservationDtoListByGivenDateRange = fetchBookedReservationDtoListByGivenDateRange(requestStart, requestEnd, reservationDtoList);
-        log.info("bookedReservationDtoListByGivenDateRange: " + bookedReservationDtoListByGivenDateRange.size());
+        //fetch reserved room fk list
+        List<Long> reservedRoomFkListByGivenDateRange = getReservedRoomFkListByGivenDateRange(roomPkList, requestStart, requestEnd);
+        log.info("reservedRoomFkListByGivenDateRange: " + reservedRoomFkListByGivenDateRange.size());
 
-        //assign reserved room fks into a list
-        List<Long> reservedRoomFkListByGivenDateRange = bookedReservationDtoListByGivenDateRange.stream().map(ReservationDto::getRoomFk).toList();
 
         //return only the rooms which is available and not in the reserved room fk list
         return roomList.stream()
-                .filter(room -> !reservedRoomFkListByGivenDateRange.contains(room.getRoomPk())) // reservedRoomFkListByGivenDateRange'te olmayan Room nesnelerini filtrele
+                .filter(room -> !reservedRoomFkListByGivenDateRange.contains(room.getRoomPk())) // filter reservedRoomFkList
                 .filter(room -> room.getRoomStatus().toString().equals(RoomStatus.AVAILABLE.toString()))
                 .toList();
     }
 
 
-    //refactor: filterReservationDtoListByGivenDateRangeAndRoomStatus(List<ReservationDto> reservationDtoList, LocalDateTime requestStart,LocalDateTime requestEnd, RoomStatus roomStatus)
-    private List<ReservationDto> fetchBookedReservationDtoListByGivenDateRange(LocalDateTime requestStart, LocalDateTime requestEnd, List<ReservationDto> reservationDtoList) {
-        return reservationDtoList.stream()
-                .filter(reservationDto -> {
-                    LocalDateTime reservationStart = reservationDto.getReservationStartTime();
-                    LocalDateTime reservationEnd = reservationDto.getReservationEndTime();
-
-                    // is non-overlap
-                    boolean isNonOverlap = (reservationStart.isBefore(requestStart) && reservationEnd.isBefore(requestStart)
-                            || reservationStart.isAfter(requestEnd) && reservationEnd.isAfter(requestEnd));
-
-                    return !isNonOverlap && reservationDto.toString().equals(ReservationStatus.BOOKED.toString());
-
-                }).toList();// return only overlap and booked reservations
+    private List<Long> getReservedRoomFkListByGivenDateRange(List<Long> roomFkList, LocalDateTime requestStart, LocalDateTime requestEnd) {
+        return reservationClient.getReservedRoomFkListByGivenDateRange(roomFkList, requestStart, requestEnd);
     }
 
     private List<Room> getRoomsByCity(String addressCity) {
