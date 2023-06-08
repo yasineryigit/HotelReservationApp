@@ -19,7 +19,6 @@ public interface UserClient {
     @GetMapping("/customers/is-customer-available")
     boolean isCustomerAvailable(@RequestParam long customerPk);
 
-
     @GetMapping("/customers/get-customer-dto-by-customer-pk")
     CustomerDto getCustomerDtoByCustomerPk(@RequestParam long customerPk);
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="postgres@localhost">
+  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.45">
+    <root id="1">
+      <ServerVersion>15.3</ServerVersion>
+    </root>
+    <database id="2" parent="1" name="hr-accounting-service"/>
+    <database id="3" parent="1" name="hr-hotel-service"/>
+    <database id="4" parent="1" name="hr-reservation-service">
+      <Current>1</Current>
+    </database>
+    <database id="5" parent="1" name="hr-user-service"/>
+    <database id="6" parent="1" name="ossovita"/>
+    <database id="7" parent="1" name="postgres"/>
+    <database id="8" parent="1" name="template0"/>
+    <database id="9" parent="1" name="template1"/>
+    <schema id="10" parent="4" name="information_schema"/>
+    <schema id="11" parent="4" name="pg_catalog"/>
+    <schema id="12" parent="4" name="public">
+      <Current>1</Current>
+    </schema>
+  </database-model>
+</dataSource>

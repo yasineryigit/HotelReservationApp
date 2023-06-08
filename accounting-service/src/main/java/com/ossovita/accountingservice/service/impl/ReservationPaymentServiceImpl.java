@@ -63,17 +63,12 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
         //getReservationByReservationFk method from reservation-service
         ReservationDto reservationDto = reservationClient.getReservationDtoByReservationFk(reservationPaymentRequest.getReservationFk());
 
-        if (reservationDto == null) {
-            throw new IdNotFoundException("Reservation not found by given id");
-        }
-
         //check is room still available
-        boolean isRoomStatusEqualsAvailable = hotelClient.getRoomDtoWithRoomFk(reservationDto.getRoomFk()).getRoomStatus().equals(RoomStatus.AVAILABLE);//checking for avoid to create duplicate reservation payment
+        boolean isRoomStatusEqualsAvailable = hotelClient.getRoomDtoWithRoomPk(reservationDto.getRoomFk()).getRoomStatus().equals(RoomStatus.AVAILABLE);//checking for avoid to create duplicate reservation payment
 
         if (!isRoomStatusEqualsAvailable) {//if roomStatus is not available
             throw new UnexpectedRequestException("Selected room is not available.");
         }
-
 
         //fetch stripeCustomerId from user client & use it
         CustomerDto customerDto = userClient.getCustomerDtoByCustomerPk(reservationPaymentRequest.getCustomerFk());

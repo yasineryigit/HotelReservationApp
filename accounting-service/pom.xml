@@ -81,7 +81,6 @@
             <version>${modelmapper.version}</version>
         </dependency>
 
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -92,7 +91,6 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <version>${feign.version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -112,8 +110,6 @@
             <version>${project.version}</version>
         </dependency>
 
-
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-sleuth</artifactId>
@@ -123,12 +119,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-sleuth-zipkin</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-circuitbreaker-resilience4j</artifactId>
-        </dependency>
-
 
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>

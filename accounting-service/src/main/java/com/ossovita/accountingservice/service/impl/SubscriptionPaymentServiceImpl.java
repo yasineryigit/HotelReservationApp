@@ -49,14 +49,7 @@ public class SubscriptionPaymentServiceImpl implements SubscriptionPaymentServic
         //check subscriptionDto.bossFk equals subscriptionCreditCardPaymentRequest.getBossFk() to prevent payment conflicts
         SubscriptionDto subscriptionDto = userClient.getSubscriptionDtoBySubscriptionFk(subscriptionPaymentRequest.getSubscriptionFk());
 
-        if (subscriptionDto == null) {
-            throw new IdNotFoundException("Subscription not found by given id");
-        }
         BossDto bossDto = userClient.getBossDtoByBossPk(subscriptionPaymentRequest.getBossFk());
-
-        if (bossDto == null) {
-            throw new IdNotFoundException("Boss not found by given id");
-        }
 
         if (subscriptionDto.getBossFk() != subscriptionPaymentRequest.getBossFk()) {
             throw new UnexpectedRequestException("Subscription id has a different id than the id you provided");

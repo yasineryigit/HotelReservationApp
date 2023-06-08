@@ -8,6 +8,7 @@ import com.ossovita.commonservice.enums.PaymentStatus;
 import com.ossovita.commonservice.enums.ReservationStatus;
 import com.ossovita.commonservice.enums.RoomStatus;
 import com.ossovita.commonservice.exception.IdNotFoundException;
+import com.ossovita.commonservice.exception.UnexpectedRequestException;
 import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
 import com.ossovita.kafka.model.ReservationPaymentResponse;
 import com.ossovita.kafka.model.RoomStatusUpdateRequest;
@@ -58,11 +59,12 @@ public class ReservationServiceImpl implements ReservationService {
                 .reservationStartTime(onlineReservationRequest.getReservationStartTime())
                 .reservationEndTime(onlineReservationRequest.getReservationEndTime())
                 .build();
-        RoomDto roomDto = hotelClient.fetchRoomDtoIfRoomAvailable(checkRoomAvailabilityRequest);
 
-        if (roomDto == null) {
-            throw new IdNotFoundException("Room not found by given id");
+        if(!isRoomAvailableByGivenDateRange(checkRoomAvailabilityRequest)){
+            throw new UnexpectedRequestException("Room is not available by given date range");
         }
+
+        RoomDto roomDto = hotelClient.getRoomDtoWithRoomPk(checkRoomAvailabilityRequest.getRoomFk());
 
         boolean isCustomerAvailable = userClient.isCustomerAvailable(onlineReservationRequest.getCustomerFk());
 
@@ -124,6 +126,13 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationList.stream()
                 .map(reservation -> modelMapper.map(reservation, ReservationDto.class))
                 .toList();
+    }
+
+    @Override
+    public boolean isRoomAvailableByGivenDateRange(CheckRoomAvailabilityRequest checkRoomAvailabilityRequest) {
+        return reservationRepository.isRoomAvailableByGivenDateRange(checkRoomAvailabilityRequest.getRoomFk(),
+                checkRoomAvailabilityRequest.getReservationStartTime(),
+                checkRoomAvailabilityRequest.getReservationEndTime());
     }
 
     @KafkaListener(

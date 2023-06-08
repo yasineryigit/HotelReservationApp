@@ -1,6 +1,7 @@
 package com.ossovita.reservationservice.controller;
 
 import com.ossovita.commonservice.dto.ReservationDto;
+import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
 import com.ossovita.reservationservice.payload.response.OnlineReservationResponse;
 import com.ossovita.reservationservice.service.ReservationService;
 import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
@@ -43,5 +44,7 @@ public class ReservationController {
     public List<ReservationDto> getReservationDtoListByRoomFkList(@RequestParam List<Long> roomFkList){
         return reservationService.getReservationDtoListByRoomFkList(roomFkList);
     }
+
+
 
 }

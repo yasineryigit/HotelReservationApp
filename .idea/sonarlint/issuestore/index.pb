@@ -3,8 +3,6 @@
 aaccounting-service/src/main/java/com/ossovita/accountingservice/AccountingServiceApplication.java,e\f\ef0589cd6882495cd3162df9ed89eeef1528ff95
 C
 api-gateway/pom.xml,2\b\2bfa2b108f2439e99e004f4085b58c22cf995f73
-D
-user-service/pom.xml,d\2\d2f5d1978e5f519100a679c4109f89296278badc
 Å
 Qcommon-service/src/main/java/com/ossovita/commonservice/config/Configuration.java,4\e\4ed341012669eda926f6a6c87ec6d9202b123da4
 |
@@ -13,10 +11,6 @@ Lapi-gateway/src/main/java/com/ossovita/apigateway/ApiGatewayApplication.java,e
 [stripe-service/src/main/java/com/ossovita/stripe/service/impl/StripePaymentServiceImpl.java,6\d\6d853250d0f91cdeb3c7c8e4fa4ff3e9bdc705de
 F
 stripe-service/pom.xml,2\4\24a9a01bb7db21e04616e8a9f644c390e18341c2
-à
-Xhotel-service/src/main/java/com/ossovita/hotelservice/service/impl/HotelServiceImpl.java,4\6\463acd558b9ed56590bc2294931c1632234b555d
-Ö
-Uhotel-service/src/main/java/com/ossovita/hotelservice/controller/HotelController.java,f\1\f15dd99eaed05e7ed0325304511ff3a630925c95
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 ?

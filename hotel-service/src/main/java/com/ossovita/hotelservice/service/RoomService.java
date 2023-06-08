@@ -1,7 +1,6 @@
 package com.ossovita.hotelservice.service;
 
 import com.ossovita.commonservice.dto.RoomDto;
-import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
 import com.ossovita.hotelservice.entity.Room;
 import com.ossovita.hotelservice.payload.request.AvailableRoomsByDateRangeAndCityRequest;
 import com.ossovita.hotelservice.payload.request.RoomRequest;
@@ -12,7 +11,7 @@ public interface RoomService {
 
     Room createRoom(RoomRequest roomRequest);
 
-    RoomDto getRoomDtoByRoomFk(long roomFk);
+    RoomDto getRoomDtoByRoomPk(long roomFk);
 
     List<Room> getAllRooms();
 
@@ -20,5 +19,4 @@ public interface RoomService {
 
     List<Room> getAvailableRoomsByDateRangeAndCity(AvailableRoomsByDateRangeAndCityRequest availableRoomsByDateRangeAndCityRequest);
 
-    RoomDto fetchRoomDtoIfRoomAvailable(CheckRoomAvailabilityRequest checkRoomAvailabilityRequest);
 }

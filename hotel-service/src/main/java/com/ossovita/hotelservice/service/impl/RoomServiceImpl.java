@@ -17,7 +17,6 @@ import com.ossovita.hotelservice.service.RoomService;
 import com.ossovita.kafka.model.ReservationPaymentRefundRequest;
 import com.ossovita.kafka.model.RoomStatusUpdateRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -49,8 +48,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public RoomDto getRoomDtoByRoomFk(long roomFk) {
-        return modelMapper.map(getRoom(roomFk), RoomDto.class);
+    public RoomDto getRoomDtoByRoomPk(long roomPk) {
+        return modelMapper.map(getRoom(roomPk), RoomDto.class);
     }
 
     @Override
@@ -70,37 +69,21 @@ public class RoomServiceImpl implements RoomService {
         return getAvailableRoomsByGivenRoomListAndDateRange(roomsByCity, availableRoomsByDateRangeAndCityRequest.getReservationStartTime(), availableRoomsByDateRangeAndCityRequest.getReservationEndTime());
     }
 
-    @Override
-    public RoomDto fetchRoomDtoIfRoomAvailable(CheckRoomAvailabilityRequest checkRoomAvailabilityRequest) {
-        if (isRoomAvailable(checkRoomAvailabilityRequest)) {
-            return modelMapper.map(getRoom(checkRoomAvailabilityRequest.getRoomFk()), RoomDto.class);
-        } else {
-            throw new UnexpectedRequestException("Room is not available by given date range");
-        }
-    }
-
-    public boolean isRoomAvailable(CheckRoomAvailabilityRequest checkRoomAvailabilityRequest) {
-        //get available rooms by given room list and date range
-        List<Room> availableRooms = getAvailableRoomsByGivenRoomListAndDateRange(List.of(getRoom(checkRoomAvailabilityRequest.getRoomFk())),
-                checkRoomAvailabilityRequest.getReservationStartTime(),
-                checkRoomAvailabilityRequest.getReservationEndTime());
-
-        //return true if the room is in the available room list
-        return availableRooms.stream()
-                .anyMatch(room -> room.getRoomPk() == checkRoomAvailabilityRequest.getRoomFk());
-    }
-
-
     public List<Room> getAvailableRoomsByGivenRoomListAndDateRange(List<Room> roomList, LocalDateTime requestStart, LocalDateTime requestEnd) {
+
         //assign roomPks into a list
         List<Long> roomPkList = roomList.stream().map(Room::getRoomPk).toList();
         log.info("roomPkList: " + roomList.size());
+
         //get all reservations by room fk list
         List<ReservationDto> reservationDtoList = reservationClient.getAllReservationsByRoomFkList(roomPkList);
         log.info("reservationDtoList: " + reservationDtoList.size());
+
         //fetch booked reservation dto list by given date range
+        //TODO: refactor | replace with: getBookedRoomFkList(List<Long> roomFkList, start, end)
         List<ReservationDto> bookedReservationDtoListByGivenDateRange = fetchBookedReservationDtoListByGivenDateRange(requestStart, requestEnd, reservationDtoList);
         log.info("bookedReservationDtoListByGivenDateRange: " + bookedReservationDtoListByGivenDateRange.size());
+
         //assign reserved room fks into a list
         List<Long> reservedRoomFkListByGivenDateRange = bookedReservationDtoListByGivenDateRange.stream().map(ReservationDto::getRoomFk).toList();
 
