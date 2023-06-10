@@ -14,7 +14,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     List<Reservation> findByRoomFkIn(List<Long> roomFkList);
 
-    // if booked and overlapping reservations > 0 false ELSE true
+    //return true if there is no booked reservation belongs to given room on given date range
     @Query("SELECT CASE WHEN COUNT(r) > 0 THEN false ELSE true END " +
             "FROM Reservation r " +
             "WHERE r.roomFk = :roomFk " +
@@ -28,7 +28,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             @Param("requestStart") LocalDateTime requestStart,
             @Param("requestEnd") LocalDateTime requestEnd);
 
-
+    //return roompk list which is not reserved room by given date range
     @Query("SELECT r.roomFk " +
             "FROM Reservation r " +
             "WHERE r.roomFk IN :roomFkList " +

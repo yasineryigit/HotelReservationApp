@@ -33,9 +33,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
-                .authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
+                .authorizeRequests((x)->x.anyRequest().permitAll())//temporary
                 .formLogin().disable()
                 .httpBasic().disable()
                 .exceptionHandling()

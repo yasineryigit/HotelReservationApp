@@ -61,6 +61,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public List<Room> getAvailableRoomsByDateRangeAndCity(AvailableRoomsByDateRangeAndCityRequest availableRoomsByDateRangeAndCityRequest) {
+        //get rooms by city
         List<Room> roomsByCity = getRoomsByCity(availableRoomsByDateRangeAndCityRequest.getAddressCity());
         log.info("roomsByCity: " + roomsByCity.size());
         return getAvailableRoomsByGivenRoomListAndDateRange(roomsByCity, availableRoomsByDateRangeAndCityRequest.getReservationStartTime(), availableRoomsByDateRangeAndCityRequest.getReservationEndTime());
@@ -74,7 +75,7 @@ public class RoomServiceImpl implements RoomService {
 
 
         //fetch reserved room fk list
-        List<Long> reservedRoomFkListByGivenDateRange = getReservedRoomFkListByGivenDateRange(roomPkList, requestStart, requestEnd);
+        List<Long> reservedRoomFkListByGivenDateRange = reservationClient.getReservedRoomFkListByGivenDateRange(roomPkList, requestStart, requestEnd);
         log.info("reservedRoomFkListByGivenDateRange: " + reservedRoomFkListByGivenDateRange.size());
 
 
@@ -86,14 +87,9 @@ public class RoomServiceImpl implements RoomService {
     }
 
 
-    private List<Long> getReservedRoomFkListByGivenDateRange(List<Long> roomFkList, LocalDateTime requestStart, LocalDateTime requestEnd) {
-        return reservationClient.getReservedRoomFkListByGivenDateRange(roomFkList, requestStart, requestEnd);
-    }
-
     private List<Room> getRoomsByCity(String addressCity) {
         return roomRepository.findRoomsByHotel_Address_AddressCity(addressCity);
     }
-
 
     @KafkaListener(
             topics = "room-status-update-topic",

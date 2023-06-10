@@ -1,8 +1,6 @@
 
 ë
 aaccounting-service/src/main/java/com/ossovita/accountingservice/AccountingServiceApplication.java,e\f\ef0589cd6882495cd3162df9ed89eeef1528ff95
-C
-api-gateway/pom.xml,2\b\2bfa2b108f2439e99e004f4085b58c22cf995f73
 Å
 Qcommon-service/src/main/java/com/ossovita/commonservice/config/Configuration.java,4\e\4ed341012669eda926f6a6c87ec6d9202b123da4
 |
@@ -11,8 +9,6 @@ Lapi-gateway/src/main/java/com/ossovita/apigateway/ApiGatewayApplication.java,e
 [stripe-service/src/main/java/com/ossovita/stripe/service/impl/StripePaymentServiceImpl.java,6\d\6d853250d0f91cdeb3c7c8e4fa4ff3e9bdc705de
 F
 stripe-service/pom.xml,2\4\24a9a01bb7db21e04616e8a9f644c390e18341c2
-7
-pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 ?
 clients/pom.xml,e\8\e897e41994586ab73af075bc072526099d5eec43
 Ç
