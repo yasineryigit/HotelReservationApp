@@ -20,7 +20,9 @@ public interface ReservationClient {
     @GetMapping("/get-reservation-dto-list-by-room-fk-list")
     List<ReservationDto> getAllReservationsByRoomFkList(@RequestParam List<Long> roomFkList);
 
+    @PostMapping("/is-room-available-by-given-date-range")
+    boolean isRoomAvailableByGivenDateRange(@RequestBody CheckRoomAvailabilityRequest checkRoomAvailabilityRequest);
 
-    @GetMapping("/get-reserved-room-fk-list-by-given-date-range")
-    List<Long> getReservedRoomFkListByGivenDateRange(@RequestParam List<Long> roomFkList, @RequestParam LocalDateTime requestStart, @RequestParam LocalDateTime requestEnd);
+    @GetMapping("/get-not-available-room-fk-list-by-given-date-range")
+    List<Long> getNotAvailableRoomFkListByGivenDateRange(@RequestParam List<Long> roomFkList, @RequestParam LocalDateTime requestStart, @RequestParam LocalDateTime requestEnd);
 }

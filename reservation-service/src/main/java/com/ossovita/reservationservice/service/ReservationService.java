@@ -2,6 +2,7 @@ package com.ossovita.reservationservice.service;
 
 import com.ossovita.commonservice.dto.ReservationDto;
 import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
+import com.ossovita.reservationservice.entity.Reservation;
 import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
 import com.ossovita.reservationservice.payload.response.OnlineReservationResponse;
 
@@ -20,5 +21,11 @@ public interface ReservationService {
 
     boolean isRoomAvailableByGivenDateRange(CheckRoomAvailabilityRequest checkRoomAvailabilityRequest);
 
-    List<Long> getReservedRoomFkListByGivenDateRange(List<Long> roomFkList, LocalDateTime requestStart, LocalDateTime requestEnd);
+    List<Long> getNotAvailableRoomFkListByGivenDateRange(List<Long> roomFkList, LocalDateTime requestStart, LocalDateTime requestEnd);
+
+    List<Reservation> getAllReservations();
+
+    List<Reservation> saveAll(List<Reservation> reservationList);
+
+    ReservationDto checkIn(long reservationFk);
 }

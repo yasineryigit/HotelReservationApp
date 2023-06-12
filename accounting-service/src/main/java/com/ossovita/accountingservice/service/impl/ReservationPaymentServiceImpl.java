@@ -3,6 +3,7 @@ package com.ossovita.accountingservice.service.impl;
 import com.ossovita.accountingservice.entity.ReservationPayment;
 import com.ossovita.accountingservice.enums.PaymentType;
 import com.ossovita.accountingservice.payload.request.ReservationPaymentRequest;
+import com.ossovita.accountingservice.payload.response.CreatePaymentResponse;
 import com.ossovita.accountingservice.repository.ReservationPaymentRepository;
 import com.ossovita.accountingservice.service.ReservationPaymentService;
 import com.ossovita.clients.hotel.HotelClient;
@@ -12,10 +13,9 @@ import com.ossovita.commonservice.dto.CustomerDto;
 import com.ossovita.commonservice.dto.ReservationDto;
 import com.ossovita.commonservice.enums.PaymentStatus;
 import com.ossovita.commonservice.enums.ReservationPaymentType;
-import com.ossovita.commonservice.enums.RoomStatus;
 import com.ossovita.commonservice.exception.IdNotFoundException;
-import com.ossovita.accountingservice.payload.response.CreatePaymentResponse;
 import com.ossovita.commonservice.exception.UnexpectedRequestException;
+import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
 import com.ossovita.kafka.model.ReservationPaymentRefundRequest;
 import com.ossovita.kafka.model.ReservationPaymentResponse;
 import com.ossovita.stripe.service.StripePaymentService;
@@ -63,10 +63,14 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
         //getReservationByReservationFk method from reservation-service
         ReservationDto reservationDto = reservationClient.getReservationDtoByReservationFk(reservationPaymentRequest.getReservationFk());
 
-        //check is room still available
-        boolean isRoomStatusEqualsAvailable = hotelClient.getRoomDtoWithRoomPk(reservationDto.getRoomFk()).getRoomStatus().equals(RoomStatus.AVAILABLE);//checking for avoid to create duplicate reservation payment
+        CheckRoomAvailabilityRequest checkRoomAvailabilityRequest = CheckRoomAvailabilityRequest
+                .builder()
+                .roomFk(reservationPaymentRequest.getRoomFk())
+                .reservationStartTime(reservationPaymentRequest.getReservationStartTime())
+                .reservationEndTime(reservationPaymentRequest.getReservationEndTime())
+                .build();
 
-        if (!isRoomStatusEqualsAvailable) {//if roomStatus is not available
+        if (!reservationClient.isRoomAvailableByGivenDateRange(checkRoomAvailabilityRequest)) {//if roomStatus is not available
             throw new UnexpectedRequestException("Selected room is not available.");
         }
 

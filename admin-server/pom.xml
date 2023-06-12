@@ -7,11 +7,11 @@
         <artifactId>hotel-reservation-app</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.ossovita</groupId>
+
     <artifactId>admin-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>admin-server</name>
-    <description>admin-server</description>
+    <description>Demo project for Spring Boot</description>
 
     <dependencies>
         <dependency>

@@ -18,7 +18,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("SELECT CASE WHEN COUNT(r) > 0 THEN false ELSE true END " +
             "FROM Reservation r " +
             "WHERE r.roomFk = :roomFk " +
-            "AND r.reservationStatus = com.ossovita.commonservice.enums.ReservationStatus.BOOKED " +//if booked
+            "AND (r.reservationStatus = com.ossovita.commonservice.enums.ReservationStatus.BOOKED " +
+            "OR r.reservationStatus = com.ossovita.commonservice.enums.ReservationStatus.CHECKED_IN " +
+            "OR r.reservationStatus = com.ossovita.commonservice.enums.ReservationStatus.STAY_OVER) " +
             "AND NOT (" +//if dates are overlapping
             "   (r.reservationStartTime < :requestStart AND r.reservationEndTime < :requestStart) " +
             "   OR (r.reservationStartTime > :requestEnd AND r.reservationEndTime > :requestEnd)" +
@@ -28,16 +30,18 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             @Param("requestStart") LocalDateTime requestStart,
             @Param("requestEnd") LocalDateTime requestEnd);
 
-    //return roompk list which is not reserved room by given date range
+    //return roompk list which has not booked | checked | stay-over reservation by given date range
     @Query("SELECT r.roomFk " +
             "FROM Reservation r " +
             "WHERE r.roomFk IN :roomFkList " +
-            "AND r.reservationStatus = com.ossovita.commonservice.enums.ReservationStatus.BOOKED " +//if booked
+            "AND (r.reservationStatus = com.ossovita.commonservice.enums.ReservationStatus.BOOKED " +
+            "OR r.reservationStatus = com.ossovita.commonservice.enums.ReservationStatus.CHECKED_IN " +
+            "OR r.reservationStatus = com.ossovita.commonservice.enums.ReservationStatus.STAY_OVER) " +
             "AND NOT (" +//if dates are overlapping
             "   (r.reservationStartTime < :requestStart AND r.reservationEndTime < :requestStart) " +
             "   OR (r.reservationStartTime > :requestEnd AND r.reservationEndTime > :requestEnd)" +
             ")")
-    List<Long> getReservedRoomFkListByGivenDateRange(
+    List<Long> getNotAvailableRoomFkListByGivenDateRange(
             @Param("roomFkList") List<Long> roomFkList,
             @Param("requestStart") LocalDateTime requestStart,
             @Param("requestEnd") LocalDateTime requestEnd);

@@ -2,9 +2,9 @@ package com.ossovita.reservationservice.controller;
 
 import com.ossovita.commonservice.dto.ReservationDto;
 import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
+import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
 import com.ossovita.reservationservice.payload.response.OnlineReservationResponse;
 import com.ossovita.reservationservice.service.ReservationService;
-import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,30 +27,39 @@ public class ReservationController {
     }
 
     @PostMapping("/create-online-reservation")
-    public OnlineReservationResponse createOnlineReservation(@Valid @RequestBody OnlineReservationRequest onlineReservationRequest) throws Exception {
+    public OnlineReservationResponse createOnlineReservation(@Valid @RequestBody OnlineReservationRequest onlineReservationRequest){
         return reservationService.createOnlineReservation(onlineReservationRequest);
     }
 
     @GetMapping("/is-reservation-available")
-    public boolean isReservationAvailable(@RequestParam long reservationFk){
+    public boolean isReservationAvailable(@RequestParam long reservationFk) {
         return reservationService.isReservationAvailable(reservationFk);
     }
 
     @GetMapping("/get-reservation-dto-by-reservation-fk")
-    public ReservationDto getReservationDtoByReservationFk(long reservationFk){
+    public ReservationDto getReservationDtoByReservationFk(long reservationFk) {
         return reservationService.getReservationDtoByReservationFk(reservationFk);
     }
 
     @GetMapping("/get-reservation-dto-list-by-room-fk-list")
-    public List<ReservationDto> getReservationDtoListByRoomFkList(@RequestParam List<Long> roomFkList){
+    public List<ReservationDto> getReservationDtoListByRoomFkList(@RequestParam List<Long> roomFkList) {
         return reservationService.getReservationDtoListByRoomFkList(roomFkList);
     }
 
-    @GetMapping("/get-reserved-room-fk-list-by-given-date-range")
-    List<Long> getReservedRoomFkListByGivenDateRange(@RequestParam List<Long> roomFkList, @RequestParam LocalDateTime requestStart, @RequestParam LocalDateTime requestEnd){
-        return reservationService.getReservedRoomFkListByGivenDateRange(roomFkList, requestStart, requestEnd);
+    @GetMapping("/get-not-available-room-fk-list-by-given-date-range")
+    List<Long> getNotAvailableRoomFkListByGivenDateRange(@RequestParam List<Long> roomFkList, @RequestParam LocalDateTime requestStart, @RequestParam LocalDateTime requestEnd) {
+        return reservationService.getNotAvailableRoomFkListByGivenDateRange(roomFkList, requestStart, requestEnd);
     }
 
+    @PostMapping("/is-room-available-by-given-date-range")
+    public boolean isRoomAvailableByGivenDateRange(@RequestBody CheckRoomAvailabilityRequest checkRoomAvailabilityRequest){
+        return reservationService.isRoomAvailableByGivenDateRange(checkRoomAvailabilityRequest);
+    }
+
+    @PutMapping("/check-in")
+    public ReservationDto checkIn(@RequestParam long reservationFk) {
+        return reservationService.checkIn(reservationFk);
+    }
 
 
 }

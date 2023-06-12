@@ -1,7 +1,6 @@
 package com.ossovita.hotelservice.service.impl;
 
 import com.ossovita.clients.reservation.ReservationClient;
-import com.ossovita.commonservice.dto.ReservationDto;
 import com.ossovita.commonservice.dto.RoomDto;
 import com.ossovita.commonservice.enums.ReservationPaymentRefundReason;
 import com.ossovita.commonservice.enums.RoomStatus;
@@ -73,16 +72,14 @@ public class RoomServiceImpl implements RoomService {
         List<Long> roomPkList = roomList.stream().map(Room::getRoomPk).toList();
         log.info("roomPkList: " + roomList.size());
 
-
         //fetch reserved room fk list
-        List<Long> reservedRoomFkListByGivenDateRange = reservationClient.getReservedRoomFkListByGivenDateRange(roomPkList, requestStart, requestEnd);
-        log.info("reservedRoomFkListByGivenDateRange: " + reservedRoomFkListByGivenDateRange.size());
+        List<Long> notAvailableRoomFkListByGivenDateRange = reservationClient.getNotAvailableRoomFkListByGivenDateRange(roomPkList, requestStart, requestEnd);
+        log.info("notAvailableRoomFkListByGivenDateRange: " + notAvailableRoomFkListByGivenDateRange.size());
 
 
-        //return only the rooms which is available and not in the reserved room fk list
+        //return only the rooms which is available
         return roomList.stream()
-                .filter(room -> !reservedRoomFkListByGivenDateRange.contains(room.getRoomPk())) // filter reservedRoomFkList
-                .filter(room -> room.getRoomStatus().toString().equals(RoomStatus.AVAILABLE.toString()))
+                .filter(room -> !notAvailableRoomFkListByGivenDateRange.contains(room.getRoomPk())) // filter not available room fk list
                 .toList();
     }
 
@@ -98,21 +95,10 @@ public class RoomServiceImpl implements RoomService {
     )
     public void consumeRoomStatusUpdateRequest(RoomStatusUpdateRequest roomStatusUpdateRequest) {
         Room room = getRoom(roomStatusUpdateRequest.getRoomFk());
-        //double RoomStatusUpdateRequest can occur when room-status-update-topic is overloaded, we need to handle duplicate reservation at a time
-        //if room is already reserved and roomStatusUpdateRequest equals RESERVED, rollback reservation payment
-        if (room.getRoomStatus().equals(RoomStatus.RESERVED) && roomStatusUpdateRequest.getRoomStatus().equals(RoomStatus.RESERVED)) {
-            //refund the balance
-            ReservationPaymentRefundRequest reservationPaymentRefundRequest = ReservationPaymentRefundRequest.builder()
-                    .reservationPaymentPk(roomStatusUpdateRequest.getReservationPaymentFk())
-                    .reservationPaymentRefundReason(ReservationPaymentRefundReason.DUPLICATE_RESERVATION)
-                    .message("Your balance has been refunded because the room you have booked was previously reserved by another user due to a system error.")//TODO | multi language
-                    .build();
-            kafkaTemplate.send("reservation-payment-refund-request-topic", reservationPaymentRefundRequest);
-        } else {
-            log.info("roomStatus Updated | UpdateRoomStatusRequest: " + roomStatusUpdateRequest);
-            room.setRoomStatus(roomStatusUpdateRequest.getRoomStatus());
-            roomRepository.save(room);
-        }
+        log.info("roomStatus Updated | UpdateRoomStatusRequest: " + roomStatusUpdateRequest);
+        room.setRoomStatus(roomStatusUpdateRequest.getRoomStatus());
+        roomRepository.save(room);
+
     }
 
 

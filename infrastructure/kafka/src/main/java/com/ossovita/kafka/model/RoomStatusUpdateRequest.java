@@ -16,5 +16,4 @@ public class RoomStatusUpdateRequest {
 
     private RoomStatus roomStatus;
 
-    private long reservationPaymentFk;
 }
