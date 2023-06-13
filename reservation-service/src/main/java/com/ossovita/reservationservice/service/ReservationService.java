@@ -3,6 +3,7 @@ package com.ossovita.reservationservice.service;
 import com.ossovita.commonservice.dto.ReservationDto;
 import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
 import com.ossovita.reservationservice.entity.Reservation;
+import com.ossovita.reservationservice.payload.request.ReservationCheckingRequest;
 import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
 import com.ossovita.reservationservice.payload.response.OnlineReservationResponse;
 
@@ -27,5 +28,7 @@ public interface ReservationService {
 
     List<Reservation> saveAll(List<Reservation> reservationList);
 
-    ReservationDto checkIn(long reservationFk);
+    ReservationDto checkIn(ReservationCheckingRequest reservationCheckingRequest);
+
+    ReservationDto checkOut(ReservationCheckingRequest reservationCheckingRequest);
 }

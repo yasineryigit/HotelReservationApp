@@ -16,12 +16,17 @@ import com.ossovita.kafka.model.ReservationPaymentResponse;
 import com.ossovita.kafka.model.RoomStatusUpdateRequest;
 import com.ossovita.reservationservice.entity.OnlineReservation;
 import com.ossovita.reservationservice.entity.Reservation;
+import com.ossovita.reservationservice.entity.ReservationChecking;
+import com.ossovita.reservationservice.enums.ReservationCheckingType;
+import com.ossovita.reservationservice.payload.request.ReservationCheckingRequest;
 import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
 import com.ossovita.reservationservice.payload.response.OnlineReservationResponse;
 import com.ossovita.reservationservice.repository.OnlineReservationRepository;
+import com.ossovita.reservationservice.repository.ReservationCheckingRepository;
 import com.ossovita.reservationservice.repository.ReservationRepository;
 import com.ossovita.reservationservice.service.ReservationService;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Check;
 import org.modelmapper.ModelMapper;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -38,20 +43,21 @@ public class ReservationServiceImpl implements ReservationService {
 
     ReservationRepository reservationRepository;
     OnlineReservationRepository onlineReservationRepository;
+    ReservationCheckingRepository reservationCheckingRepository;
     HotelClient hotelClient;
     UserClient userClient;
     ModelMapper modelMapper;
     KafkaTemplate<String, Object> kafkaTemplate;
 
-    public ReservationServiceImpl(ReservationRepository reservationRepository, OnlineReservationRepository onlineReservationRepository, HotelClient hotelClient, UserClient userClient, ModelMapper modelMapper, KafkaTemplate<String, Object> kafkaTemplate) {
+    public ReservationServiceImpl(ReservationRepository reservationRepository, OnlineReservationRepository onlineReservationRepository, ReservationCheckingRepository reservationCheckingRepository, HotelClient hotelClient, UserClient userClient, ModelMapper modelMapper, KafkaTemplate<String, Object> kafkaTemplate) {
         this.reservationRepository = reservationRepository;
         this.onlineReservationRepository = onlineReservationRepository;
+        this.reservationCheckingRepository = reservationCheckingRepository;
         this.hotelClient = hotelClient;
         this.userClient = userClient;
         this.modelMapper = modelMapper;
         this.kafkaTemplate = kafkaTemplate;
     }
-
 
     @Override
     public OnlineReservationResponse createOnlineReservation(OnlineReservationRequest onlineReservationRequest) {
@@ -156,11 +162,22 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public ReservationDto checkIn(long reservationFk) {
-        Reservation reservation = getReservation(reservationFk);
+    public ReservationDto checkIn(ReservationCheckingRequest reservationCheckingRequest) {
+        Reservation reservation = getReservation(reservationCheckingRequest.getReservationFk());
 
-        if(reservation.getReservationStatus().equals(ReservationStatus.CHECKED_IN)){
+        //check employee
+        if(!userClient.isEmployeeAvailable(reservationCheckingRequest.getEmployeeFk())){
+            throw new IdNotFoundException("Employee not found by given id");
+        }
+
+        //if already checked in, then throw error
+        if (reservation.getReservationStatus().equals(ReservationStatus.CHECKED_IN)) {
             throw new UnexpectedRequestException("This reservation is already checked in.");
+        }
+
+        //if not booked, then throw error
+        if (!reservation.getReservationStatus().equals(ReservationStatus.BOOKED)) {
+            throw new UnexpectedRequestException("This reservation is not in booked status.");
         }
 
         LocalDateTime now = LocalDateTime.now();
@@ -174,16 +191,51 @@ public class ReservationServiceImpl implements ReservationService {
                     .roomFk(reservation.getRoomFk())
                     .roomStatus(RoomStatus.OCCUPIED)
                     .build();
-            //TODO: send notification to the customer (welcome, instructions)
+            saveReservationChecking(reservationCheckingRequest, ReservationCheckingType.CHECK_IN);
             kafkaTemplate.send("room-status-update-topic", roomStatusUpdateRequest);
+            //TODO: send notification to the customer (welcome, instructions(stay-over offer, discount))
             return modelMapper.map(reservationRepository.save(reservation), ReservationDto.class);
 
         } else {
             throw new UnexpectedRequestException("Check-in is not available at the moment. Please check-in at least 1 hour before the reservation start time.");
         }
+
     }
 
-    //TODO: add checkout method
+
+    public ReservationDto checkOut(ReservationCheckingRequest reservationCheckingRequest) {
+        Reservation reservation = getReservation(reservationCheckingRequest.getReservationFk());
+
+        //check employee
+        if(!userClient.isEmployeeAvailable(reservationCheckingRequest.getEmployeeFk())){
+            throw new IdNotFoundException("Employee not found by given id");
+        }
+
+        //if reservation is not checked in, then throw error
+        if (!reservation.getReservationStatus().equals(ReservationStatus.CHECKED_IN)) {
+            throw new UnexpectedRequestException("This reservation is not checked in.");
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+
+        if (now.isAfter(reservation.getReservationStartTime())) {
+            //set reservation status
+            reservation.setReservationStatus(ReservationStatus.CHECKED_IN);
+            //set room status
+            RoomStatusUpdateRequest roomStatusUpdateRequest = RoomStatusUpdateRequest.builder()
+                    .roomFk(reservation.getRoomFk())
+                    .roomStatus(RoomStatus.VACANT)
+                    .build();
+            saveReservationChecking(reservationCheckingRequest, ReservationCheckingType.CHECK_OUT);
+            kafkaTemplate.send("room-status-update-topic", roomStatusUpdateRequest);
+            //TODO: send notification to the customer (feedback, instructions)
+            return modelMapper.map(reservationRepository.save(reservation), ReservationDto.class);
+
+        } else {
+            throw new UnexpectedRequestException("Check-out is not available at the moment. You can check-out after the reservation start time");
+        }
+
+    }
 
 
     @KafkaListener(
@@ -192,28 +244,47 @@ public class ReservationServiceImpl implements ReservationService {
             containerFactory = "reservationPaymentResponseKafkaListenerContainerFactory"//we need to assign containerFactory
     )
     public void listenReservationPaymentResponse(ReservationPaymentResponse reservationPaymentResponse) {
-        log.info("Reservation Payment Updated | ReservationPaymentResponseModel: " + reservationPaymentResponse.toString());
+        log.info("Reservation Payment Updated | ReservationPaymentResponseModel: {}", reservationPaymentResponse.toString());
         Reservation reservationInDB = getReservation(reservationPaymentResponse.getReservationFk());
+        CheckRoomAvailabilityRequest checkRoomAvailabilityRequest = CheckRoomAvailabilityRequest.builder()
+                .roomFk(reservationInDB.getRoomFk())
+                .reservationStartTime(reservationInDB.getReservationStartTime())
+                .reservationEndTime(reservationInDB.getReservationEndTime())
+                .build();
 
-        //double reservation payment response can occur on one room when reservation-payment-response-topic is overloaded, we need to handle duplicate reservation at a time
-        //if reservation is already booked and reservation payment response equals PAID, rollback reservation payment
-        //refund the balance
-        if (reservationInDB.getReservationStatus().equals(ReservationStatus.BOOKED)) {
-            ReservationPaymentRefundRequest reservationPaymentRefundRequest = ReservationPaymentRefundRequest.builder()
-                    .reservationPaymentPk(reservationPaymentResponse.getReservationPaymentPk())
-                    .reservationPaymentRefundReason(ReservationPaymentRefundReason.DUPLICATE_RESERVATION)
-                    .message("Your balance has been refunded because the room you have booked was previously reserved by another user due to a system error.")
-                    .build();
-            kafkaTemplate.send("reservation-payment-refund-request-topic", reservationPaymentRefundRequest);
-            return;
+        if (reservationPaymentResponse.getPaymentStatus().equals(PaymentStatus.PAID)) {
+            if (!isRoomAvailableByGivenDateRange(checkRoomAvailabilityRequest)) {//is room already booked
+                handleDuplicateReservation(reservationPaymentResponse);
+            } else {
+                updateReservationAsBooked(reservationInDB);
+            }
+        } else {
+            // TODO: Handle ReservationPaymentStatus.FAILED case
         }
+    }
 
-        if (reservationPaymentResponse.getPaymentStatus().equals(PaymentStatus.PAID)) {//if reservationPaymentStatus = true, then approve the reservation
-            reservationInDB.setReservationStatus(ReservationStatus.BOOKED);
-            reservationInDB.setReservationIsApproved(true);
-            reservationRepository.save(reservationInDB);
+    private void handleDuplicateReservation(ReservationPaymentResponse reservationPaymentResponse) {
+        ReservationPaymentRefundRequest reservationPaymentRefundRequest = ReservationPaymentRefundRequest.builder()
+                .reservationPaymentPk(reservationPaymentResponse.getReservationPaymentPk())
+                .reservationPaymentRefundReason(ReservationPaymentRefundReason.DUPLICATE_RESERVATION)
+                .message("Your balance has been refunded because the room you have booked was previously reserved by another user due to a system error.")
+                .build();
+        log.info("handleDuplicateReservation {} : " + reservationPaymentResponse.toString());
+        kafkaTemplate.send("reservation-payment-refund-request-topic", reservationPaymentRefundRequest);
+    }
 
-        } //TODO | handle ReservationPaymentStatus.FAILED case
+    private void updateReservationAsBooked(Reservation reservation) {
+        reservation.setReservationStatus(ReservationStatus.BOOKED);
+        reservation.setReservationIsApproved(true);
+        reservationRepository.save(reservation);
+        log.info("updateReservationAsBooked {} : " + reservation.toString());
+    }
+
+
+    private void saveReservationChecking(ReservationCheckingRequest reservationCheckingRequest, ReservationCheckingType reservationCheckingType) {
+        ReservationChecking reservationChecking = modelMapper.map(reservationCheckingRequest, ReservationChecking.class);
+        reservationChecking.setReservationCheckingType(reservationCheckingType);
+        reservationCheckingRepository.save(reservationChecking);
     }
 
     private Reservation getReservation(long reservationFk) {
@@ -221,11 +292,5 @@ public class ReservationServiceImpl implements ReservationService {
                 .orElseThrow(() -> new IdNotFoundException("Reservation not found with the given reservationFk: " + reservationFk));
     }
 
-
-    /*
-        //double RoomStatusUpdateRequest can occur when room-status-update-topic is overloaded, we need to handle duplicate reservation at a time
-
-
-    * */
 
 }

@@ -59,6 +59,9 @@ public class Reservation {
     private OnlineReservation onlineReservation;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "reservation")
+    private ReservationChecking reservationChecking;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "reservation")
     private WalkInReservation walkInReservation;
 
 

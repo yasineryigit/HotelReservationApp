@@ -2,6 +2,7 @@ package com.ossovita.reservationservice.controller;
 
 import com.ossovita.commonservice.dto.ReservationDto;
 import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
+import com.ossovita.reservationservice.payload.request.ReservationCheckingRequest;
 import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
 import com.ossovita.reservationservice.payload.response.OnlineReservationResponse;
 import com.ossovita.reservationservice.service.ReservationService;
@@ -57,9 +58,16 @@ public class ReservationController {
     }
 
     @PutMapping("/check-in")
-    public ReservationDto checkIn(@RequestParam long reservationFk) {
-        return reservationService.checkIn(reservationFk);
+    public ReservationDto checkIn(@RequestBody ReservationCheckingRequest reservationCheckingRequest) {
+        return reservationService.checkIn(reservationCheckingRequest);
     }
+
+    @PutMapping("/check-out")
+    public ReservationDto checkOut(@RequestBody ReservationCheckingRequest reservationCheckingRequest) {
+        return reservationService.checkOut(reservationCheckingRequest);
+    }
+
+
 
 
 }

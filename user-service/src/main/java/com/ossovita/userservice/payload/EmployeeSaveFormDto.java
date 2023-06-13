@@ -36,7 +36,6 @@ public class EmployeeSaveFormDto {
     @Size(min = 1, max = 255)
     private String userLastName;
 
-
     //Hotel
     @NotNull
     private long hotelFk;
