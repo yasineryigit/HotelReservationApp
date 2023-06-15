@@ -5,48 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c0f9203-f384-468f-9fac-7d168b26c0da" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/1/010ea8d33c3a9ae1ba9f5fe470130290e7ac30ac" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/4/040950012cc7431ba1c899780b1ae4aa987bcd0f" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/6/066ad9d290fd13eb9cf4858503903e3efe7fc3cc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/d/0d5aa54e79e903eec80b7e60ef18b3068d24af3a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/6/268aea0369b2a1a4d03a5d31c08fdaba3829642a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/e/3efe170f1766916f860b50c80597fbc5849bd7be" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/3/7300971cc0534090e0ab2045f3c5a942a8254796" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/5/756bdaf1e3c67c3c4a5058c4fbdd45cf2984c7a0" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/c/7c40520499b021f1b726ba53dd3dee600cfc988d" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/3/c36c40ba062ebf6a35893c5edebb972e6619c94a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/3/d32209e795043e399eb7bcad839dc493388410c6" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/e/eed2d470121de718da0ce7f84acb76f55dc02027" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/0/f00a94df22514334c49835c06a09a65bd08303fd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/5/f53ad821798511b0fb44bf29514034f2b5adb4df" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/0/1/010ea8d33c3a9ae1ba9f5fe470130290e7ac30ac" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/0/4/040950012cc7431ba1c899780b1ae4aa987bcd0f" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/0/6/066ad9d290fd13eb9cf4858503903e3efe7fc3cc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/0/d/0d5aa54e79e903eec80b7e60ef18b3068d24af3a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/2/6/268aea0369b2a1a4d03a5d31c08fdaba3829642a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/3/e/3efe170f1766916f860b50c80597fbc5849bd7be" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/7/3/7300971cc0534090e0ab2045f3c5a942a8254796" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/7/5/756bdaf1e3c67c3c4a5058c4fbdd45cf2984c7a0" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/7/c/7c40520499b021f1b726ba53dd3dee600cfc988d" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/c/3/c36c40ba062ebf6a35893c5edebb972e6619c94a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/d/3/d32209e795043e399eb7bcad839dc493388410c6" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/e/eed2d470121de718da0ce7f84acb76f55dc02027" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/f/0/f00a94df22514334c49835c06a09a65bd08303fd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/f/5/f53ad821798511b0fb44bf29514034f2b5adb4df" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/entity/ReservationChecking.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/enums/ReservationCheckingType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/payload/request/ReservationCheckingRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/repository/ReservationCheckingRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/payload/request/WalkInReservationRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/payload/response/WalkInReservationResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/repository/WalkInReservationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/8/483a54e601fd16df792097f6d384a3beb95b9b86" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/0/505ab193e093e92479545a63a7c8ab2f84c5ab05" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/4/8475435c73a4a0b0bb717f55bb44da1d51a22d3e" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/3/938c7d094826e3988c2432c441e7319de53a5682" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/4/8/483a54e601fd16df792097f6d384a3beb95b9b86" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/5/0/505ab193e093e92479545a63a7c8ab2f84c5ab05" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/8/4/8475435c73a4a0b0bb717f55bb44da1d51a22d3e" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/9/3/938c7d094826e3988c2432c441e7319de53a5682" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotel-reservation-app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-reservation-app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/docker-compose/tracing.yml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/docker-compose/tracing.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/controller/ReservationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/controller/ReservationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/entity/Reservation.java" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/entity/Reservation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/service/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/service/ReservationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/service/impl/ReservationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/service/impl/ReservationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/ossovita/userservice/UserServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/ossovita/userservice/UserServiceApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -328,7 +304,9 @@
       <workItem from="1686598886867" duration="8191000" />
       <workItem from="1686676654380" duration="307000" />
       <workItem from="1686677457650" duration="463000" />
-      <workItem from="1686677924684" duration="2242000" />
+      <workItem from="1686677924684" duration="6235000" />
+      <workItem from="1686759864538" duration="8975000" />
+      <workItem from="1686840251311" duration="1564000" />
     </task>
     <servers />
   </component>

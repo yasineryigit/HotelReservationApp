@@ -4,7 +4,9 @@ import com.ossovita.commonservice.dto.ReservationDto;
 import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
 import com.ossovita.reservationservice.payload.request.ReservationCheckingRequest;
 import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
+import com.ossovita.reservationservice.payload.request.WalkInReservationRequest;
 import com.ossovita.reservationservice.payload.response.OnlineReservationResponse;
+import com.ossovita.reservationservice.payload.response.WalkInReservationResponse;
 import com.ossovita.reservationservice.service.ReservationService;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +32,11 @@ public class ReservationController {
     @PostMapping("/create-online-reservation")
     public OnlineReservationResponse createOnlineReservation(@Valid @RequestBody OnlineReservationRequest onlineReservationRequest){
         return reservationService.createOnlineReservation(onlineReservationRequest);
+    }
+
+    @PostMapping("/create-walk-in-reservation")
+    public WalkInReservationResponse createWalkInReservation(@Valid @RequestBody WalkInReservationRequest walkInReservationRequest){
+        return reservationService.createWalkInReservation(walkInReservationRequest);
     }
 
     @GetMapping("/is-reservation-available")

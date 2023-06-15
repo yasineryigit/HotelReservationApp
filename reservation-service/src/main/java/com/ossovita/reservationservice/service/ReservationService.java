@@ -5,7 +5,9 @@ import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
 import com.ossovita.reservationservice.entity.Reservation;
 import com.ossovita.reservationservice.payload.request.ReservationCheckingRequest;
 import com.ossovita.reservationservice.payload.request.OnlineReservationRequest;
+import com.ossovita.reservationservice.payload.request.WalkInReservationRequest;
 import com.ossovita.reservationservice.payload.response.OnlineReservationResponse;
+import com.ossovita.reservationservice.payload.response.WalkInReservationResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,4 +33,7 @@ public interface ReservationService {
     ReservationDto checkIn(ReservationCheckingRequest reservationCheckingRequest);
 
     ReservationDto checkOut(ReservationCheckingRequest reservationCheckingRequest);
+
+
+    WalkInReservationResponse createWalkInReservation(WalkInReservationRequest walkInReservationRequest);
 }
