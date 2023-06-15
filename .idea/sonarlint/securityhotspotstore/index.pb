@@ -65,8 +65,6 @@ oaccounting-service/src/main/java/com/ossovita/accountingservice/service/impl/Re
 Mclients/src/main/java/com/ossovita/clients/reservation/ReservationClient.java,0\1\010ea8d33c3a9ae1ba9f5fe470130290e7ac30ac
 ó
 greservation-service/src/main/java/com/ossovita/reservationservice/repository/ReservationRepository.java,0\4\040950012cc7431ba1c899780b1ae4aa987bcd0f
-è
-_reservation-service/src/main/java/com/ossovita/reservationservice/entity/OnlineReservation.java,7\c\7c40520499b021f1b726ba53dd3dee600cfc988d
 }
 Mcommon-service/src/main/java/com/ossovita/commonservice/enums/RoomStatus.java,7\3\7300971cc0534090e0ab2045f3c5a942a8254796
 |
