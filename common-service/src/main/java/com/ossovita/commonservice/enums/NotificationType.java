@@ -1,0 +1,9 @@
+package com.ossovita.commonservice.enums;
+
+public enum NotificationType {
+    CUSTOMER_WELCOME_NOTIFICATION,
+    RESERVATION_BOOKED_NOTIFICATION,
+    CHECK_IN_NOTIFICATION,
+    CHECK_OUT_NOTIFICATION,
+    REFUND_NOTIFICATION
+}

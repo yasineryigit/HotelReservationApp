@@ -44,6 +44,8 @@
         <module>infrastructure</module>
         <module>clients</module>
         <module>stripe-service</module>
+        <module>admin-server</module>
+        <module>notification-service</module>
     </modules>
 
 

@@ -8,9 +8,11 @@
       <module fileurl="file://$PROJECT_DIR$/clients/clients.iml" filepath="$PROJECT_DIR$/clients/clients.iml" />
       <module fileurl="file://$PROJECT_DIR$/common-service/common-service.iml" filepath="$PROJECT_DIR$/common-service/common-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/discovery-service/discovery-service.iml" filepath="$PROJECT_DIR$/discovery-service/discovery-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hotel-reservation-app.iml" filepath="$PROJECT_DIR$/hotel-reservation-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/hotel-service/hotel-service.iml" filepath="$PROJECT_DIR$/hotel-service/hotel-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/infrastructure/infrastructure.iml" filepath="$PROJECT_DIR$/infrastructure/infrastructure.iml" />
       <module fileurl="file://$PROJECT_DIR$/infrastructure/kafka/kafka.iml" filepath="$PROJECT_DIR$/infrastructure/kafka/kafka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/email-service/notification-service.iml" filepath="$PROJECT_DIR$/email-service/notification-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/reservation-service/reservation-service.iml" filepath="$PROJECT_DIR$/reservation-service/reservation-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/stripe-service/stripe-service.iml" filepath="$PROJECT_DIR$/stripe-service/stripe-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/user-service/user-service.iml" filepath="$PROJECT_DIR$/user-service/user-service.iml" />

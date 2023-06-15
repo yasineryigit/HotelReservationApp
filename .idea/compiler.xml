@@ -9,6 +9,10 @@
         <outputRelativeToContentRoot value="true" />
         <module name="common-service" />
         <module name="clients" />
+        <module name="user-service" />
+        <module name="discovery-service" />
+        <module name="notification-service" />
+        <module name="hotel-service" />
         <module name="accounting-service" />
         <module name="stripe-service" />
         <module name="infrastructure" />
@@ -16,9 +20,6 @@
         <module name="reservation-service" />
         <module name="api-gateway" />
         <module name="admin-server" />
-        <module name="user-service" />
-        <module name="discovery-service" />
-        <module name="hotel-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -32,6 +33,7 @@
       <module name="hotel-service" target="17" />
       <module name="infrastructure" target="17" />
       <module name="kafka" target="17" />
+      <module name="notification-service" target="17" />
       <module name="reservation-service" target="17" />
       <module name="stripe-service" target="17" />
       <module name="user-service" target="17" />
@@ -48,6 +50,7 @@
       <module name="hotel-service" options="-parameters" />
       <module name="infrastructure" options="-parameters" />
       <module name="kafka" options="-parameters" />
+      <module name="notification-service" options="-parameters" />
       <module name="reservation-service" options="-parameters" />
       <module name="stripe-service" options="-parameters" />
       <module name="user-service" options="-parameters" />

@@ -31,7 +31,7 @@ public class ScheduledJob {
 
         while (retryCount < MAX_RETRY_COUNT && !success) {
             try {
-                List<Reservation> reservationList = reservationService.getAllReservations();
+                List<Reservation> reservationList = reservationService.getAllReservations();//TODO: replace w/ custom query result
                 List<Reservation> processedReservationList = reservationList.stream().map(this::processReservation).toList();//process
                 reservationService.saveAll(processedReservationList);
                 success = true;
