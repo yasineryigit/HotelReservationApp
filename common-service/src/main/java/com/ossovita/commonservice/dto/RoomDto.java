@@ -17,9 +17,13 @@ public class RoomDto {
 
     private BigDecimal roomPrice;
 
+    private int roomNumber;
+
     private RoomStatus roomStatus;
 
     private Currency roomPriceCurrency;
+
+    private String hotelName;
 
 
 }

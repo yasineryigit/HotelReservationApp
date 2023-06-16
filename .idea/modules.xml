@@ -12,7 +12,7 @@
       <module fileurl="file://$PROJECT_DIR$/hotel-service/hotel-service.iml" filepath="$PROJECT_DIR$/hotel-service/hotel-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/infrastructure/infrastructure.iml" filepath="$PROJECT_DIR$/infrastructure/infrastructure.iml" />
       <module fileurl="file://$PROJECT_DIR$/infrastructure/kafka/kafka.iml" filepath="$PROJECT_DIR$/infrastructure/kafka/kafka.iml" />
-      <module fileurl="file://$PROJECT_DIR$/email-service/notification-service.iml" filepath="$PROJECT_DIR$/email-service/notification-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/notification-service/notification-service.iml" filepath="$PROJECT_DIR$/notification-service/notification-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/reservation-service/reservation-service.iml" filepath="$PROJECT_DIR$/reservation-service/reservation-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/stripe-service/stripe-service.iml" filepath="$PROJECT_DIR$/stripe-service/stripe-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/user-service/user-service.iml" filepath="$PROJECT_DIR$/user-service/user-service.iml" />

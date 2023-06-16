@@ -1,10 +1,7 @@
 package com.ossovita.kafka.config;
 
 
-import com.ossovita.kafka.model.ReservationPaymentRefundRequest;
-import com.ossovita.kafka.model.ReservationPaymentResponse;
-import com.ossovita.kafka.model.RoomStatusUpdateRequest;
-import com.ossovita.kafka.model.SubscriptionPaymentResponse;
+import com.ossovita.kafka.model.*;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -71,7 +68,7 @@ public class KafkaConfiguration {
         ConcurrentKafkaListenerContainerFactory<String, ReservationPaymentResponse> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(
-                consumerConfigs(),//
+                consumerConfigs(),
                 new StringDeserializer(),
                 new JsonDeserializer<>(ReservationPaymentResponse.class, false)));
         return factory;
@@ -82,7 +79,7 @@ public class KafkaConfiguration {
         ConcurrentKafkaListenerContainerFactory<String, SubscriptionPaymentResponse> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(
-                consumerConfigs(),//
+                consumerConfigs(),
                 new StringDeserializer(),
                 new JsonDeserializer<>(SubscriptionPaymentResponse.class, false)));
         return factory;
@@ -94,7 +91,7 @@ public class KafkaConfiguration {
         ConcurrentKafkaListenerContainerFactory<String, RoomStatusUpdateRequest> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(
-                consumerConfigs(),//
+                consumerConfigs(),
                 new StringDeserializer(),
                 new JsonDeserializer<>(RoomStatusUpdateRequest.class, false)));
         return factory;
@@ -105,9 +102,21 @@ public class KafkaConfiguration {
         ConcurrentKafkaListenerContainerFactory<String, ReservationPaymentRefundRequest> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(
-                consumerConfigs(),//
+                consumerConfigs(),
                 new StringDeserializer(),
                 new JsonDeserializer<>(ReservationPaymentRefundRequest.class, false)));
+        return factory;
+    }
+
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, NotificationRequest> notificationRequestConcurrentKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, NotificationRequest> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(
+                consumerConfigs(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(NotificationRequest.class, false)));
         return factory;
     }
 

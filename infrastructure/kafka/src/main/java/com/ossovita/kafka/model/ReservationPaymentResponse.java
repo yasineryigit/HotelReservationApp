@@ -25,6 +25,12 @@ public class ReservationPaymentResponse {
 
     private long reservationFk;
 
+    private String customerEmail;
+
+    private String customerFirstName;
+
+    private String customerLastName;
+
 
 
 }

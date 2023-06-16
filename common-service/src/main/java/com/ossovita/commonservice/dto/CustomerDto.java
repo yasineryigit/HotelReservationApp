@@ -13,6 +13,10 @@ public class CustomerDto {
 
     private long customerPk;
 
+    private String customerFirstName;
+
+    private String customerLastName;
+
     private String customerEmail;
 
     private String customerStripeId;

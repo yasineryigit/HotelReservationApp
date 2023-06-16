@@ -45,7 +45,10 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDto getRoomDtoByRoomPk(long roomPk) {
-        return modelMapper.map(getRoom(roomPk), RoomDto.class);
+        Room room = getRoom(roomPk);
+        RoomDto roomDto = modelMapper.map(room, RoomDto.class);
+        roomDto.setHotelName(room.getHotel().getHotelName());
+        return roomDto;
     }
 
     @Override

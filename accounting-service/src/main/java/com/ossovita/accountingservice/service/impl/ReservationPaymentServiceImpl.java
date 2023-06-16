@@ -89,6 +89,8 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
         Map<String, String> metadata = new HashMap<>();
         metadata.put("payment_type", String.valueOf(PaymentType.RESERVATION_PAYMENT));
         metadata.put("customer_email", customerDto.getCustomerEmail());
+        metadata.put("customer_first_name", customerDto.getCustomerFirstName());
+        metadata.put("customer_last_name", customerDto.getCustomerLastName());
         metadata.put("reservation_fk", String.valueOf(reservationDto.getReservationPk()));//reservationFk
         metadata.put("customer_fk", String.valueOf(customerDto.getCustomerPk()));//customerFk
         metadata.put("reservation_payment_fk", String.valueOf(savedReservationPayment.getReservationPaymentPk()));//reservationPaymentFk
@@ -150,6 +152,10 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
         long customerFk = Long.parseLong(chargeMetadata.get("customer_fk"));
         long reservationFk = Long.parseLong(chargeMetadata.get("reservation_fk"));
         long reservationPaymentFk = Long.parseLong(chargeMetadata.get("reservation_payment_fk"));
+        String customerEmail = chargeMetadata.get("customer_email");
+        String customerFirstName = chargeMetadata.get("customer_first_name");
+        String customerLastName = chargeMetadata.get("customer_last_name");
+
 
         log.info("processReservationPaymentCharge" + "customerFk: " + customerFk + " reservationFk: " + reservationFk + " reservationPaymentFk: " + reservationPaymentFk);
 
@@ -161,6 +167,9 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
 
         //update reservation object in the reservation-service with an event
         ReservationPaymentResponse reservationPaymentResponse = ReservationPaymentResponse.builder()
+                .customerEmail(customerEmail)
+                .customerFirstName(customerFirstName)
+                .customerLastName(customerLastName)
                 .reservationPaymentPk(reservationPaymentInDB.getReservationPaymentPk())
                 .reservationFk(reservationPaymentInDB.getReservationFk())
                 .reservationPaymentAmount(reservationPaymentInDB.getReservationPaymentAmount())
@@ -171,8 +180,6 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
         //send kafka message to the reservation-service to update its reservationStatus & reservationIsApproved fields
         kafkaTemplate.send("reservation-payment-response-topic", reservationPaymentResponse);
         log.info("Payment Update Response sent | ReservationPaymentResponse: " + reservationPaymentResponse.toString());
-
-
     }
 
 

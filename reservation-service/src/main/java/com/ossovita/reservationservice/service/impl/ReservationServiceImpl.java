@@ -4,16 +4,15 @@ import com.ossovita.clients.hotel.HotelClient;
 import com.ossovita.clients.user.UserClient;
 import com.ossovita.commonservice.dto.ReservationDto;
 import com.ossovita.commonservice.dto.RoomDto;
-import com.ossovita.commonservice.enums.PaymentStatus;
-import com.ossovita.commonservice.enums.ReservationPaymentRefundReason;
-import com.ossovita.commonservice.enums.ReservationStatus;
-import com.ossovita.commonservice.enums.RoomStatus;
+import com.ossovita.commonservice.enums.*;
 import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.commonservice.exception.UnexpectedRequestException;
 import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
+import com.ossovita.kafka.model.NotificationRequest;
 import com.ossovita.kafka.model.ReservationPaymentRefundRequest;
 import com.ossovita.kafka.model.ReservationPaymentResponse;
 import com.ossovita.kafka.model.RoomStatusUpdateRequest;
+import com.ossovita.commonservice.dto.notification.ReservationBookedNotificationForCustomerDto;
 import com.ossovita.reservationservice.entity.OnlineReservation;
 import com.ossovita.reservationservice.entity.Reservation;
 import com.ossovita.reservationservice.entity.ReservationChecking;
@@ -31,7 +30,6 @@ import com.ossovita.reservationservice.repository.WalkInReservationRepository;
 import com.ossovita.reservationservice.service.ReservationService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.support.AbstractBeanFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -39,6 +37,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -294,6 +293,18 @@ public class ReservationServiceImpl implements ReservationService {
                 handleDuplicateReservation(reservationPaymentResponse);
             } else {
                 updateReservationAsBooked(reservationInDB);
+                //send reservation completed email
+                ReservationBookedNotificationForCustomerDto reservationBookedNotificationForCustomerDto = ReservationBookedNotificationForCustomerDto.builder()
+                        .userEmail(reservationPaymentResponse.getCustomerEmail())
+                        .userFirstName(reservationPaymentResponse.getCustomerFirstName())
+                        .userLastName(reservationPaymentResponse.getCustomerLastName())
+                        .reservationPk(reservationPaymentResponse.getReservationFk())
+                        .reservationStartTime(reservationInDB.getReservationStartTime())
+                        .reservationEndTime(reservationInDB.getReservationEndTime())
+                        .reservationPrice(reservationInDB.getReservationPrice())
+                        .reservationPriceCurrency(reservationInDB.getReservationPriceCurrency())
+                        .build();
+                sendReservationBookedNotificationToTheCustomer(reservationBookedNotificationForCustomerDto);
             }
         } else {
             // TODO: Handle ReservationPaymentStatus.FAILED case
@@ -315,6 +326,29 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setReservationIsApproved(true);
         reservationRepository.save(reservation);
         log.info("updateReservationAsBooked {} : " + reservation.toString());
+    }
+
+    private void sendReservationBookedNotificationToTheCustomer(ReservationBookedNotificationForCustomerDto reservationBookedNotificationForCustomerDto) {
+        RoomDto roomDto = hotelClient.getRoomDtoWithRoomPk(reservationBookedNotificationForCustomerDto.getReservationPk());
+        HashMap<String, String> payload = new HashMap<>();
+
+        payload.put("customer_email", reservationBookedNotificationForCustomerDto.getUserEmail());
+        payload.put("customer_first_name", reservationBookedNotificationForCustomerDto.getUserFirstName());
+        payload.put("customer_last_name", reservationBookedNotificationForCustomerDto.getUserLastName());
+        payload.put("reservation_start_time", String.valueOf(reservationBookedNotificationForCustomerDto.getReservationStartTime()));
+        payload.put("reservation_end_time", String.valueOf(reservationBookedNotificationForCustomerDto.getReservationEndTime()));
+        payload.put("reservation_price", String.valueOf(reservationBookedNotificationForCustomerDto.getReservationPrice()));
+        payload.put("reservation_price_currency", String.valueOf(reservationBookedNotificationForCustomerDto.getReservationPriceCurrency()));
+        payload.put("hotel_name", roomDto.getHotelName());
+        payload.put("room_number", String.valueOf(roomDto.getRoomNumber()));
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .to(reservationBookedNotificationForCustomerDto.getUserEmail())
+                .payload(payload)
+                .notificationType(NotificationType.CUSTOMER_WELCOME_NOTIFICATION)
+                .build();
+        kafkaTemplate.send("notification-request-topic", notificationRequest);
+        log.info("Reservation booked notification sent to the customer {}: " + notificationRequest.toString());
     }
 
     private void saveReservationChecking(ReservationCheckingRequest reservationCheckingRequest, ReservationCheckingType reservationCheckingType) {

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to HRA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .message {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .signature {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="logo">
+        <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/ed/95/07/limak-eurasia-luxury.jpg?w=1100&h=-1&s=1" alt="HRA Logo">
+        <h1>Welcome to HRA - Hotel Reservation App!</h1>
+    </div>
+    <div class="message">
+        <p>Hello {{userFirstName}},</p>
+        <p>Thank you for registering with HRA - your go-to hotel reservation app.</p>
+
+        <p>As a registered user, you now have access to a wide selection of hotels and exclusive deals.</p>
+        <p>With HRA, you can easily search for hotels, make reservations, and manage your bookings.</p>
+
+        <p>If you have any questions or need assistance, our support team is available 24/7 to help you.</p>
+
+        <p>Once again, welcome to HRA! We hope you have a fantastic experience.</p>
+    </div>
+
+    <p class="signature">Best Regards,</p>
+    <p>The HRA Team</p>
+</div>
+</body>
+</html>
