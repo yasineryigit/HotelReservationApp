@@ -357,7 +357,6 @@ public class ReservationServiceImpl implements ReservationService {
         payload.put("hotel_name", reservationBookedNotificationForCustomerDto.getHotelName());
         payload.put("room_number", String.valueOf(reservationBookedNotificationForCustomerDto.getRoomNumber()));
 
-
         NotificationRequest notificationRequest = NotificationRequest.builder()
                 .to(reservationBookedNotificationForCustomerDto.getCustomerEmail())
                 .payload(payload)
