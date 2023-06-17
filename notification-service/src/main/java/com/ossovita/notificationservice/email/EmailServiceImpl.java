@@ -11,6 +11,7 @@ import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 
 @Service
 @Slf4j
@@ -23,7 +24,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void send(String to, NotificationType notificationType, Object payload) {
+    public void send(String to, NotificationType notificationType, HashMap<String, String> payload) {
         switch (notificationType) {
             case CUSTOMER_WELCOME_NOTIFICATION:
                 customerEmailService.sendCustomerWelcomeEmail(to, payload);

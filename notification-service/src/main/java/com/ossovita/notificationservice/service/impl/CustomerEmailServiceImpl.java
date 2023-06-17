@@ -1,6 +1,5 @@
 package com.ossovita.notificationservice.service.impl;
 
-import com.ossovita.commonservice.dto.notification.CustomerWelcomeNotificationDto;
 import com.ossovita.commonservice.dto.notification.ReservationBookedNotificationForCustomerDto;
 import com.ossovita.notificationservice.email.EmailService;
 import com.ossovita.notificationservice.service.CustomerEmailService;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.HashMap;
 
 @Service
 @Slf4j
@@ -32,13 +32,13 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
     }
 
     @Override
-    public void sendCustomerWelcomeEmail(String to, Object payload) {
-        CustomerWelcomeNotificationDto dto = (CustomerWelcomeNotificationDto) payload;
+    public void sendCustomerWelcomeEmail(String to, HashMap<String, String> payload) {
+        String customerFirstName = payload.get("customer_first_name");
 
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(buildCustomerWelcomeEmail(dto.getCustomerEmail()), true);
+            helper.setText(buildCustomerWelcomeEmail(customerFirstName), true);
             helper.setTo(to);
             helper.setSubject("Welcome to HRA");
             helper.setFrom("noreply@hra.com");
@@ -50,13 +50,13 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
     }
 
     @Override
-    public void sendReservationBookedEmailToTheCustomer(String to, Object payload) {
-        ReservationBookedNotificationForCustomerDto dto = (ReservationBookedNotificationForCustomerDto) payload;
+    public void sendReservationBookedEmailToTheCustomer(String to, HashMap<String, String> payload) {
+        String customerEmail = payload.get("customer_email");
 
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(buildCustomerWelcomeEmail(dto.getUserEmail()), true);
+            helper.setText(buildCustomerWelcomeEmail(customerEmail), true);
             helper.setTo(to);
             helper.setSubject("Welcome to HRA");
             helper.setFrom("noreply@hra.com");

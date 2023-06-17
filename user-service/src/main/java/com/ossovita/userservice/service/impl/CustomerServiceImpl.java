@@ -1,7 +1,6 @@
 package com.ossovita.userservice.service.impl;
 
 import com.ossovita.commonservice.dto.CustomerDto;
-import com.ossovita.commonservice.dto.notification.CustomerWelcomeNotificationDto;
 import com.ossovita.commonservice.enums.NotificationType;
 import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.kafka.model.NotificationRequest;
@@ -18,6 +17,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -71,19 +71,17 @@ public class CustomerServiceImpl implements CustomerService {
         //send notification
         sendCustomerWelcomeNotification(savedUser.getUserEmail(), savedUser.getUserFirstName(), savedUser.getUserLastName());
 
-
         return customerSignUpDto;
     }
 
     private void sendCustomerWelcomeNotification(String userEmail, String userFirstName, String userLastName) {
-        CustomerWelcomeNotificationDto customerWelcomeNotificationDto = CustomerWelcomeNotificationDto.builder()
-                .customerEmail(userEmail)
-                .customerFirstName(userFirstName)
-                .customerLastName(userLastName)
-                .build();
+        HashMap<String, String> payload = new HashMap<>();
+        payload.put("customer_email", userEmail);
+        payload.put("customer_first_name", userFirstName);
+        payload.put("customer_last_name", userLastName);
 
         NotificationRequest notificationRequest =
-                new NotificationRequest(userEmail, NotificationType.CUSTOMER_WELCOME_NOTIFICATION, customerWelcomeNotificationDto);
+                new NotificationRequest(userEmail, NotificationType.CUSTOMER_WELCOME_NOTIFICATION, payload);
         kafkaTemplate.send("notification-request-topic", notificationRequest);
         log.info("Customer welcome notification sent {}: " + notificationRequest.toString());
     }
