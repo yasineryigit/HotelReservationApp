@@ -33,16 +33,12 @@ laccounting-service/src/main/java/com/ossovita/accountingservice/controller/Rese
 Thotel-service/src/main/java/com/ossovita/hotelservice/repository/RoomRepository.java,d\3\d32209e795043e399eb7bcad839dc493388410c6
 ~
 Nhotel-service/src/main/java/com/ossovita/hotelservice/service/RoomService.java,7\5\756bdaf1e3c67c3c4a5058c4fbdd45cf2984c7a0
-Ñ
-Tcommon-service/src/main/java/com/ossovita/commonservice/enums/ReservationStatus.java,c\3\c36c40ba062ebf6a35893c5edebb972e6619c94a
 ô
 icommon-service/src/main/java/com/ossovita/commonservice/payload/request/CheckRoomAvailabilityRequest.java,2\6\268aea0369b2a1a4d03a5d31c08fdaba3829642a
 û
 naccounting-service/src/main/java/com/ossovita/accountingservice/payload/request/ReservationPaymentRequest.java,0\d\0d5aa54e79e903eec80b7e60ef18b3068d24af3a
 }
 Mclients/src/main/java/com/ossovita/clients/reservation/ReservationClient.java,0\1\010ea8d33c3a9ae1ba9f5fe470130290e7ac30ac
-ó
-greservation-service/src/main/java/com/ossovita/reservationservice/repository/ReservationRepository.java,0\4\040950012cc7431ba1c899780b1ae4aa987bcd0f
 }
 Mcommon-service/src/main/java/com/ossovita/commonservice/enums/RoomStatus.java,7\3\7300971cc0534090e0ab2045f3c5a942a8254796
 |
@@ -51,8 +47,6 @@ Lapi-gateway/src/main/java/com/ossovita/apigateway/ApiGatewayApplication.java,e
 oreservation-service/src/main/java/com/ossovita/reservationservice/repository/ReservationCheckingRepository.java,0\2\0251d53f5acaa8c8683bd204a66a835d4894164f
 î
 dreservation-service/src/main/java/com/ossovita/reservationservice/enums/ReservationCheckingType.java,7\d\7d583776db200bbafce50655c938134a601e6d37
-ë
-areservation-service/src/main/java/com/ossovita/reservationservice/entity/ReservationChecking.java,7\f\7fe078a2a3758f7b16557162d1e18264a775aaa6
 ü
 oreservation-service/src/main/java/com/ossovita/reservationservice/payload/request/OnlineReservationRequest.java,2\d\2d7cb7da695d47f9d0b1eb0908d496d70903226d
 °
@@ -99,8 +93,6 @@ Tinfrastructure/kafka/src/main/java/com/ossovita/kafka/config/KafkaConfiguration
 Winfrastructure/kafka/src/main/java/com/ossovita/kafka/config/JsonSerializerWithJTM.java,9\4\94e49897f521f5d7c39329a58b4f907cfd77a9e3
 Ñ
 Tinfrastructure/kafka/src/main/java/com/ossovita/kafka/model/NotificationRequest.java,a\c\ac15267d0d2c4d59761ce42151ad8594299fed1f
-ã
-[notification-service/src/main/java/com/ossovita/notificationservice/email/EmailService.java,7\a\7aebb6d933140a42a6b3e1771bcd855e4f715a8c
 ñ
 fnotification-service/src/main/java/com/ossovita/notificationservice/consumer/NotificationConsumer.java,1\0\10532ec994a20271c5452aa6b0b8bf039a51bb5a
 è
@@ -109,8 +101,6 @@ _reservation-service/src/main/java/com/ossovita/reservationservice/entity/Online
 dreservation-service/src/main/java/com/ossovita/reservationservice/ReservationServiceApplication.java,3\e\3e1a2be2d4c95a1b3775b601b9e0c5b43accf08a
 q
 Aclients/src/main/java/com/ossovita/clients/hotel/HotelClient.java,2\e\2ed8e52256dc6a69f483e0aa05a8cdf84f5f4fd6
-á
-Whotel-service/src/main/java/com/ossovita/hotelservice/service/impl/RoomServiceImpl.java,e\9\e98d3b6e13c5284da797984b064f2c64930ca396
 Ñ
 Thotel-service/src/main/java/com/ossovita/hotelservice/controller/RoomController.java,0\6\066ad9d290fd13eb9cf4858503903e3efe7fc3cc
 K

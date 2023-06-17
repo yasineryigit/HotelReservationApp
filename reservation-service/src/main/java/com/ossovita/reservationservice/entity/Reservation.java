@@ -1,5 +1,6 @@
 package com.ossovita.reservationservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ossovita.commonservice.enums.Currency;
 import com.ossovita.commonservice.enums.ReservationStatus;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -54,12 +56,12 @@ public class Reservation {
     @Column(name = "customer_fk")
     private long customerFk;
 
+    @OneToMany(mappedBy = "reservation")
+    @JsonIgnore
+    private List<ReservationChecking> reservationChecking;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "reservation")
     private OnlineReservation onlineReservation;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "reservation")
-    private ReservationChecking reservationChecking;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "reservation")
     private WalkInReservation walkInReservation;

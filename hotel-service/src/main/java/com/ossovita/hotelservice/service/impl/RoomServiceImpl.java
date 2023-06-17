@@ -82,7 +82,7 @@ public class RoomServiceImpl implements RoomService {
 
         //return only the rooms which is available
         return roomList.stream()
-                .filter(room -> !notAvailableRoomFkListByGivenDateRange.contains(room.getRoomPk())) // filter not available room fk list
+                .filter(room -> !notAvailableRoomFkListByGivenDateRange.contains(room.getRoomPk())) // filter not available room fk list by date range
                 .toList();
     }
 

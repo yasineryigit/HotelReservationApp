@@ -35,7 +35,12 @@ public class EmailServiceImpl implements EmailService {
             case CHECK_IN_NOTIFICATION:
                 customerEmailService.sendCheckInEmailToTheCustomer(to, payload);
                 break;
-                //TODO: add each case
+            case CHECK_OUT_NOTIFICATION:
+                customerEmailService.sendCheckOutEmailToTheCustomer(to, payload);
+                break;
+            case RESERVATION_PAYMENT_REFUND_NOTIFICATION:
+                customerEmailService.sendReservationPaymentRefundEmailToTheCustomer(to, payload);
+                break;
                 //TODO: add default mail template sender
         }
     }

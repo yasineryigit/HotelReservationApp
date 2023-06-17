@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class CheckInNotificationForCustomerDto {
+public class CheckingNotificationForCustomerDto {
 
     private String customerEmail;
 

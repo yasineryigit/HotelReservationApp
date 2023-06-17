@@ -133,7 +133,7 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
         //prepare metadata
         Map<String, Object> metadata = new HashMap<>();
         metadata.put("reservation_payment_pk", reservationPaymentRefundRequest.getReservationPaymentPk());
-        metadata.put("message", reservationPaymentRefundRequest.getMessage());
+        metadata.put("message", reservationPaymentRefundRequest.getReservationPaymentRefundMessage());
         //prepare params
         Map<String, Object> params = new HashMap<>();
         params.put("charge", reservationPaymentInDB.getReservationPaymentStripeChargeId());

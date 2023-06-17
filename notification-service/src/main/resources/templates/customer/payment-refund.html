@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reservation Booked - Here Are Your Details</title>
+    <title>Reservation Payment Refund - Here Are Your Details</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -57,22 +57,19 @@
 <div class="container">
     <div class="logo">
         <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/ed/95/07/limak-eurasia-luxury.jpg?w=1100&h=-1&s=1" alt="HRA Logo">
-        <h1>Reservation Booked - Here Are Your Details</h1>
+        <h1>Reservation Payment Refund - Here Are Your Details</h1>
     </div>
     <div class="message">
         <p>Hello {{customerFirstName}} {{customerLastName}},</p>
-        <p>Thank you for booking with HRA - your go-to hotel reservation app.</p>
+        <p>We would like to inform you that a refund has been issued for your recent payment.</p>
 
-        <p>Below are the details of your reservation:</p>
-        <p>Hotel Name: {{hotelName}}</p>
-        <p>Room Number: {{roomNumber}}</p>
-        <p>Reservation Start Time: {{reservationStartTime}}</p>
-        <p>Reservation End Time: {{reservationEndTime}}</p>
-        <p>Reservation Price: {{reservationPrice}} {{reservationPriceCurrency}}</p>
+        <p>Refund Reason: {{reservationPaymentReason}}</p>
+        <p>Refund Message: {{reservationPaymentRefundMessage}}</p>
+        <p>Refunded Amount: {{reservationPaymentAmount}}</p>
 
-        <p>If you have any questions or need assistance, our support team is available 24/7 to help you.</p>
+        <p>If you have any questions or need further assistance, please don't hesitate to contact our support team.</p>
 
-        <p>Thank you for choosing HRA. We hope you have a pleasant stay!</p>
+        <p>Thank you for choosing HRA. We apologize for any inconvenience caused.</p>
     </div>
 
     <p class="signature">Best Regards,</p>

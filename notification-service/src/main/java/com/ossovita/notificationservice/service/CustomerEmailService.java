@@ -9,4 +9,8 @@ public interface CustomerEmailService {
     void sendReservationBookedEmailToTheCustomer(String to, HashMap<String, String> payload);
 
     void sendCheckInEmailToTheCustomer(String to, HashMap<String, String> payload);
+
+    void sendCheckOutEmailToTheCustomer(String to, HashMap<String, String> payload);
+
+    void sendReservationPaymentRefundEmailToTheCustomer(String to, HashMap<String, String> payload);
 }

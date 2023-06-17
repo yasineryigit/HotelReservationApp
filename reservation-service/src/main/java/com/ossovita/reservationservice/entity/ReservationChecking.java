@@ -1,5 +1,6 @@
 package com.ossovita.reservationservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ossovita.commonservice.enums.RoomStatus;
 import com.ossovita.reservationservice.enums.ReservationCheckingType;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -23,8 +25,9 @@ public class ReservationChecking {
     @Column(name = "reservation_checking_pk")
     private long reservationCheckingPk;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "reservation_fk", insertable = false, updatable = false)
+    @JsonIgnore
     private Reservation reservation;
 
     @Column(name = "reservation_fk")
@@ -36,5 +39,9 @@ public class ReservationChecking {
     @Column(name = "reservation_checking_type")
     @Enumerated(EnumType.STRING)
     private ReservationCheckingType reservationCheckingType;
+
+    @Column(name = "reservation_checking_time")
+    private LocalDateTime reservationCheckingTime;
+
 
 }

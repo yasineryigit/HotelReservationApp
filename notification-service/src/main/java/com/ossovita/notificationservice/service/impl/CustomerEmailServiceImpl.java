@@ -23,9 +23,14 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
     String customerReservationBookedEmailTemplatePath;
     @Value("${customer.check.in.email.template.path}")
     String customerCheckInEmailTemplatePath;
+    @Value("${customer.check.out.email.template.path}")
+    String customerCheckOutEmailTemplatePath;
+    @Value("${customer.reservation.payment.refund.email.template.path}")
+    String customerReservationPaymentRefundEmailTemplatePath;
 
     private final JavaMailSender mailSender;
     private EmailService emailService;
+
 
     public CustomerEmailServiceImpl(JavaMailSender mailSender, @Lazy EmailService emailService) {
         this.mailSender = mailSender;
@@ -65,7 +70,7 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(buildReservationBookedEmailToTheCustomer(customerFirstName, reservationStartTime, reservationEndTime, reservationPrice, reservationPriceCurrency, hotelName, roomNumber), true);
+            helper.setText(buildReservationBookedEmailToTheCustomer(customerFirstName, customerLastName, reservationStartTime, reservationEndTime, reservationPrice, reservationPriceCurrency, hotelName, roomNumber), true);
             helper.setTo(to);
             helper.setSubject("Reservation Booked");
             helper.setFrom("booking@hra.com");
@@ -89,7 +94,7 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(buildCheckInEmailToTheCustomer(customerFirstName, reservationStartTime, reservationEndTime, hotelName, roomNumber), true);
+            helper.setText(buildCheckInEmailToTheCustomer(customerFirstName, customerLastName, reservationStartTime, reservationEndTime, hotelName, roomNumber), true);
             helper.setTo(to);
             helper.setSubject("Check-In Confirmation");
             helper.setFrom("booking@hra.com");
@@ -100,6 +105,71 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
         }
     }
 
+    @Override
+    public void sendCheckOutEmailToTheCustomer(String to, HashMap<String, String> payload) {
+        String customerEmail = payload.get("customer_email");
+        String customerFirstName = payload.get("customer_first_name");
+        String customerLastName = payload.get("customer_last_name");
+        String reservationStartTime = payload.get("reservation_start_time");
+        String reservationEndTime = payload.get("reservation_end_time");
+        String hotelName = payload.get("hotel_name");
+        String roomNumber = payload.get("room_number");
+
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+            helper.setText(buildCheckOutEmailToTheCustomer(customerFirstName, customerLastName, reservationStartTime, reservationEndTime, hotelName, roomNumber), true);
+            helper.setTo(to);
+            helper.setSubject("Check-Out Confirmation");
+            helper.setFrom("booking@hra.com");
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            log.error("Failed to send email", e);
+            throw new IllegalStateException("Failed to send email");
+        }
+    }
+
+    @Override
+    public void sendReservationPaymentRefundEmailToTheCustomer(String to, HashMap<String, String> payload) {
+        String customerEmail = payload.get("customer_email");
+        String customerFirstName = payload.get("customer_first_name");
+        String customerLastName = payload.get("customer_last_name");
+        String reservationPaymentRefundReason = payload.get("reservation_payment_refund_reason");
+        String reservationPaymentRefundMessage = payload.get("reservation_payment_refund_message");
+        String reservationPaymentAmount = payload.get("reservation_payment_amount");
+
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+            helper.setText(buildReservationPaymentRefundEmail(customerFirstName, customerLastName, reservationPaymentRefundReason, reservationPaymentRefundMessage, reservationPaymentAmount), true);
+            helper.setTo(to);
+            helper.setSubject("Check-Out Confirmation");
+            helper.setFrom("booking@hra.com");
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            log.error("Failed to send email", e);
+            throw new IllegalStateException("Failed to send email");
+        }
+
+    }
+
+    private String buildReservationPaymentRefundEmail(String customerFirstName,
+                                                      String customerLastName,
+                                                      String reservationPaymentRefundReason,
+                                                      String reservationPaymentRefundMessage,
+                                                      String reservationPaymentAmount) {
+
+        String emailTemplate = emailService.loadEmailTemplate(customerReservationPaymentRefundEmailTemplatePath);
+
+        return emailTemplate.replace("{{customerFirstName}}", customerFirstName)
+                .replace("{{customerLastName}}", customerLastName)
+                .replace("{{reservationPaymentReason}}", reservationPaymentRefundReason)
+                .replace("{{reservationPaymentRefundMessage}}", reservationPaymentRefundMessage)
+                .replace("{{reservationPaymentAmount}}", reservationPaymentAmount);
+
+
+    }
+
 
     private String buildCustomerWelcomeEmail(String userFirstName) {
         String emailTemplate = emailService.loadEmailTemplate(customerWelcomeEmailTemplatePath);
@@ -107,6 +177,7 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
     }
 
     private String buildReservationBookedEmailToTheCustomer(String customerFirstName,
+                                                            String customerLastName,
                                                             String reservationStartTime,
                                                             String reservationEndTime,
                                                             String reservationPrice,
@@ -116,6 +187,7 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
         String emailTemplate = emailService.loadEmailTemplate(customerReservationBookedEmailTemplatePath);
 
         return emailTemplate.replace("{{customerFirstName}}", customerFirstName)
+                .replace("{{customerLastName}}", customerLastName)
                 .replace("{{hotelName}}", hotelName)
                 .replace("{{roomNumber}}", roomNumber)
                 .replace("{{reservationStartTime}}", reservationStartTime)
@@ -125,6 +197,7 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
     }
 
     private String buildCheckInEmailToTheCustomer(String customerFirstName,
+                                                  String customerLastName,
                                                   String reservationStartTime,
                                                   String reservationEndTime,
                                                   String hotelName,
@@ -132,6 +205,24 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
         String emailTemplate = emailService.loadEmailTemplate(customerCheckInEmailTemplatePath);
 
         return emailTemplate.replace("{{customerFirstName}}", customerFirstName)
+                .replace("{{customerLastName}}", customerLastName)
+                .replace("{{hotelName}}", hotelName)
+                .replace("{{roomNumber}}", roomNumber)
+                .replace("{{reservationStartTime}}", reservationStartTime)
+                .replace("{{reservationEndTime}}", reservationEndTime);
+    }
+
+
+    private String buildCheckOutEmailToTheCustomer(String customerFirstName,
+                                                   String customerLastName,
+                                                   String reservationStartTime,
+                                                   String reservationEndTime,
+                                                   String hotelName,
+                                                   String roomNumber) {
+
+        String emailTemplate = emailService.loadEmailTemplate(customerCheckOutEmailTemplatePath);
+        return emailTemplate.replace("{{customerFirstName}}", customerFirstName)
+                .replace("{{customerLastName}}", customerLastName)
                 .replace("{{hotelName}}", hotelName)
                 .replace("{{roomNumber}}", roomNumber)
                 .replace("{{reservationStartTime}}", reservationStartTime)
