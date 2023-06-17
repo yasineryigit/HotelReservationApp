@@ -1,6 +1,5 @@
 package com.ossovita.notificationservice.service.impl;
 
-import com.ossovita.commonservice.dto.notification.ReservationBookedNotificationForCustomerDto;
 import com.ossovita.notificationservice.email.EmailService;
 import com.ossovita.notificationservice.service.CustomerEmailService;
 import lombok.extern.slf4j.Slf4j;
@@ -52,14 +51,22 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
     @Override
     public void sendReservationBookedEmailToTheCustomer(String to, HashMap<String, String> payload) {
         String customerEmail = payload.get("customer_email");
+        String customerFirstName = payload.get("customer_first_name");
+        String customerLastName = payload.get("customer_last_name");
+        String reservationStartTime = payload.get("reservation_start_time");
+        String reservationEndTime = payload.get("reservation_end_time");
+        String reservationPrice = payload.get("reservation_price");
+        String reservationPriceCurrency = payload.get("reservation_price_currency");
+        String hotelName = payload.get("hotel_name");
+        String roomNumber = payload.get("room_number");
 
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(buildCustomerWelcomeEmail(customerEmail), true);
+            helper.setText(buildReservationBookedEmailToTheCustomer(customerFirstName, reservationStartTime, reservationEndTime, reservationPrice, reservationPriceCurrency, hotelName, roomNumber), true);
             helper.setTo(to);
-            helper.setSubject("Welcome to HRA");
-            helper.setFrom("noreply@hra.com");
+            helper.setSubject("Reservation Booked");
+            helper.setFrom("booking@hra.com");
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             log.error("Failed to send email", e);
@@ -73,10 +80,24 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
         return emailTemplate.replace("{{userFirstName}}", userFirstName);
     }
 
-    private String buildReservationBookedEmailToTheCustomer(String userFirstName) {
+    private String buildReservationBookedEmailToTheCustomer(String userFirstName,
+                                                            String reservationStartTime,
+                                                            String reservationEndTime,
+                                                            String reservationPrice,
+                                                            String reservationPriceCurrency,
+                                                            String hotelName,
+                                                            String roomNumber) {
         String emailTemplate = emailService.loadEmailTemplate(customerReservationBookedEmailTemplatePath);
-        return emailTemplate.replace("{{userFirstName}}", userFirstName);
+
+        return emailTemplate.replace("{{userFirstName}}", userFirstName)
+                .replace("{{hotelName}}", hotelName)
+                .replace("{{roomNumber}}", roomNumber)
+                .replace("{{reservationStartTime}}", reservationStartTime)
+                .replace("{{reservationEndTime}}", reservationEndTime)
+                .replace("{{reservationPrice}}", reservationPrice)
+                .replace("{{reservationPriceCurrency}}", reservationPriceCurrency);
     }
 
 
 }
+

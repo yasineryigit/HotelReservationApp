@@ -28,7 +28,11 @@ public class OnlineReservation {
     @Column(name = "reservation_fk")
     private long reservationFk;
 
-
-
-
+    @Override
+    public String toString() {
+        return "OnlineReservation{" +
+                "onlineReservationPk=" + onlineReservationPk +
+                ", reservationFk=" + reservationFk +
+                '}';
+    }
 }

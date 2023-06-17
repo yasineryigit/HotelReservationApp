@@ -12,7 +12,7 @@ import com.ossovita.kafka.model.NotificationRequest;
 import com.ossovita.kafka.model.ReservationPaymentRefundRequest;
 import com.ossovita.kafka.model.ReservationPaymentResponse;
 import com.ossovita.kafka.model.RoomStatusUpdateRequest;
-import com.ossovita.commonservice.dto.notification.ReservationBookedNotificationForCustomerDto;
+import com.ossovita.reservationservice.dto.ReservationBookedNotificationForCustomerDto;
 import com.ossovita.reservationservice.entity.OnlineReservation;
 import com.ossovita.reservationservice.entity.Reservation;
 import com.ossovita.reservationservice.entity.ReservationChecking;
@@ -288,22 +288,17 @@ public class ReservationServiceImpl implements ReservationService {
                 .reservationEndTime(reservationInDB.getReservationEndTime())
                 .build();
 
-        if (reservationPaymentResponse.getPaymentStatus().equals(PaymentStatus.PAID)) {
+        if (reservationPaymentResponse.getReservationPaymentStatus().equals(PaymentStatus.PAID)) {
             if (!isRoomAvailableByGivenDateRange(checkRoomAvailabilityRequest)) {//is room already booked
                 handleDuplicateReservation(reservationPaymentResponse);
             } else {
                 updateReservationAsBooked(reservationInDB);
                 //send reservation completed email
-                ReservationBookedNotificationForCustomerDto reservationBookedNotificationForCustomerDto = ReservationBookedNotificationForCustomerDto.builder()
-                        .userEmail(reservationPaymentResponse.getCustomerEmail())
-                        .userFirstName(reservationPaymentResponse.getCustomerFirstName())
-                        .userLastName(reservationPaymentResponse.getCustomerLastName())
-                        .reservationPk(reservationPaymentResponse.getReservationFk())
-                        .reservationStartTime(reservationInDB.getReservationStartTime())
-                        .reservationEndTime(reservationInDB.getReservationEndTime())
-                        .reservationPrice(reservationInDB.getReservationPrice())
-                        .reservationPriceCurrency(reservationInDB.getReservationPriceCurrency())
-                        .build();
+                ReservationBookedNotificationForCustomerDto reservationBookedNotificationForCustomerDto = modelMapper.map(reservationPaymentResponse, ReservationBookedNotificationForCustomerDto.class);
+                reservationBookedNotificationForCustomerDto.setReservationStartTime(reservationInDB.getReservationStartTime());
+                reservationBookedNotificationForCustomerDto.setReservationEndTime(reservationInDB.getReservationEndTime());
+                reservationBookedNotificationForCustomerDto.setReservationPrice(reservationInDB.getReservationPrice());
+                reservationBookedNotificationForCustomerDto.setReservationPriceCurrency(reservationInDB.getReservationPriceCurrency());
                 sendReservationBookedNotificationToTheCustomer(reservationBookedNotificationForCustomerDto);
             }
         } else {
@@ -329,7 +324,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     private void sendReservationBookedNotificationToTheCustomer(ReservationBookedNotificationForCustomerDto reservationBookedNotificationForCustomerDto) {
-        RoomDto roomDto = hotelClient.getRoomDtoWithRoomPk(reservationBookedNotificationForCustomerDto.getReservationPk());
+
         HashMap<String, String> payload = new HashMap<>();
 
         payload.put("customer_email", reservationBookedNotificationForCustomerDto.getUserEmail());
@@ -339,13 +334,14 @@ public class ReservationServiceImpl implements ReservationService {
         payload.put("reservation_end_time", String.valueOf(reservationBookedNotificationForCustomerDto.getReservationEndTime()));
         payload.put("reservation_price", String.valueOf(reservationBookedNotificationForCustomerDto.getReservationPrice()));
         payload.put("reservation_price_currency", String.valueOf(reservationBookedNotificationForCustomerDto.getReservationPriceCurrency()));
-        payload.put("hotel_name", roomDto.getHotelName());
-        payload.put("room_number", String.valueOf(roomDto.getRoomNumber()));
+        payload.put("hotel_name", reservationBookedNotificationForCustomerDto.getHotelName());
+        payload.put("room_number", String.valueOf(reservationBookedNotificationForCustomerDto.getRoomNumber()));
+
 
         NotificationRequest notificationRequest = NotificationRequest.builder()
                 .to(reservationBookedNotificationForCustomerDto.getUserEmail())
                 .payload(payload)
-                .notificationType(NotificationType.CUSTOMER_WELCOME_NOTIFICATION)
+                .notificationType(NotificationType.RESERVATION_BOOKED_NOTIFICATION)
                 .build();
         kafkaTemplate.send("notification-request-topic", notificationRequest);
         log.info("Reservation booked notification sent to the customer {}: " + notificationRequest.toString());

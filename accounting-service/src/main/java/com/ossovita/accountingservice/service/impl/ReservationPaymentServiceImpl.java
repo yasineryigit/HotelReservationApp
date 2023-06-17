@@ -11,6 +11,7 @@ import com.ossovita.clients.reservation.ReservationClient;
 import com.ossovita.clients.user.UserClient;
 import com.ossovita.commonservice.dto.CustomerDto;
 import com.ossovita.commonservice.dto.ReservationDto;
+import com.ossovita.commonservice.dto.RoomDto;
 import com.ossovita.commonservice.enums.PaymentStatus;
 import com.ossovita.commonservice.enums.ReservationPaymentType;
 import com.ossovita.commonservice.exception.IdNotFoundException;
@@ -63,6 +64,8 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
         //getReservationByReservationFk method from reservation-service
         ReservationDto reservationDto = reservationClient.getReservationDtoByReservationFk(reservationPaymentRequest.getReservationFk());
 
+        RoomDto roomDto = hotelClient.getRoomDtoWithRoomPk(reservationDto.getRoomFk());
+
         CheckRoomAvailabilityRequest checkRoomAvailabilityRequest = CheckRoomAvailabilityRequest
                 .builder()
                 .roomFk(reservationPaymentRequest.getRoomFk())
@@ -94,7 +97,8 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
         metadata.put("reservation_fk", String.valueOf(reservationDto.getReservationPk()));//reservationFk
         metadata.put("customer_fk", String.valueOf(customerDto.getCustomerPk()));//customerFk
         metadata.put("reservation_payment_fk", String.valueOf(savedReservationPayment.getReservationPaymentPk()));//reservationPaymentFk
-
+        metadata.put("hotel_name",roomDto.getHotelName());
+        metadata.put("room_number", String.valueOf(roomDto.getRoomNumber()));
 
         PaymentIntentCreateParams createParams = new PaymentIntentCreateParams.Builder()
                 .setCustomer(customerDto.getCustomerStripeId())
@@ -155,6 +159,8 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
         String customerEmail = chargeMetadata.get("customer_email");
         String customerFirstName = chargeMetadata.get("customer_first_name");
         String customerLastName = chargeMetadata.get("customer_last_name");
+        String hotelName = chargeMetadata.get("hotel_name");
+        int roomNumber = Integer.parseInt(chargeMetadata.get("room_number"));
 
 
         log.info("processReservationPaymentCharge" + "customerFk: " + customerFk + " reservationFk: " + reservationFk + " reservationPaymentFk: " + reservationPaymentFk);
@@ -174,7 +180,9 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
                 .reservationFk(reservationPaymentInDB.getReservationFk())
                 .reservationPaymentAmount(reservationPaymentInDB.getReservationPaymentAmount())
                 .reservationPaymentType(ReservationPaymentType.CREDIT_CARD)
-                .paymentStatus(PaymentStatus.PAID)
+                .reservationPaymentStatus(PaymentStatus.PAID)
+                .hotelName(hotelName)
+                .roomNumber(roomNumber)
                 .build();
 
         //send kafka message to the reservation-service to update its reservationStatus & reservationIsApproved fields

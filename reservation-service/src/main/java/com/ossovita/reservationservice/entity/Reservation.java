@@ -64,5 +64,22 @@ public class Reservation {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "reservation")
     private WalkInReservation walkInReservation;
 
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "reservationPk=" + reservationPk +
+                ", reservationCreateTime=" + reservationCreateTime +
+                ", reservationStartTime=" + reservationStartTime +
+                ", reservationEndTime=" + reservationEndTime +
+                ", reservationPrice=" + reservationPrice +
+                ", reservationStatus=" + reservationStatus +
+                ", reservationIsApproved=" + reservationIsApproved +
+                ", reservationPriceCurrency=" + reservationPriceCurrency +
+                ", roomFk=" + roomFk +
+                ", customerFk=" + customerFk +
+                '}';
+    }
+
+
 
 }

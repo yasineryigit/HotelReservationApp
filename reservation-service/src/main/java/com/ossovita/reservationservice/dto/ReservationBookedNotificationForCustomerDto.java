@@ -1,4 +1,4 @@
-package com.ossovita.commonservice.dto.notification;
+package com.ossovita.reservationservice.dto;
 
 import com.ossovita.commonservice.enums.Currency;
 import lombok.AllArgsConstructor;
@@ -30,4 +30,10 @@ public class ReservationBookedNotificationForCustomerDto {
     private BigDecimal reservationPrice;
 
     private Currency reservationPriceCurrency;
+
+    private String hotelName;
+
+    private int roomNumber;
+
+
 }

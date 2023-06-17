@@ -17,7 +17,7 @@ public class ReservationPaymentResponse {
 
     private long reservationPaymentPk;
 
-    private PaymentStatus paymentStatus;
+    private PaymentStatus reservationPaymentStatus;
 
     private ReservationPaymentType reservationPaymentType;//TODO: remove
 
@@ -30,6 +30,10 @@ public class ReservationPaymentResponse {
     private String customerFirstName;
 
     private String customerLastName;
+
+    private String hotelName;
+
+    private int roomNumber;
 
 
 
