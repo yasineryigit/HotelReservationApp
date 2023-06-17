@@ -83,7 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
         NotificationRequest notificationRequest =
                 new NotificationRequest(userEmail, NotificationType.CUSTOMER_WELCOME_NOTIFICATION, payload);
         kafkaTemplate.send("notification-request-topic", notificationRequest);
-        log.info("Customer welcome notification sent {}: " + notificationRequest.toString());
+        log.info("Customer welcome notification has been sent {}: " + notificationRequest.toString());
     }
 
     @Override

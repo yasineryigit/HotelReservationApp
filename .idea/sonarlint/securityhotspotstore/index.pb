@@ -49,8 +49,6 @@ Mcommon-service/src/main/java/com/ossovita/commonservice/enums/RoomStatus.java,
 Lapi-gateway/src/main/java/com/ossovita/apigateway/ApiGatewayApplication.java,e\e\eed2d470121de718da0ce7f84acb76f55dc02027
 ü
 oreservation-service/src/main/java/com/ossovita/reservationservice/repository/ReservationCheckingRepository.java,0\2\0251d53f5acaa8c8683bd204a66a835d4894164f
-°
-qreservation-service/src/main/java/com/ossovita/reservationservice/payload/request/ReservationCheckingRequest.java,f\6\f609f665080791768dd95ea4e590f02714b82366
 î
 dreservation-service/src/main/java/com/ossovita/reservationservice/enums/ReservationCheckingType.java,7\d\7d583776db200bbafce50655c938134a601e6d37
 ë
@@ -69,8 +67,6 @@ Pcommon-service/src/main/java/com/ossovita/commonservice/enums/PaymentStatus.jav
 oaccounting-service/src/main/java/com/ossovita/accountingservice/payload/request/SubscriptionPaymentRequest.java,1\4\143ce7e12d1d0282375f0d2b78300e0a4261e1bd
 è
 _accounting-service/src/main/java/com/ossovita/accountingservice/entity/SubscriptionPayment.java,8\4\84d981a7f0436b8f319e0e1619887923b1d6a373
-ó
-greservation-service/src/main/java/com/ossovita/reservationservice/controller/ReservationController.java,9\3\938c7d094826e3988c2432c441e7319de53a5682
 õ
 kaccounting-service/src/main/java/com/ossovita/accountingservice/payload/response/CreatePaymentResponse.java,8\7\87b52f75ce721d472c68b2bcc39671c92c705240
 ñ
@@ -107,8 +103,6 @@ Tinfrastructure/kafka/src/main/java/com/ossovita/kafka/model/NotificationRequest
 [notification-service/src/main/java/com/ossovita/notificationservice/email/EmailService.java,7\a\7aebb6d933140a42a6b3e1771bcd855e4f715a8c
 ñ
 fnotification-service/src/main/java/com/ossovita/notificationservice/consumer/NotificationConsumer.java,1\0\10532ec994a20271c5452aa6b0b8bf039a51bb5a
-â
-Yreservation-service/src/main/java/com/ossovita/reservationservice/entity/Reservation.java,5\0\505ab193e093e92479545a63a7c8ab2f84c5ab05
 è
 _reservation-service/src/main/java/com/ossovita/reservationservice/entity/OnlineReservation.java,7\c\7c40520499b021f1b726ba53dd3dee600cfc988d
 î

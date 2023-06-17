@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reservation Booked - Here Are Your Details</title>
+    <title>Check-In Confirmation - Here Are Your Details</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -57,18 +57,17 @@
 <div class="container">
     <div class="logo">
         <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/ed/95/07/limak-eurasia-luxury.jpg?w=1100&h=-1&s=1" alt="HRA Logo">
-        <h1>Reservation Booked - Here Are Your Details</h1>
+        <h1>Check-In Confirmation - Here Are Your Details</h1>
     </div>
     <div class="message">
         <p>Hello {{customerFirstName}},</p>
-        <p>Thank you for booking with HRA - your go-to hotel reservation app.</p>
+        <p>Thank you for choosing HRA - your go-to hotel reservation app.</p>
 
-        <p>Below are the details of your reservation:</p>
+        <p>Below are the details of your check-in:</p>
         <p>Hotel Name: {{hotelName}}</p>
         <p>Room Number: {{roomNumber}}</p>
-        <p>Reservation Start Time: {{reservationStartTime}}</p>
-        <p>Reservation End Time: {{reservationEndTime}}</p>
-        <p>Reservation Price: {{reservationPrice}} {{reservationPriceCurrency}}</p>
+        <p>Check-In Time: {{reservationStartTime}}</p>
+        <p>Check-Out Time: {{reservationEndTime}}</p>
 
         <p>If you have any questions or need assistance, our support team is available 24/7 to help you.</p>
 

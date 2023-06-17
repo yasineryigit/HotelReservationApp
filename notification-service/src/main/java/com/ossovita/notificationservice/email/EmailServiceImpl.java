@@ -31,6 +31,8 @@ public class EmailServiceImpl implements EmailService {
                 break;
             case RESERVATION_BOOKED_NOTIFICATION:
                 customerEmailService.sendReservationBookedEmailToTheCustomer(to, payload);
+            case CHECK_IN_NOTIFICATION:
+                customerEmailService.sendCheckInEmailToTheCustomer(to, payload);
                 //TODO: add each case
                 //TODO: add default mail template sender
         }

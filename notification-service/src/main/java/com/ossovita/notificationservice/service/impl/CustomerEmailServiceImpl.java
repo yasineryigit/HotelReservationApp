@@ -21,6 +21,8 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
     String customerWelcomeEmailTemplatePath;
     @Value("${customer.reservation.booked.email.template.path}")
     String customerReservationBookedEmailTemplatePath;
+    @Value("${customer.check.in.email.template.path}")
+    String customerCheckInEmailTemplatePath;
 
     private final JavaMailSender mailSender;
     private EmailService emailService;
@@ -74,13 +76,37 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
         }
     }
 
+    @Override
+    public void sendCheckInEmailToTheCustomer(String to, HashMap<String, String> payload) {
+        String customerEmail = payload.get("customer_email");
+        String customerFirstName = payload.get("customer_first_name");
+        String customerLastName = payload.get("customer_last_name");
+        String reservationStartTime = payload.get("reservation_start_time");
+        String reservationEndTime = payload.get("reservation_end_time");
+        String hotelName = payload.get("hotel_name");
+        String roomNumber = payload.get("room_number");
+
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+            helper.setText(buildCheckInEmailToTheCustomer(customerFirstName, reservationStartTime, reservationEndTime, hotelName, roomNumber), true);
+            helper.setTo(to);
+            helper.setSubject("Check-In Confirmation");
+            helper.setFrom("booking@hra.com");
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            log.error("Failed to send email", e);
+            throw new IllegalStateException("Failed to send email");
+        }
+    }
+
 
     private String buildCustomerWelcomeEmail(String userFirstName) {
         String emailTemplate = emailService.loadEmailTemplate(customerWelcomeEmailTemplatePath);
         return emailTemplate.replace("{{userFirstName}}", userFirstName);
     }
 
-    private String buildReservationBookedEmailToTheCustomer(String userFirstName,
+    private String buildReservationBookedEmailToTheCustomer(String customerFirstName,
                                                             String reservationStartTime,
                                                             String reservationEndTime,
                                                             String reservationPrice,
@@ -89,13 +115,27 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
                                                             String roomNumber) {
         String emailTemplate = emailService.loadEmailTemplate(customerReservationBookedEmailTemplatePath);
 
-        return emailTemplate.replace("{{userFirstName}}", userFirstName)
+        return emailTemplate.replace("{{customerFirstName}}", customerFirstName)
                 .replace("{{hotelName}}", hotelName)
                 .replace("{{roomNumber}}", roomNumber)
                 .replace("{{reservationStartTime}}", reservationStartTime)
                 .replace("{{reservationEndTime}}", reservationEndTime)
                 .replace("{{reservationPrice}}", reservationPrice)
                 .replace("{{reservationPriceCurrency}}", reservationPriceCurrency);
+    }
+
+    private String buildCheckInEmailToTheCustomer(String customerFirstName,
+                                                  String reservationStartTime,
+                                                  String reservationEndTime,
+                                                  String hotelName,
+                                                  String roomNumber) {
+        String emailTemplate = emailService.loadEmailTemplate(customerCheckInEmailTemplatePath);
+
+        return emailTemplate.replace("{{customerFirstName}}", customerFirstName)
+                .replace("{{hotelName}}", hotelName)
+                .replace("{{roomNumber}}", roomNumber)
+                .replace("{{reservationStartTime}}", reservationStartTime)
+                .replace("{{reservationEndTime}}", reservationEndTime);
     }
 
 
