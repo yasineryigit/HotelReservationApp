@@ -46,4 +46,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             @Param("requestStart") LocalDateTime requestStart,
             @Param("requestEnd") LocalDateTime requestEnd);
 
+
+    @Query("SELECT r FROM Reservation r WHERE FUNCTION('age', r.reservationEndTime, CURRENT_TIMESTAMP) < :interval")
+    List<Reservation> getReservationsThatWillExpireWithInTheGivenDayLength(@Param("interval") String interval);
 }

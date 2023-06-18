@@ -25,6 +25,6 @@ public interface UserClient {
     @GetMapping("/boss/get-boss-dto-by-boss-pk")
     BossDto getBossDtoByBossPk(@RequestParam long bossPk);
 
-    @GetMapping("/subscriptions/get-subscription-dto-by-subscription-fk")
-    SubscriptionDto getSubscriptionDtoBySubscriptionFk(@RequestParam long subscriptionFk);
+    @GetMapping("/subscriptions/get-subscription-dto-by-subscription-pk")
+    SubscriptionDto getSubscriptionDtoBySubscriptionFk(@RequestParam long subscriptionPk);
 }

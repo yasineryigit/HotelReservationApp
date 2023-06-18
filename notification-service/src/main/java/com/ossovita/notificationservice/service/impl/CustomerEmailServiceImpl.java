@@ -5,12 +5,8 @@ import com.ossovita.notificationservice.service.CustomerEmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
 
 @Service
@@ -28,31 +24,23 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
     @Value("${customer.reservation.payment.refund.email.template.path}")
     String customerReservationPaymentRefundEmailTemplatePath;
 
-    private final JavaMailSender mailSender;
+
     private EmailService emailService;
 
 
-    public CustomerEmailServiceImpl(JavaMailSender mailSender, @Lazy EmailService emailService) {
-        this.mailSender = mailSender;
+    public CustomerEmailServiceImpl(@Lazy EmailService emailService) {
         this.emailService = emailService;
     }
 
     @Override
     public void sendCustomerWelcomeEmail(String to, HashMap<String, String> payload) {
         String customerFirstName = payload.get("customer_first_name");
+        String customerLastName = payload.get("customer_last_name");
 
-        try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(buildCustomerWelcomeEmail(customerFirstName), true);
-            helper.setTo(to);
-            helper.setSubject("Welcome to HRA");
-            helper.setFrom("noreply@hra.com");
-            mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            log.error("Failed to send email", e);
-            throw new IllegalStateException("Failed to send email");
-        }
+        emailService.send(to,
+                "Welcome to the HRA",
+                "noreply@hra.com",
+                buildCustomerWelcomeEmail(customerFirstName, customerLastName));
     }
 
     @Override
@@ -67,18 +55,10 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
         String hotelName = payload.get("hotel_name");
         String roomNumber = payload.get("room_number");
 
-        try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(buildReservationBookedEmailToTheCustomer(customerFirstName, customerLastName, reservationStartTime, reservationEndTime, reservationPrice, reservationPriceCurrency, hotelName, roomNumber), true);
-            helper.setTo(to);
-            helper.setSubject("Reservation Booked");
-            helper.setFrom("booking@hra.com");
-            mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            log.error("Failed to send email", e);
-            throw new IllegalStateException("Failed to send email");
-        }
+        emailService.send(to,
+                "Reservation Booked",
+                "booking@hra.com",
+                buildReservationBookedEmailToTheCustomer(customerFirstName, customerLastName, reservationStartTime, reservationEndTime, reservationPrice, reservationPriceCurrency, hotelName, roomNumber));
     }
 
     @Override
@@ -91,18 +71,10 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
         String hotelName = payload.get("hotel_name");
         String roomNumber = payload.get("room_number");
 
-        try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(buildCheckInEmailToTheCustomer(customerFirstName, customerLastName, reservationStartTime, reservationEndTime, hotelName, roomNumber), true);
-            helper.setTo(to);
-            helper.setSubject("Check-In Confirmation");
-            helper.setFrom("booking@hra.com");
-            mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            log.error("Failed to send email", e);
-            throw new IllegalStateException("Failed to send email");
-        }
+        emailService.send(to,
+                "Check-In Confirmation",
+                "booking@hra.com",
+                buildCheckInEmailToTheCustomer(customerFirstName, customerLastName, reservationStartTime, reservationEndTime, hotelName, roomNumber));
     }
 
     @Override
@@ -115,18 +87,10 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
         String hotelName = payload.get("hotel_name");
         String roomNumber = payload.get("room_number");
 
-        try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(buildCheckOutEmailToTheCustomer(customerFirstName, customerLastName, reservationStartTime, reservationEndTime, hotelName, roomNumber), true);
-            helper.setTo(to);
-            helper.setSubject("Check-Out Confirmation");
-            helper.setFrom("booking@hra.com");
-            mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            log.error("Failed to send email", e);
-            throw new IllegalStateException("Failed to send email");
-        }
+        emailService.send(to,
+                "Check-Out Confirmation",
+                "booking@hra.com",
+                buildCheckOutEmailToTheCustomer(customerFirstName, customerLastName, reservationStartTime, reservationEndTime, hotelName, roomNumber));
     }
 
     @Override
@@ -138,18 +102,10 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
         String reservationPaymentRefundMessage = payload.get("reservation_payment_refund_message");
         String reservationPaymentAmount = payload.get("reservation_payment_amount");
 
-        try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(buildReservationPaymentRefundEmail(customerFirstName, customerLastName, reservationPaymentRefundReason, reservationPaymentRefundMessage, reservationPaymentAmount), true);
-            helper.setTo(to);
-            helper.setSubject("Check-Out Confirmation");
-            helper.setFrom("booking@hra.com");
-            mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            log.error("Failed to send email", e);
-            throw new IllegalStateException("Failed to send email");
-        }
+        emailService.send(to,
+                "Refund Confirmation",
+                "accounting@hra.com",
+                buildReservationPaymentRefundEmail(customerFirstName, customerLastName, reservationPaymentRefundReason, reservationPaymentRefundMessage, reservationPaymentAmount));
 
     }
 
@@ -171,9 +127,10 @@ public class CustomerEmailServiceImpl implements CustomerEmailService {
     }
 
 
-    private String buildCustomerWelcomeEmail(String userFirstName) {
+    private String buildCustomerWelcomeEmail(String customerFirstName, String customerLastName) {
         String emailTemplate = emailService.loadEmailTemplate(customerWelcomeEmailTemplatePath);
-        return emailTemplate.replace("{{userFirstName}}", userFirstName);
+        return emailTemplate.replace("{{customerFirstName}}", customerFirstName)
+                .replace("{{customerLastName}}", customerLastName);
     }
 
     private String buildReservationBookedEmailToTheCustomer(String customerFirstName,

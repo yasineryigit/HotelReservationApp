@@ -77,8 +77,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public SubscriptionDto getSubscriptionDtoBySubscriptionFk(long subscriptionFk) {
-        Subscription subscription = getSubscription(subscriptionFk);
+    public SubscriptionDto getSubscriptionDtoBySubscriptionPk(long subscriptionPk) {
+        Subscription subscription = getSubscription(subscriptionPk);
         SubscriptionDto subscriptionDto = modelMapper.map(subscription, SubscriptionDto.class);
         subscriptionDto.setSubscriptionPriceCurrency(subscription.getSubscriptionPlan().getSubscriptionPlanPriceCurrency());
         return subscriptionDto;

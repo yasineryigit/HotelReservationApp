@@ -1,4 +1,4 @@
-package com.ossovita.notificationservice.consumer;
+package com.ossovita.notificationservice.listener;
 
 import com.ossovita.kafka.model.NotificationRequest;
 import com.ossovita.notificationservice.email.EmailService;
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class NotificationConsumer {
+public class NotificationListener {
 
     private final EmailService emailService;
 
-    public NotificationConsumer(EmailService emailService) {
+    public NotificationListener(EmailService emailService) {
         this.emailService = emailService;
     }
 
@@ -21,8 +21,9 @@ public class NotificationConsumer {
             groupId = "foo",
             containerFactory = "notificationRequestConcurrentKafkaListenerContainerFactory"//we need to assign containerFactory
     )
-    public void consumeNotificationRequest(NotificationRequest notificationRequest) {
-        log.info("Consumed {} from queue ", notificationRequest.toString());
-        emailService.send(notificationRequest.getTo(), notificationRequest.getNotificationType(), notificationRequest.getPayload());
+    public void listenNotificationRequest(NotificationRequest notificationRequest) {
+        log.info("listenNotificationRequest {}:  ", notificationRequest.toString());
+        emailService.directEmail(notificationRequest.getTo(), notificationRequest.getNotificationType(), notificationRequest.getPayload());
+        //TODO: add firebase mobile push notification
     }
 }

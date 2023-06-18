@@ -28,9 +28,9 @@ public class SubscriptionController {
         return subscriptionService.approveSubscription(subscriptionFk);
     }
 
-    @GetMapping("/get-subscription-dto-by-subscription-fk")
-    SubscriptionDto getSubscriptionDtoBySubscriptionFk(@RequestParam long subscriptionFk){
-        return subscriptionService.getSubscriptionDtoBySubscriptionFk(subscriptionFk);
+    @GetMapping("/get-subscription-dto-by-subscription-pk")
+    SubscriptionDto getSubscriptionDtoBySubscriptionPk(@RequestParam long subscriptionPk){
+        return subscriptionService.getSubscriptionDtoBySubscriptionPk(subscriptionPk);
     }
 
 

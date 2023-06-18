@@ -6,8 +6,10 @@ import java.util.HashMap;
 
 public interface EmailService {
 
-    void send(String to, NotificationType notificationType, HashMap<String, String> payload);
+    void directEmail(String to, NotificationType notificationType, HashMap<String, String> payload);
 
     String loadEmailTemplate(String emailTemplatePath);
+
+    void send(String to, String subject, String from, String text);
 
 }

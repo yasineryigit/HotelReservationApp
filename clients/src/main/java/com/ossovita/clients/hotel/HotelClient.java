@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface HotelClient {
 
     @GetMapping("/rooms/get-room-dto-by-room-pk")
-    RoomDto getRoomDtoWithRoomPk(@RequestParam long roomPk);
+    RoomDto getRoomDtoByRoomPk(@RequestParam long roomPk);
 
     @GetMapping("/is-hotel-available")
     boolean isHotelAvailable(@RequestParam long hotelPk);

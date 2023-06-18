@@ -11,5 +11,5 @@ public interface SubscriptionService {
 
     SubscriptionResponse approveSubscription(long subscriptionFk);
 
-    SubscriptionDto getSubscriptionDtoBySubscriptionFk(long subscriptionFk);
+    SubscriptionDto getSubscriptionDtoBySubscriptionPk(long subscriptionFk);
 }

@@ -91,7 +91,6 @@ public class RoomServiceImpl implements RoomService {
             throw new UnexpectedRequestException("Reservation period cannot be shorter than 1 day");
         }
 
-
         //assign roomPks into a list
         List<Long> roomPkList = roomList.stream().map(Room::getRoomPk).toList();
         log.info("roomPkList: " + roomList.size());
@@ -121,7 +120,6 @@ public class RoomServiceImpl implements RoomService {
         log.info("roomStatus Updated | UpdateRoomStatusRequest: " + roomStatusUpdateRequest);
         room.setRoomStatus(roomStatusUpdateRequest.getRoomStatus());
         roomRepository.save(room);
-
     }
 
 

@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ReservationPaymentRefundRequest {
 
+    private long customerFk;
+
     private long reservationPaymentPk;
 
     private ReservationPaymentRefundReason reservationPaymentRefundReason;

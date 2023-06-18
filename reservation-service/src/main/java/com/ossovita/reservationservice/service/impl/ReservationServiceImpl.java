@@ -5,17 +5,12 @@ import com.ossovita.clients.user.UserClient;
 import com.ossovita.commonservice.dto.CustomerDto;
 import com.ossovita.commonservice.dto.ReservationDto;
 import com.ossovita.commonservice.dto.RoomDto;
-import com.ossovita.commonservice.enums.*;
+import com.ossovita.commonservice.enums.ReservationStatus;
+import com.ossovita.commonservice.enums.RoomStatus;
 import com.ossovita.commonservice.exception.IdNotFoundException;
 import com.ossovita.commonservice.exception.UnexpectedRequestException;
 import com.ossovita.commonservice.payload.request.CheckRoomAvailabilityRequest;
-import com.ossovita.kafka.model.NotificationRequest;
-import com.ossovita.kafka.model.ReservationPaymentRefundRequest;
-import com.ossovita.kafka.model.ReservationPaymentResponse;
-import com.ossovita.kafka.model.RoomStatusUpdateRequest;
 import com.ossovita.reservationservice.dto.CheckingNotificationForCustomerDto;
-import com.ossovita.reservationservice.dto.ReservationBookedNotificationForCustomerDto;
-import com.ossovita.reservationservice.dto.ReservationPaymentRefundNotificationForCustomerDto;
 import com.ossovita.reservationservice.entity.OnlineReservation;
 import com.ossovita.reservationservice.entity.Reservation;
 import com.ossovita.reservationservice.entity.ReservationChecking;
@@ -26,47 +21,44 @@ import com.ossovita.reservationservice.payload.request.ReservationCheckingReques
 import com.ossovita.reservationservice.payload.request.WalkInReservationRequest;
 import com.ossovita.reservationservice.payload.response.OnlineReservationResponse;
 import com.ossovita.reservationservice.payload.response.WalkInReservationResponse;
-import com.ossovita.reservationservice.repository.OnlineReservationRepository;
+import com.ossovita.reservationservice.producer.ReservationEventProducer;
 import com.ossovita.reservationservice.repository.ReservationCheckingRepository;
 import com.ossovita.reservationservice.repository.ReservationRepository;
-import com.ossovita.reservationservice.repository.WalkInReservationRepository;
+import com.ossovita.reservationservice.service.OnlineReservationService;
 import com.ossovita.reservationservice.service.ReservationService;
+import com.ossovita.reservationservice.service.WalkInReservationService;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
 import java.util.List;
 
 @Service
 @Slf4j
 public class ReservationServiceImpl implements ReservationService {
 
+    OnlineReservationService onlineReservationService;
+    WalkInReservationService walkInReservationService;
     ReservationRepository reservationRepository;
-    OnlineReservationRepository onlineReservationRepository;
-    WalkInReservationRepository walkInReservationRepository;
     ReservationCheckingRepository reservationCheckingRepository;
     HotelClient hotelClient;
     UserClient userClient;
     ModelMapper modelMapper;
-    KafkaTemplate<String, Object> kafkaTemplate;
+    ReservationEventProducer reservationEventProducer;
 
-    public ReservationServiceImpl(ReservationRepository reservationRepository, OnlineReservationRepository onlineReservationRepository, WalkInReservationRepository walkInReservationRepository, ReservationCheckingRepository reservationCheckingRepository, HotelClient hotelClient, UserClient userClient, ModelMapper modelMapper, KafkaTemplate<String, Object> kafkaTemplate) {
+    public ReservationServiceImpl(ReservationRepository reservationRepository, OnlineReservationService onlineReservationService, WalkInReservationService walkInReservationService, ReservationCheckingRepository reservationCheckingRepository, HotelClient hotelClient, UserClient userClient, ModelMapper modelMapper, ReservationEventProducer reservationEventProducer) {
         this.reservationRepository = reservationRepository;
-        this.onlineReservationRepository = onlineReservationRepository;
-        this.walkInReservationRepository = walkInReservationRepository;
+        this.onlineReservationService = onlineReservationService;
+        this.walkInReservationService = walkInReservationService;
         this.reservationCheckingRepository = reservationCheckingRepository;
         this.hotelClient = hotelClient;
         this.userClient = userClient;
         this.modelMapper = modelMapper;
-        this.kafkaTemplate = kafkaTemplate;
+        this.reservationEventProducer = reservationEventProducer;
     }
 
     @Override
@@ -87,7 +79,7 @@ public class ReservationServiceImpl implements ReservationService {
         OnlineReservation onlineReservation = OnlineReservation.builder()
                 .reservationFk(savedReservation.getReservationPk())
                 .build();
-        OnlineReservation savedOnlineReservation = onlineReservationRepository.save(onlineReservation);
+        OnlineReservation savedOnlineReservation = onlineReservationService.save(onlineReservation);
 
         OnlineReservationResponse onlineReservationResponse = modelMapper.map(savedReservation, OnlineReservationResponse.class);
         onlineReservationResponse.setOnlineReservationFk(savedOnlineReservation.getOnlineReservationPk());
@@ -108,75 +100,12 @@ public class ReservationServiceImpl implements ReservationService {
                 .employeeFk(walkInReservationRequest.getEmployeeFk())
                 .build();
 
-        WalkInReservation savedWalkInReservation = walkInReservationRepository.save(walkInReservation);
+        WalkInReservation savedWalkInReservation = walkInReservationService.save(walkInReservation);
 
         WalkInReservationResponse walkInReservationResponse = modelMapper.map(savedReservation, WalkInReservationResponse.class);
         walkInReservationResponse.setWalkInReservationFk(savedWalkInReservation.getWalkInReservationPk());
 
         return walkInReservationResponse;
-    }
-
-    private Reservation saveAndGetReservation(long roomFk, long customerFk, LocalDateTime reservationStartTime, LocalDateTime reservationEndTime) {
-
-        //check endtime > starttime
-        if (reservationEndTime.isBefore(reservationStartTime)) {
-            throw new UnexpectedRequestException("Reservation end date must be later than start date");
-        }
-
-        //check reservation period
-        long daysBetween = ChronoUnit.DAYS.between(reservationStartTime, reservationEndTime);
-        if (daysBetween < 1) {
-            throw new UnexpectedRequestException("Reservation period cannot be shorter than 1 day");
-        }
-
-        CheckRoomAvailabilityRequest checkRoomAvailabilityRequest = CheckRoomAvailabilityRequest
-                .builder()
-                .roomFk(roomFk)
-                .reservationStartTime(reservationStartTime)
-                .reservationEndTime(reservationEndTime)
-                .build();
-
-        if (!isRoomAvailableByGivenDateRange(checkRoomAvailabilityRequest)) {
-            throw new UnexpectedRequestException("Room is not available by given date range");
-        }
-
-        RoomDto roomDto = hotelClient.getRoomDtoWithRoomPk(checkRoomAvailabilityRequest.getRoomFk());
-
-        boolean isCustomerAvailable = userClient.isCustomerAvailable(customerFk);
-
-        if (!isCustomerAvailable) {
-            throw new IdNotFoundException("Customer not found by given id");
-        }
-
-        //assign customerFk, roomFk
-        Reservation reservation = Reservation.builder()
-                .customerFk(customerFk)
-                .roomFk(roomFk)
-                .reservationStartTime(reservationStartTime)
-                .reservationEndTime(reservationEndTime)
-                .build();
-
-        //assign reservationIsApproved
-        reservation.setReservationIsApproved(false);
-
-        //assign reservationTime
-        reservation.setReservationCreateTime(LocalDateTime.now());
-
-        //assign reservationStartTime
-        reservation.setReservationStartTime(reservationStartTime);
-
-        //assign reservationEndTime
-        reservation.setReservationEndTime(reservationEndTime);
-
-        reservation.setReservationStatus(ReservationStatus.CREATED);
-
-        //assign reservationPrice
-        reservation.setReservationPrice(roomDto.getRoomPrice().multiply(BigDecimal.valueOf(Duration.between(reservationStartTime, reservationEndTime).toDays())));
-
-        //assign reservationPriceCurrency
-        reservation.setReservationPriceCurrency(roomDto.getRoomPriceCurrency());
-
-        return reservationRepository.save(reservation);
     }
 
     @Override
@@ -213,8 +142,8 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<Reservation> getAllReservations() {
-        return reservationRepository.findAll();
+    public List<Reservation> getReservationsThatWillExpireWithInTheGivenDayLength(String interval) {
+        return reservationRepository.getReservationsThatWillExpireWithInTheGivenDayLength(interval);
     }
 
     @Override
@@ -226,7 +155,7 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationDto checkIn(ReservationCheckingRequest reservationCheckingRequest) {
         Reservation reservation = getReservation(reservationCheckingRequest.getReservationFk());
         CustomerDto customerDto = userClient.getCustomerDtoByCustomerPk(reservation.getCustomerFk());
-        RoomDto roomDto = hotelClient.getRoomDtoWithRoomPk(reservation.getRoomFk());
+        RoomDto roomDto = hotelClient.getRoomDtoByRoomPk(reservation.getRoomFk());
 
         //check employee
         if (!userClient.isEmployeeAvailable(reservationCheckingRequest.getEmployeeFk())) {
@@ -254,13 +183,10 @@ public class ReservationServiceImpl implements ReservationService {
         if (now.isAfter(checkInTimeLimit)) {
             //set reservation status
             reservation.setReservationStatus(ReservationStatus.CHECKED_IN);
-            //set room status
-            RoomStatusUpdateRequest roomStatusUpdateRequest = RoomStatusUpdateRequest.builder()
-                    .roomFk(reservation.getRoomFk())
-                    .roomStatus(RoomStatus.OCCUPIED)
-                    .build();
             saveReservationChecking(reservationCheckingRequest, ReservationCheckingType.CHECK_IN);
-            kafkaTemplate.send("room-status-update-topic", roomStatusUpdateRequest);
+
+            //set room status
+            reservationEventProducer.sendRoomStatusUpdateEvent(reservation.getRoomFk(), RoomStatus.OCCUPIED);
 
             CheckingNotificationForCustomerDto checkingNotificationForCustomerDto = CheckingNotificationForCustomerDto.builder()
                     .customerEmail(customerDto.getCustomerEmail())
@@ -272,7 +198,7 @@ public class ReservationServiceImpl implements ReservationService {
                     .roomNumber(roomDto.getRoomNumber())
                     .build();
 
-            sendCheckInNotificationToTheCustomer(checkingNotificationForCustomerDto);
+            reservationEventProducer.sendCheckInNotificationToTheCustomer(checkingNotificationForCustomerDto);
             return modelMapper.map(reservationRepository.save(reservation), ReservationDto.class);
 
         } else {
@@ -280,11 +206,11 @@ public class ReservationServiceImpl implements ReservationService {
         }
     }
 
-
+    @Override
     public ReservationDto checkOut(ReservationCheckingRequest reservationCheckingRequest) {
         Reservation reservation = getReservation(reservationCheckingRequest.getReservationFk());
         CustomerDto customerDto = userClient.getCustomerDtoByCustomerPk(reservation.getCustomerFk());
-        RoomDto roomDto = hotelClient.getRoomDtoWithRoomPk(reservation.getRoomFk());
+        RoomDto roomDto = hotelClient.getRoomDtoByRoomPk(reservation.getRoomFk());
 
         //check employee
         if (!userClient.isEmployeeAvailable(reservationCheckingRequest.getEmployeeFk())) {
@@ -301,13 +227,9 @@ public class ReservationServiceImpl implements ReservationService {
         if (now.isAfter(reservation.getReservationStartTime())) {
             //set reservation status
             reservation.setReservationStatus(ReservationStatus.DEPARTED);
-            //set room status
-            RoomStatusUpdateRequest roomStatusUpdateRequest = RoomStatusUpdateRequest.builder()
-                    .roomFk(reservation.getRoomFk())
-                    .roomStatus(RoomStatus.VACANT)
-                    .build();
             saveReservationChecking(reservationCheckingRequest, ReservationCheckingType.CHECK_OUT);
-            kafkaTemplate.send("room-status-update-topic", roomStatusUpdateRequest);
+            //set room status
+            reservationEventProducer.sendRoomStatusUpdateEvent(reservation.getRoomFk(), RoomStatus.VACANT);
             CheckingNotificationForCustomerDto checkingNotificationForCustomerDto = CheckingNotificationForCustomerDto.builder()
                     .customerEmail(customerDto.getCustomerEmail())
                     .customerFirstName(customerDto.getCustomerFirstName())
@@ -317,7 +239,7 @@ public class ReservationServiceImpl implements ReservationService {
                     .hotelName(roomDto.getHotelName())
                     .roomNumber(roomDto.getRoomNumber())
                     .build();
-            sendCheckOutNotificationToTheCustomer(checkingNotificationForCustomerDto);
+            reservationEventProducer.sendCheckOutNotificationToTheCustomer(checkingNotificationForCustomerDto);
             return modelMapper.map(reservationRepository.save(reservation), ReservationDto.class);
 
         } else {
@@ -326,129 +248,13 @@ public class ReservationServiceImpl implements ReservationService {
 
     }
 
-
-    @KafkaListener(
-            topics = "reservation-payment-response-topic",
-            groupId = "foo",
-            containerFactory = "reservationPaymentResponseKafkaListenerContainerFactory"//we need to assign containerFactory
-    )
-    public void listenReservationPaymentResponse(ReservationPaymentResponse reservationPaymentResponse) {
-        log.info("Reservation Payment Updated | ReservationPaymentResponseModel: {}", reservationPaymentResponse.toString());
-        Reservation reservationInDB = getReservation(reservationPaymentResponse.getReservationFk());
-        CheckRoomAvailabilityRequest checkRoomAvailabilityRequest = CheckRoomAvailabilityRequest.builder()
-                .roomFk(reservationInDB.getRoomFk())
-                .reservationStartTime(reservationInDB.getReservationStartTime())
-                .reservationEndTime(reservationInDB.getReservationEndTime())
-                .build();
-
-        if (reservationPaymentResponse.getReservationPaymentStatus().equals(PaymentStatus.PAID)) {
-            if (!isRoomAvailableByGivenDateRange(checkRoomAvailabilityRequest)) {//is room already booked
-                handleDuplicateReservation(reservationPaymentResponse, reservationInDB.getCustomerFk());
-            } else {
-                updateReservationAsBooked(reservationInDB);
-                //send reservation completed email
-                ReservationBookedNotificationForCustomerDto reservationBookedNotificationForCustomerDto = modelMapper.map(reservationPaymentResponse, ReservationBookedNotificationForCustomerDto.class);
-                reservationBookedNotificationForCustomerDto.setReservationStartTime(reservationInDB.getReservationStartTime());
-                reservationBookedNotificationForCustomerDto.setReservationEndTime(reservationInDB.getReservationEndTime());
-                reservationBookedNotificationForCustomerDto.setReservationPrice(reservationInDB.getReservationPrice());
-                reservationBookedNotificationForCustomerDto.setReservationPriceCurrency(reservationInDB.getReservationPriceCurrency());
-                sendReservationBookedNotificationToTheCustomer(reservationBookedNotificationForCustomerDto);
-            }
-        } else {
-            // TODO: Handle ReservationPaymentStatus.FAILED case
-        }
-    }
-
-    private void handleDuplicateReservation(ReservationPaymentResponse reservationPaymentResponse, long customerFk) {
-        ReservationPaymentRefundRequest reservationPaymentRefundRequest = ReservationPaymentRefundRequest.builder()
-                .reservationPaymentPk(reservationPaymentResponse.getReservationPaymentPk())
-                .reservationPaymentRefundReason(ReservationPaymentRefundReason.DUPLICATE_RESERVATION)
-                .reservationPaymentRefundMessage("Your balance has been refunded because the room you have booked was previously reserved by another user due to a system error.")
-                .build();
-        log.info("handleDuplicateReservation {} : " + reservationPaymentResponse.toString());
-        ReservationPaymentRefundNotificationForCustomerDto dto = modelMapper.map(reservationPaymentRefundRequest, ReservationPaymentRefundNotificationForCustomerDto.class);
-        sendReservationPaymentRefundNotificationToTheCustomer(dto);
-        kafkaTemplate.send("reservation-payment-refund-request-topic", reservationPaymentRefundRequest);
-    }
-
-    private void updateReservationAsBooked(Reservation reservation) {
+    @Override
+    public void updateReservationAsBooked(Reservation reservation) {
         reservation.setReservationStatus(ReservationStatus.BOOKED);
         reservation.setReservationIsApproved(true);
         reservationRepository.save(reservation);
         log.info("updateReservationAsBooked {} : " + reservation.toString());
     }
-
-    private void sendReservationPaymentRefundNotificationToTheCustomer(ReservationPaymentRefundNotificationForCustomerDto dto) {
-        //fetch customer information
-        CustomerDto customerDto = userClient.getCustomerDtoByCustomerPk(dto.getCustomerFk());
-        HashMap<String, String> payload = new HashMap<>();
-
-        payload.put("customer_email", customerDto.getCustomerEmail());
-        payload.put("customer_first_name", customerDto.getCustomerFirstName());
-        payload.put("customer_last_name", customerDto.getCustomerLastName());
-        payload.put("reservation_payment_refund_reason", dto.getReservationPaymentRefundReason().toString());
-        payload.put("reservation_payment_refund_message", dto.getReservationPaymentRefundMessage());
-        payload.put("reservation_payment_amount", dto.getReservationPaymentAmount().toString());
-
-        NotificationRequest notificationRequest = NotificationRequest.builder()
-                .to(dto.getCustomerEmail())
-                .payload(payload)
-                .notificationType(NotificationType.RESERVATION_PAYMENT_REFUND_NOTIFICATION)
-                .build();
-        kafkaTemplate.send("notification-request-topic", notificationRequest);
-        log.info("Reservation payment refund notification has been sent to the customer {}: " + notificationRequest.toString());
-    }
-
-    private void sendReservationBookedNotificationToTheCustomer(ReservationBookedNotificationForCustomerDto reservationBookedNotificationForCustomerDto) {
-
-        HashMap<String, String> payload = new HashMap<>();
-
-        payload.put("customer_email", reservationBookedNotificationForCustomerDto.getCustomerEmail());
-        payload.put("customer_first_name", reservationBookedNotificationForCustomerDto.getCustomerFirstName());
-        payload.put("customer_last_name", reservationBookedNotificationForCustomerDto.getCustomerLastName());
-        payload.put("reservation_start_time", String.valueOf(reservationBookedNotificationForCustomerDto.getReservationStartTime()));
-        payload.put("reservation_end_time", String.valueOf(reservationBookedNotificationForCustomerDto.getReservationEndTime()));
-        payload.put("reservation_price", String.valueOf(reservationBookedNotificationForCustomerDto.getReservationPrice()));
-        payload.put("reservation_price_currency", String.valueOf(reservationBookedNotificationForCustomerDto.getReservationPriceCurrency()));
-        payload.put("hotel_name", reservationBookedNotificationForCustomerDto.getHotelName());
-        payload.put("room_number", String.valueOf(reservationBookedNotificationForCustomerDto.getRoomNumber()));
-
-        NotificationRequest notificationRequest = NotificationRequest.builder()
-                .to(reservationBookedNotificationForCustomerDto.getCustomerEmail())
-                .payload(payload)
-                .notificationType(NotificationType.RESERVATION_BOOKED_NOTIFICATION)
-                .build();
-        kafkaTemplate.send("notification-request-topic", notificationRequest);
-        log.info("Reservation booked notification has been sent to the customer {}: " + notificationRequest.toString());
-    }
-
-    private void sendCheckInNotificationToTheCustomer(CheckingNotificationForCustomerDto dto) {
-        HashMap<String, String> payload = getPayloadOfTheCheckingNotificationForCustomer(dto);
-
-        NotificationRequest notificationRequest = NotificationRequest.builder()
-                .to(dto.getCustomerEmail())
-                .notificationType(NotificationType.CHECK_IN_NOTIFICATION)
-                .payload(payload)
-                .build();
-
-        kafkaTemplate.send("notification-request-topic", notificationRequest);
-        log.info("CheckIn notification has been sent to the customer {}: " + notificationRequest.toString());
-    }
-
-
-    private void sendCheckOutNotificationToTheCustomer(CheckingNotificationForCustomerDto dto) {
-        HashMap<String, String> payload = getPayloadOfTheCheckingNotificationForCustomer(dto);
-
-        NotificationRequest notificationRequest = NotificationRequest.builder()
-                .to(dto.getCustomerEmail())
-                .notificationType(NotificationType.CHECK_OUT_NOTIFICATION)
-                .payload(payload)
-                .build();
-
-        kafkaTemplate.send("notification-request-topic", notificationRequest);
-        log.info("CheckOut notification has been sent to the customer {}: " + notificationRequest.toString());
-    }
-
 
     private void saveReservationChecking(ReservationCheckingRequest reservationCheckingRequest, ReservationCheckingType reservationCheckingType) {
         ReservationChecking reservationChecking = modelMapper.map(reservationCheckingRequest, ReservationChecking.class);
@@ -457,20 +263,77 @@ public class ReservationServiceImpl implements ReservationService {
         reservationCheckingRepository.save(reservationChecking);
     }
 
-    @NotNull
-    private HashMap<String, String> getPayloadOfTheCheckingNotificationForCustomer(CheckingNotificationForCustomerDto dto) {
-        HashMap<String, String> payload = new HashMap<>();
-        payload.put("customer_email", dto.getCustomerEmail());
-        payload.put("customer_first_name", dto.getCustomerFirstName());
-        payload.put("customer_last_name", dto.getCustomerLastName());
-        payload.put("reservation_start_time", String.valueOf(dto.getReservationStartTime()));
-        payload.put("reservation_end_time", String.valueOf(dto.getReservationEndTime()));
-        payload.put("hotel_name", String.valueOf(dto.getHotelName()));
-        payload.put("room_number", String.valueOf(dto.getRoomNumber()));
-        return payload;
+    private Reservation saveAndGetReservation(long roomFk, long customerFk, LocalDateTime reservationStartTime, LocalDateTime reservationEndTime) {
+
+        RoomDto roomDto = checkAndGetRoomDto(roomFk, customerFk, reservationStartTime, reservationEndTime);
+
+        //assign customerFk, roomFk
+        Reservation reservation = Reservation.builder()
+                .customerFk(customerFk)
+                .roomFk(roomFk)
+                .reservationStartTime(reservationStartTime)
+                .reservationEndTime(reservationEndTime)
+                .build();
+
+        //assign reservationIsApproved
+        reservation.setReservationIsApproved(false);
+
+        //assign reservationTime
+        reservation.setReservationCreateTime(LocalDateTime.now());
+
+        //assign reservationStartTime
+        reservation.setReservationStartTime(reservationStartTime);
+
+        //assign reservationEndTime
+        reservation.setReservationEndTime(reservationEndTime);
+
+        reservation.setReservationStatus(ReservationStatus.CREATED);
+
+        //assign reservationPrice
+        reservation.setReservationPrice(roomDto.getRoomPrice().multiply(BigDecimal.valueOf(Duration.between(reservationStartTime, reservationEndTime).toDays())));
+
+        //assign reservationPriceCurrency
+        reservation.setReservationPriceCurrency(roomDto.getRoomPriceCurrency());
+
+        return reservationRepository.save(reservation);
     }
 
-    private Reservation getReservation(long reservationFk) {
+    private RoomDto checkAndGetRoomDto(long roomFk, long customerFk, LocalDateTime reservationStartTime, LocalDateTime reservationEndTime) {
+        //check endtime > starttime
+        if (reservationEndTime.isBefore(reservationStartTime)) {
+            throw new UnexpectedRequestException("Reservation end date must be later than start date");
+        }
+
+        //check reservation period
+        long daysBetween = ChronoUnit.DAYS.between(reservationStartTime, reservationEndTime);
+        if (daysBetween < 1) {
+            throw new UnexpectedRequestException("Reservation period cannot be shorter than 1 day");
+        }
+
+        CheckRoomAvailabilityRequest checkRoomAvailabilityRequest = CheckRoomAvailabilityRequest
+                .builder()
+                .roomFk(roomFk)
+                .reservationStartTime(reservationStartTime)
+                .reservationEndTime(reservationEndTime)
+                .build();
+
+        //check room availability by given date range
+        if (!isRoomAvailableByGivenDateRange(checkRoomAvailabilityRequest)) {
+            throw new UnexpectedRequestException("Room is not available by given date range");
+        }
+
+        //check customer availability
+        boolean isCustomerAvailable = userClient.isCustomerAvailable(customerFk);
+
+        if (!isCustomerAvailable) {
+            throw new IdNotFoundException("Customer not found by given id");
+        }
+
+        return hotelClient.getRoomDtoByRoomPk(checkRoomAvailabilityRequest.getRoomFk());
+    }
+
+    @Override
+    public Reservation getReservation(long reservationFk) {
         return reservationRepository.findById(reservationFk)
                 .orElseThrow(() -> new IdNotFoundException("Reservation not found with the given reservationFk: " + reservationFk));
     }

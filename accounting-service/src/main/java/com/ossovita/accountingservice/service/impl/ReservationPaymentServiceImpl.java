@@ -64,7 +64,7 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
         //getReservationByReservationFk method from reservation-service
         ReservationDto reservationDto = reservationClient.getReservationDtoByReservationFk(reservationPaymentRequest.getReservationFk());
 
-        RoomDto roomDto = hotelClient.getRoomDtoWithRoomPk(reservationDto.getRoomFk());
+        RoomDto roomDto = hotelClient.getRoomDtoByRoomPk(reservationDto.getRoomFk());
 
         CheckRoomAvailabilityRequest checkRoomAvailabilityRequest = CheckRoomAvailabilityRequest
                 .builder()
