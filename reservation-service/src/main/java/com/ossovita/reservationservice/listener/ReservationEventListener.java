@@ -12,8 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
+@Slf4j
 public class ReservationEventListener {
 
     ReservationService reservationService;
@@ -42,7 +42,7 @@ public class ReservationEventListener {
 
         if (reservationPaymentResponse.getReservationPaymentStatus().equals(PaymentStatus.PAID)) {
             if (!reservationService.isRoomAvailableByGivenDateRange(checkRoomAvailabilityRequest)) {//is room already booked
-                reservationEventProducer.sendReservationPaymentRefundRequestEvent(reservationPaymentResponse, reservationInDB.getCustomerFk());
+                reservationEventProducer.sendReservationPaymentRefundRequestEvent(reservationPaymentResponse.getReservationPaymentPk(), reservationInDB.getCustomerFk());
             } else {
                 reservationService.updateReservationAsBooked(reservationInDB);
                 //send reservation completed email

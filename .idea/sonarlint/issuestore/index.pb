@@ -55,8 +55,6 @@ Pcommon-service/src/main/java/com/ossovita/commonservice/enums/PaymentStatus.jav
 oaccounting-service/src/main/java/com/ossovita/accountingservice/payload/request/SubscriptionPaymentRequest.java,1\4\143ce7e12d1d0282375f0d2b78300e0a4261e1bd
 è
 _accounting-service/src/main/java/com/ossovita/accountingservice/entity/SubscriptionPayment.java,8\4\84d981a7f0436b8f319e0e1619887923b1d6a373
-ñ
-faccounting-service/src/main/java/com/ossovita/accountingservice/service/ReservationPaymentService.java,d\0\d08aea6b08e923efdf7e352102856ecae92c92fd
 õ
 kaccounting-service/src/main/java/com/ossovita/accountingservice/payload/response/CreatePaymentResponse.java,8\7\87b52f75ce721d472c68b2bcc39671c92c705240
 é

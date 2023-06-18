@@ -19,4 +19,7 @@ public interface RoomService {
 
     List<Room> getAvailableRoomsByDateRangeAndCity(AvailableRoomsByDateRangeAndCityRequest availableRoomsByDateRangeAndCityRequest);
 
+    Room getRoom(long roomFk);
+
+    Room save(Room room);
 }

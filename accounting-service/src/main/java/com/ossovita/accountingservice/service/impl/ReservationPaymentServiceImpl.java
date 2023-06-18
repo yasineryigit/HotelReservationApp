@@ -4,6 +4,7 @@ import com.ossovita.accountingservice.entity.ReservationPayment;
 import com.ossovita.accountingservice.enums.PaymentType;
 import com.ossovita.accountingservice.payload.request.ReservationPaymentRequest;
 import com.ossovita.accountingservice.payload.response.CreatePaymentResponse;
+import com.ossovita.accountingservice.producer.ReservationPaymentEventProducer;
 import com.ossovita.accountingservice.repository.ReservationPaymentRepository;
 import com.ossovita.accountingservice.service.ReservationPaymentService;
 import com.ossovita.clients.hotel.HotelClient;
@@ -44,17 +45,16 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
     UserClient userClient;
     ReservationPaymentRepository reservationPaymentRepository;
     ModelMapper modelMapper;
-    KafkaTemplate<String, Object> kafkaTemplate;
+    ReservationPaymentEventProducer reservationPaymentEventProducer;
 
-
-    public ReservationPaymentServiceImpl(StripePaymentService stripePaymentService, ReservationClient reservationClient, HotelClient hotelClient, UserClient userClient, ReservationPaymentRepository reservationPaymentRepository, ModelMapper modelMapper, KafkaTemplate<String, Object> kafkaTemplate) {
+    public ReservationPaymentServiceImpl(StripePaymentService stripePaymentService, ReservationClient reservationClient, HotelClient hotelClient, UserClient userClient, ReservationPaymentRepository reservationPaymentRepository, ModelMapper modelMapper, ReservationPaymentEventProducer reservationPaymentEventProducer) {
         this.stripePaymentService = stripePaymentService;
         this.reservationClient = reservationClient;
         this.hotelClient = hotelClient;
         this.userClient = userClient;
         this.reservationPaymentRepository = reservationPaymentRepository;
         this.modelMapper = modelMapper;
-        this.kafkaTemplate = kafkaTemplate;
+        this.reservationPaymentEventProducer = reservationPaymentEventProducer;
     }
 
     //after payment page return
@@ -122,33 +122,6 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
 
     }
 
-    @KafkaListener(
-            topics = "reservation-payment-refund-request-topic",
-            groupId = "foo",
-            containerFactory = "reservationPaymentRefundRequestKafkaListenerContainerFactory"//we need to assign containerFactory
-    )
-    public void consumeReservationPaymentRefundRequest(ReservationPaymentRefundRequest reservationPaymentRefundRequest) {
-        //retrieve reservationPayment object from the database
-        ReservationPayment reservationPaymentInDB = getReservationPayment(reservationPaymentRefundRequest.getReservationPaymentPk());
-        //prepare metadata
-        Map<String, Object> metadata = new HashMap<>();
-        metadata.put("reservation_payment_pk", reservationPaymentRefundRequest.getReservationPaymentPk());
-        metadata.put("message", reservationPaymentRefundRequest.getReservationPaymentRefundMessage());
-        //prepare params
-        Map<String, Object> params = new HashMap<>();
-        params.put("charge", reservationPaymentInDB.getReservationPaymentStripeChargeId());
-        params.put("metadata", metadata);
-        params.put("reason", reservationPaymentRefundRequest.getReservationPaymentRefundReason());
-
-        try {
-            //refund balance
-            stripePaymentService.createPaymentRefund(reservationPaymentInDB.getReservationPaymentStripeChargeId(), params);
-        } catch (StripeException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
 
     @Override
     public void processReservationPaymentCharge(Charge charge) {
@@ -185,12 +158,11 @@ public class ReservationPaymentServiceImpl implements ReservationPaymentService 
                 .roomNumber(roomNumber)
                 .build();
 
-        //send kafka message to the reservation-service to update its reservationStatus & reservationIsApproved fields
-        kafkaTemplate.send("reservation-payment-response-topic", reservationPaymentResponse);
+        reservationPaymentEventProducer.sendReservationPaymentEvent(reservationPaymentResponse);
         log.info("Payment Update Response sent | ReservationPaymentResponse: " + reservationPaymentResponse.toString());
     }
 
-
+    @Override
     public ReservationPayment getReservationPayment(long reservationPaymentPk) {
         return reservationPaymentRepository.findById(reservationPaymentPk).orElseThrow(() -> {
             throw new IdNotFoundException("Reservation not found by given id");

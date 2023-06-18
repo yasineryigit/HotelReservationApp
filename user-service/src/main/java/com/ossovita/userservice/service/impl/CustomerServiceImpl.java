@@ -1,23 +1,20 @@
 package com.ossovita.userservice.service.impl;
 
 import com.ossovita.commonservice.dto.CustomerDto;
-import com.ossovita.commonservice.enums.NotificationType;
 import com.ossovita.commonservice.exception.IdNotFoundException;
-import com.ossovita.kafka.model.NotificationRequest;
 import com.ossovita.stripe.service.StripeUserService;
 import com.ossovita.userservice.entity.Customer;
 import com.ossovita.userservice.entity.User;
 import com.ossovita.userservice.payload.CustomerSignUpDto;
+import com.ossovita.userservice.producer.CustomerEventProducer;
 import com.ossovita.userservice.repository.CustomerRepository;
 import com.ossovita.userservice.repository.UserRepository;
 import com.ossovita.userservice.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -29,16 +26,15 @@ public class CustomerServiceImpl implements CustomerService {
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
     ModelMapper modelMapper;
-    KafkaTemplate<String, Object> kafkaTemplate;
+    CustomerEventProducer customerEventProducer;
 
-
-    public CustomerServiceImpl(StripeUserService stripeUserService, CustomerRepository customerRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper, KafkaTemplate<String, Object> kafkaTemplate) {
+    public CustomerServiceImpl(StripeUserService stripeUserService, CustomerRepository customerRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper, CustomerEventProducer customerEventProducer) {
         this.stripeUserService = stripeUserService;
         this.customerRepository = customerRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
-        this.kafkaTemplate = kafkaTemplate;
+        this.customerEventProducer = customerEventProducer;
     }
 
     @Override
@@ -67,22 +63,11 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customer);
 
         //send notification
-        sendCustomerWelcomeNotification(savedUser.getUserEmail(), savedUser.getUserFirstName(), savedUser.getUserLastName());
+        customerEventProducer.sendCustomerWelcomeNotification(savedUser.getUserEmail(), savedUser.getUserFirstName(), savedUser.getUserLastName());
 
         return customerSignUpDto;
     }
 
-    private void sendCustomerWelcomeNotification(String userEmail, String userFirstName, String userLastName) {
-        HashMap<String, String> payload = new HashMap<>();
-        payload.put("customer_email", userEmail);
-        payload.put("customer_first_name", userFirstName);
-        payload.put("customer_last_name", userLastName);
-
-        NotificationRequest notificationRequest =
-                new NotificationRequest(userEmail, NotificationType.CUSTOMER_WELCOME_NOTIFICATION, payload);
-        kafkaTemplate.send("notification-request-topic", notificationRequest);
-        log.info("Customer welcome notification has been sent {}: " + notificationRequest.toString());
-    }
 
     @Override
     //@PreAuthorize("hasAuthority('Admin')")

@@ -44,13 +44,13 @@ public class ReservationEventProducer {
     }
 
     //reservation payment refund request event
-    public void sendReservationPaymentRefundRequestEvent(ReservationPaymentResponse reservationPaymentResponse, long customerFk) {
+    public void sendReservationPaymentRefundRequestEvent(long reservationPaymentPk, long customerFk) {
         ReservationPaymentRefundRequest reservationPaymentRefundRequest = ReservationPaymentRefundRequest.builder()
-                .reservationPaymentPk(reservationPaymentResponse.getReservationPaymentPk())
+                .reservationPaymentPk(reservationPaymentPk)
                 .reservationPaymentRefundReason(ReservationPaymentRefundReason.DUPLICATE_RESERVATION)
                 .reservationPaymentRefundMessage("Your balance has been refunded because the room you have booked was previously reserved by another user due to a system error.")
                 .build();
-        log.info("sendReservationPaymentRefundRequest {} : " + reservationPaymentResponse.toString());
+        log.info("sendReservationPaymentRefundRequest {} : " + reservationPaymentRefundRequest.toString());
         ReservationPaymentRefundNotificationForCustomerDto dto = modelMapper.map(reservationPaymentRefundRequest, ReservationPaymentRefundNotificationForCustomerDto.class);
         dto.setCustomerFk(customerFk);
         sendReservationPaymentRefundNotificationToTheCustomer(dto);

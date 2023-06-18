@@ -110,22 +110,16 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findRoomsByHotel_Address_AddressCity(addressCity);
     }
 
-    @KafkaListener(
-            topics = "room-status-update-topic",
-            groupId = "foo",
-            containerFactory = "roomStatusUpdateRequestConcurrentKafkaListenerContainerFactory"//we need to assign containerFactory
-    )
-    public void consumeRoomStatusUpdateRequest(RoomStatusUpdateRequest roomStatusUpdateRequest) {
-        Room room = getRoom(roomStatusUpdateRequest.getRoomFk());
-        log.info("roomStatus Updated | UpdateRoomStatusRequest: " + roomStatusUpdateRequest);
-        room.setRoomStatus(roomStatusUpdateRequest.getRoomStatus());
-        roomRepository.save(room);
+    @Override
+    public Room save(Room room) {
+        return roomRepository.save(room);
     }
 
-
-    private Room getRoom(long roomFk) {
+    @Override
+    public Room getRoom(long roomFk) {
         return roomRepository.findById(roomFk)
                 .orElseThrow(() -> new IdNotFoundException("Room not found with the given roomFk: " + roomFk));
     }
+
 
 }

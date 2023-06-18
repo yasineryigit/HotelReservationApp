@@ -84,24 +84,17 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         return subscriptionDto;
     }
 
-    @KafkaListener(
-            topics = "subscription-payment-response-topic",
-            groupId = "foo",
-            containerFactory = "subscriptionPaymentResponseKafkaListenerContainerFactory"//we need to assign containerFactory
-    )
-    public void listenSubscriptionPaymentResponse(SubscriptionPaymentResponse subscriptionPaymentResponse) {
-        log.info("Subscription Payment Updated | ReservationPaymentResponseModel: " + subscriptionPaymentResponse.toString());
-        Subscription subscriptionInDB = getSubscription(subscriptionPaymentResponse.getSubscriptionFk());
-        if(subscriptionPaymentResponse.getSubscriptionPaymentStatus().equals(PaymentStatus.PAID)){
-            subscriptionInDB.setPaid(true);
-            subscriptionRepository.save(subscriptionInDB);
-        }
+    @Override
+    public Subscription save(Subscription subscription) {
+        return subscriptionRepository.save(subscription);
     }
 
-
-    private Subscription getSubscription(long subscriptionFk) {
+    @Override
+    public Subscription getSubscription(long subscriptionFk) {
         return subscriptionRepository.findById(subscriptionFk).orElseThrow(() -> {
             throw new IdNotFoundException("Subscription not found by given id");
         });
     }
+
+
 }
