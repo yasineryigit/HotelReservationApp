@@ -54,11 +54,9 @@ public class CustomerServiceImpl implements CustomerService {
                 .build();
         User savedUser = userRepository.save(user);
 
-
         Customer customer = Customer.builder()
                 .userFk(savedUser.getUserPk())
                 .build();
-
 
         com.stripe.model.Customer savedStripeCustomer = stripeUserService.createCustomer(savedUser.getUserFirstName(),
                 savedUser.getUserLastName(),
@@ -91,6 +89,7 @@ public class CustomerServiceImpl implements CustomerService {
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
+
 
     @Override
     public boolean isCustomerAvailable(long customerPk) {

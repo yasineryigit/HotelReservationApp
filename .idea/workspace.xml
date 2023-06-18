@@ -5,38 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c0f9203-f384-468f-9fac-7d168b26c0da" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/resources/templates/customer/check-out.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/resources/templates/customer/payment-refund.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/dto/ReservationPaymentRefundNotificationForCustomerDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/4/040950012cc7431ba1c899780b1ae4aa987bcd0f" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/a/7aebb6d933140a42a6b3e1771bcd855e4f715a8c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/f/7fe078a2a3758f7b16557162d1e18264a775aaa6" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/3/c36c40ba062ebf6a35893c5edebb972e6619c94a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/9/e98d3b6e13c5284da797984b064f2c64930ca396" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/c/bcea1b6612fdfc32d832ec6eae099f6afc712823" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/7/e76f61f3e02703424e0e14c1499c330e8276b1a2" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/0/4/040950012cc7431ba1c899780b1ae4aa987bcd0f" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/7/a/7aebb6d933140a42a6b3e1771bcd855e4f715a8c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/7/f/7fe078a2a3758f7b16557162d1e18264a775aaa6" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/c/3/c36c40ba062ebf6a35893c5edebb972e6619c94a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/9/e98d3b6e13c5284da797984b064f2c64930ca396" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/c/bcea1b6612fdfc32d832ec6eae099f6afc712823" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/7/e76f61f3e02703424e0e14c1499c330e8276b1a2" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting-service/src/main/java/com/ossovita/accountingservice/service/impl/ReservationPaymentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/accounting-service/src/main/java/com/ossovita/accountingservice/service/impl/ReservationPaymentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common-service/src/main/java/com/ossovita/commonservice/enums/NotificationType.java" beforeDir="false" afterPath="$PROJECT_DIR$/common-service/src/main/java/com/ossovita/commonservice/enums/NotificationType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotel-reservation-app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-reservation-app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/impl/RoomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/impl/RoomServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/kafka/src/main/java/com/ossovita/kafka/model/ReservationPaymentRefundRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/kafka/src/main/java/com/ossovita/kafka/model/ReservationPaymentRefundRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification-service/src/main/java/com/ossovita/notificationservice/email/EmailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/ossovita/notificationservice/email/EmailServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification-service/src/main/java/com/ossovita/notificationservice/service/CustomerEmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/ossovita/notificationservice/service/CustomerEmailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification-service/src/main/java/com/ossovita/notificationservice/service/impl/CustomerEmailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/ossovita/notificationservice/service/impl/CustomerEmailServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/notification-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification-service/src/main/resources/templates/customer/check-in.html" beforeDir="false" afterPath="$PROJECT_DIR$/notification-service/src/main/resources/templates/customer/check-in.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification-service/src/main/resources/templates/customer/customer-welcome.html" beforeDir="false" afterPath="$PROJECT_DIR$/notification-service/src/main/resources/templates/customer/customer-welcome.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification-service/src/main/resources/templates/customer/reservation-booked.html" beforeDir="false" afterPath="$PROJECT_DIR$/notification-service/src/main/resources/templates/customer/reservation-booked.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/dto/CheckInNotificationForCustomerDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/dto/CheckingNotificationForCustomerDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/entity/Reservation.java" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/entity/Reservation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/entity/ReservationChecking.java" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/entity/ReservationChecking.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/service/impl/ReservationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/service/impl/ReservationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/ossovita/userservice/service/impl/CustomerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/ossovita/userservice/service/impl/CustomerServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -336,6 +314,8 @@
       <workItem from="1686952456600" duration="5936000" />
       <workItem from="1687005959253" duration="13815000" />
       <workItem from="1687022373802" duration="6404000" />
+      <workItem from="1687043710106" duration="1943000" />
+      <workItem from="1687091901978" duration="4003000" />
     </task>
     <servers />
   </component>

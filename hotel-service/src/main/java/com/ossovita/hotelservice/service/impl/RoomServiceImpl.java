@@ -5,6 +5,7 @@ import com.ossovita.commonservice.dto.RoomDto;
 import com.ossovita.commonservice.enums.ReservationPaymentRefundReason;
 import com.ossovita.commonservice.enums.RoomStatus;
 import com.ossovita.commonservice.exception.IdNotFoundException;
+import com.ossovita.commonservice.exception.UnexpectedRequestException;
 import com.ossovita.hotelservice.entity.Room;
 import com.ossovita.hotelservice.payload.request.AvailableRoomsByDateRangeAndCityRequest;
 import com.ossovita.hotelservice.payload.request.RoomRequest;
@@ -19,6 +20,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -71,6 +73,25 @@ public class RoomServiceImpl implements RoomService {
 
     public List<Room> getAvailableRoomsByGivenRoomListAndDateRange(List<Room> roomList, LocalDateTime requestStart, LocalDateTime requestEnd) {
 
+        LocalDateTime now = LocalDateTime.now();
+
+        //check no reservations can be made for past dates
+        if (!requestStart.isAfter(now) || !requestEnd.isAfter(now))  {
+            throw new UnexpectedRequestException("No reservations can be made for past dates");
+        }
+
+        //check endtime > starttime
+        if(requestEnd.isBefore(requestStart)){
+            throw new UnexpectedRequestException("Reservation end date must be later than start date");
+        }
+
+        //check reservation period
+        long daysBetween = ChronoUnit.DAYS.between(requestStart, requestEnd);
+        if(daysBetween<1){
+            throw new UnexpectedRequestException("Reservation period cannot be shorter than 1 day");
+        }
+
+
         //assign roomPks into a list
         List<Long> roomPkList = roomList.stream().map(Room::getRoomPk).toList();
         log.info("roomPkList: " + roomList.size());
@@ -78,7 +99,6 @@ public class RoomServiceImpl implements RoomService {
         //fetch reserved room fk list
         List<Long> notAvailableRoomFkListByGivenDateRange = reservationClient.getNotAvailableRoomFkListByGivenDateRange(roomPkList, requestStart, requestEnd);
         log.info("notAvailableRoomFkListByGivenDateRange: " + notAvailableRoomFkListByGivenDateRange.size());
-
 
         //return only the rooms which is available
         return roomList.stream()

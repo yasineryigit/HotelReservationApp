@@ -41,6 +41,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 
@@ -70,8 +71,14 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public OnlineReservationResponse createOnlineReservation(OnlineReservationRequest onlineReservationRequest) {
+        LocalDateTime now = LocalDateTime.now();
 
-        Reservation savedReservation = getReservation(onlineReservationRequest.getRoomFk(),
+        //check no reservations can be made for past dates
+        if (!onlineReservationRequest.getReservationStartTime().isAfter(now) || !onlineReservationRequest.getReservationEndTime().isAfter(now)) {
+            throw new UnexpectedRequestException("No reservations can be made for past dates");
+        }
+
+        Reservation savedReservation = saveAndGetReservation(onlineReservationRequest.getRoomFk(),
                 onlineReservationRequest.getCustomerFk(),
                 onlineReservationRequest.getReservationStartTime(),
                 onlineReservationRequest.getReservationEndTime());
@@ -91,7 +98,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public WalkInReservationResponse createWalkInReservation(WalkInReservationRequest walkInReservationRequest) {
 
-        Reservation savedReservation = getReservation(walkInReservationRequest.getRoomFk(),
+        Reservation savedReservation = saveAndGetReservation(walkInReservationRequest.getRoomFk(),
                 walkInReservationRequest.getCustomerFk(),
                 walkInReservationRequest.getReservationStartTime(),
                 walkInReservationRequest.getReservationEndTime());
@@ -109,7 +116,19 @@ public class ReservationServiceImpl implements ReservationService {
         return walkInReservationResponse;
     }
 
-    private Reservation getReservation(long roomFk, long customerFk, LocalDateTime reservationStartTime, LocalDateTime reservationEndTime) {
+    private Reservation saveAndGetReservation(long roomFk, long customerFk, LocalDateTime reservationStartTime, LocalDateTime reservationEndTime) {
+
+        //check endtime > starttime
+        if (reservationEndTime.isBefore(reservationStartTime)) {
+            throw new UnexpectedRequestException("Reservation end date must be later than start date");
+        }
+
+        //check reservation period
+        long daysBetween = ChronoUnit.DAYS.between(reservationStartTime, reservationEndTime);
+        if (daysBetween < 1) {
+            throw new UnexpectedRequestException("Reservation period cannot be shorter than 1 day");
+        }
+
         CheckRoomAvailabilityRequest checkRoomAvailabilityRequest = CheckRoomAvailabilityRequest
                 .builder()
                 .roomFk(roomFk)
@@ -225,7 +244,7 @@ public class ReservationServiceImpl implements ReservationService {
         }
 
         //check room status
-        if(!roomDto.getRoomStatus().equals(RoomStatus.AVAILABLE)){
+        if (!roomDto.getRoomStatus().equals(RoomStatus.AVAILABLE)) {
             throw new UnexpectedRequestException("Room is not available for check-in.");
         }
 
