@@ -5,24 +5,53 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c0f9203-f384-468f-9fac-7d168b26c0da" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/accounting-service/src/main/java/com/ossovita/accountingservice/listener/ReservationPaymentListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accounting-service/src/main/java/com/ossovita/accountingservice/producer/ReservationPaymentEventProducer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/listener/RoomEventListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/com/ossovita/userservice/listener/SubscriptionEventListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/com/ossovita/userservice/producer/CustomerEventProducer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/0/d08aea6b08e923efdf7e352102856ecae92c92fd" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounting-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounting-service/src/main/resources/application-dev.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounting-service/src/main/resources/application-prod.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin-server/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-gateway/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application-dev.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application-prod.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/src/main/resources/application-dev.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/src/main/resources/application-prod.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hotel-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hotel-service/src/main/resources/application-dev.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hotel-service/src/main/resources/application-prod.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notification-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reservation-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reservation-service/src/main/resources/application-dev.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reservation-service/src/main/resources/application-prod.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/resources/application-dev.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/src/main/resources/application-prod.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/4/442292b8a7efeabbe4cc176709b833b1792140ec" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/d/7d583776db200bbafce50655c938134a601e6d37" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/9/b9d1b4e54241890d477d63f2f4f633cf725dfd5e" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/1/e1c31dc5eaadbf42e58abcc645bd1549eafa34d1" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/d/0/d08aea6b08e923efdf7e352102856ecae92c92fd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/4/4/442292b8a7efeabbe4cc176709b833b1792140ec" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/7/d/7d583776db200bbafce50655c938134a601e6d37" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/9/b9d1b4e54241890d477d63f2f4f633cf725dfd5e" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/1/e1c31dc5eaadbf42e58abcc645bd1549eafa34d1" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting-service/src/main/java/com/ossovita/accountingservice/service/ReservationPaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/accounting-service/src/main/java/com/ossovita/accountingservice/service/ReservationPaymentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting-service/src/main/java/com/ossovita/accountingservice/service/impl/ReservationPaymentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/accounting-service/src/main/java/com/ossovita/accountingservice/service/impl/ReservationPaymentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/RoomService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/impl/RoomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/impl/RoomServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/listener/ReservationEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/listener/ReservationEventListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/ossovita/userservice/service/SubscriptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/ossovita/userservice/service/SubscriptionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/ossovita/userservice/service/impl/CustomerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/ossovita/userservice/service/impl/CustomerServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/ossovita/userservice/service/impl/SubscriptionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/ossovita/userservice/service/impl/SubscriptionServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounting-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/accounting-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounting-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/accounting-service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/discovery-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/discovery-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/discovery-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/discovery-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotel-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/impl/HotelServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-service/src/main/java/com/ossovita/hotelservice/service/impl/HotelServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotel-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/docker-compose/kafka.yml" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/docker-compose/kafka.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reservation-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/service/impl/ReservationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/java/com/ossovita/reservationservice/service/impl/ReservationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reservation-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/reservation-service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +108,7 @@
     &quot;ToolWindowBuild.ShowToolbar&quot;: &quot;false&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/javawork2/HotelReservationApp/notification-service&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/javawork2/HotelReservationApp/user-service&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -89,7 +118,7 @@
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.runner&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;f2d6dc40593c53e2c4b86354bf4f62e5&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;de1adf771bced8c0b6e1bb0dcea5a605&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -106,11 +135,11 @@
       <recent name="com.ossovita.accountingservice.core.enums" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\javawork2\HotelReservationApp" />
-      <recent name="C:\javawork2\HotelReservationApp\user-service\src\main\resources" />
-      <recent name="C:\javawork2\HotelReservationApp\reservation-service\src\main\resources" />
-      <recent name="C:\javawork2\HotelReservationApp\stripe-service\src\main\resources" />
-      <recent name="C:\javawork2\HotelReservationApp\hotel-service\src\main\resources" />
+      <recent name="C:\javawork2\HotelReservationApp\user-service" />
+      <recent name="C:\javawork2\HotelReservationApp\reservation-service" />
+      <recent name="C:\javawork2\HotelReservationApp\notification-service" />
+      <recent name="C:\javawork2\HotelReservationApp\hotel-service" />
+      <recent name="C:\javawork2\HotelReservationApp\discovery-service" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\javawork2\HotelReservationApp\notification-service\src\main\resources\templates" />
@@ -324,6 +353,13 @@
       <workItem from="1687022373802" duration="6404000" />
       <workItem from="1687043710106" duration="1943000" />
       <workItem from="1687091901978" duration="16902000" />
+      <workItem from="1687188594247" duration="3936000" />
+      <workItem from="1687278681766" duration="2970000" />
+      <workItem from="1687295984317" duration="330000" />
+      <workItem from="1687296927471" duration="2537000" />
+      <workItem from="1687355522363" duration="147000" />
+      <workItem from="1688587985484" duration="8299000" />
+      <workItem from="1688636320777" duration="12412000" />
     </task>
     <servers />
   </component>

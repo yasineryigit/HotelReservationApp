@@ -1,0 +1,46 @@
+
+z
+java:S1192—"WDefine a constant instead of duplicating this literal "{{reservationEndTime}}" 3 times.(Á•§…üÿÿÿÿ8’Î¨1
+x
+java:S1192x"VDefine a constant instead of duplicating this literal "{{customerFirstName}}" 5 times.(üŠÍ†øÿÿÿÿ8£ú»1
+p
+java:S1192&"SDefine a constant instead of duplicating this literal "customer_last_name" 5 times.(çæó°8£ú»1
+w
+java:S1192–"YDefine a constant instead of duplicating this literal "{{reservationStartTime}}" 3 times.(­ú³õ8“Î¨1
+t
+java:S11923"WDefine a constant instead of duplicating this literal "reservation_start_time" 3 times.(éâÆ÷8£ú»1
+w
+java:S1192y"UDefine a constant instead of duplicating this literal "{{customerLastName}}" 5 times.(©•âùşÿÿÿÿ8£ú»1
+m
+java:S1192<"PDefine a constant instead of duplicating this literal "booking@hra.com" 3 times.(îğØ8£ú»1
+q
+java:S1192%"TDefine a constant instead of duplicating this literal "customer_first_name" 5 times.(¾å˜î8£ú»1
+h
+java:S11928"LDefine a constant instead of duplicating this literal "room_number" 3 times.(£¥ÿE8£ú»1
+m
+java:S1192•"ODefine a constant instead of duplicating this literal "{{roomNumber}}" 3 times.(Àé¢â8“Î¨1
+h
+java:S11927"KDefine a constant instead of duplicating this literal "hotel_name" 3 times.(Æ¿Îà8£ú»1
+w
+java:S11924"UDefine a constant instead of duplicating this literal "reservation_end_time" 3 times.(›ó‚ÿÿÿÿÿ8£ú»1
+q
+java:S1192”"NDefine a constant instead of duplicating this literal "{{hotelName}}" 3 times.(£¶´ñÿÿÿÿÿ8”Î¨1
+l
+java:S11920"ODefine a constant instead of duplicating this literal "customer_email" 4 times.(õ‹¬Ì8£ú»1
+^	java:S107ˆ"<Method has 8 parameters, which is greater than 7 authorized.(§˜úÿÿÿÿÿ8ŸÎ¨1
+^
+java:S18540"ARemove this useless assignment to local variable "customerEmail".(õ‹¬Ì8°ú»1
+O
+java:S14810"2Remove this unused "customerEmail" local variable.(õ‹¬Ì8°ú»1
+^
+java:S1854B"ARemove this useless assignment to local variable "customerEmail".(õ‹¬Ì8±ú»1
+O
+java:S1481B"2Remove this unused "customerEmail" local variable.(õ‹¬Ì8±ú»1
+^
+java:S1854R"ARemove this useless assignment to local variable "customerEmail".(õ‹¬Ì8²ú»1
+O
+java:S1481R"2Remove this unused "customerEmail" local variable.(õ‹¬Ì8²ú»1
+^
+java:S1854b"ARemove this useless assignment to local variable "customerEmail".(õ‹¬Ì8³ú»1
+O
+java:S1481b"2Remove this unused "customerEmail" local variable.(õ‹¬Ì8´ú»1

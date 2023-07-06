@@ -54,7 +54,6 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public Hotel createHotel(HotelRequest hotelRequest) {
         //TODO:  refactor ..
-
         Address address = modelMapper.map(hotelRequest, Address.class);
         Address savedAddress = addressRepository.save(address);
 

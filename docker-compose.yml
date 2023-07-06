@@ -1,0 +1,187 @@
+version: '3.8'
+
+services:
+  #database service
+  hra-database:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: ossovita
+      POSTGRES_PASSWORD: User.123
+      PGDATA: /data/postgres
+    volumes:
+      #- ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres:/data/postgres
+    ports:
+      - "5433:5432"
+    networks:
+      - hra
+    restart: always
+
+  #pgadmin service
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - hra
+    restart: always
+
+  #zookeeper
+  zookeeper:
+    image: "docker.io/bitnami/zookeeper:3"
+    ports:
+      - "2181:2181"
+    volumes:
+      - "zookeeper_data:/bitnami"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  #kafka
+  kafka:
+    image: "docker.io/bitnami/kafka:2-debian-10"
+    ports:
+      - "9092:9092"
+    expose:
+      - "9093"
+    volumes:
+      - "kafka_data:/bitnami"
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_ADVERTISED_LISTENERS=INSIDE://kafka:9093,OUTSIDE://localhost:9092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      - KAFKA_LISTENERS=INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+      - KAFKA_INTER_BROKER_LISTENER_NAME=INSIDE
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    depends_on:
+      - zookeeper
+
+  #kafka ui
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    ports:
+      - "9090:8080"
+    restart: always
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9093
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=localhost:2181
+
+  #maildev
+  maildev:
+    image: djfarrelly/maildev
+    ports:
+      - "1080:80" #ui
+      - "1025:25" #smtp server
+
+  zipkin:
+    image: openzipkin/zipkin:2.23
+    ports:
+      - "9411:9411"
+    volumes:
+      - zipkin_data:/zipkin
+
+
+  #eureka discovery service
+  discovery-service:
+    build:
+      context: ./discovery-service
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    networks:
+      - hra
+    restart: always
+    depends_on:
+      - hra-database
+      - pgadmin
+      - zipkin
+      - kafka
+      - kafka-ui
+
+  #spring cloud gateway
+  api-gateway:
+    build:
+      context: ./api-gateway
+    ports:
+      - "8888:8888"
+    depends_on:
+      - discovery-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    networks:
+      - hra
+    restart: always
+
+  #user service
+  user-service:
+    build:
+      context: ./user-service
+    depends_on:
+      - discovery-service
+      - api-gateway
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    networks:
+      - hra
+    restart: always
+
+  #hotel service
+  hotel-service:
+    build:
+      context: ./hotel-service
+    depends_on:
+      - discovery-service
+      - api-gateway
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    networks:
+      - hra
+    restart: always
+
+  #reservation service
+  reservation-service:
+    build:
+      context: ./reservation-service
+    depends_on:
+      - discovery-service
+      - api-gateway
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    networks:
+      - hra
+    restart: always
+
+  #accounting service
+  accounting-service:
+    build:
+      context: ./accounting-service
+    depends_on:
+      - discovery-service
+      - api-gateway
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    networks:
+      - hra
+    restart: always
+
+networks:
+  hra:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
+  zookeeper_data:
+  kafka_data:
+  zipkin_data:
