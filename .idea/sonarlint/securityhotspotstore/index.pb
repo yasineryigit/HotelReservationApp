@@ -79,8 +79,6 @@ Tinfrastructure/kafka/src/main/java/com/ossovita/kafka/model/NotificationRequest
 _reservation-service/src/main/java/com/ossovita/reservationservice/entity/OnlineReservation.java,7\c\7c40520499b021f1b726ba53dd3dee600cfc988d
 î
 dreservation-service/src/main/java/com/ossovita/reservationservice/ReservationServiceApplication.java,3\e\3e1a2be2d4c95a1b3775b601b9e0c5b43accf08a
-?
-clients/pom.xml,e\8\e897e41994586ab73af075bc072526099d5eec43
 Ç
 Rclients/src/main/java/com/ossovita/clients/interceptor/FeignClientInterceptor.java,2\5\2596633f4c7453cf6066c2d1f1bbcd96bcc8823d
 L
@@ -137,8 +135,6 @@ _notification-service/src/main/java/com/ossovita/notificationservice/email/Email
 nnotification-service/src/main/java/com/ossovita/notificationservice/service/impl/CustomerEmailServiceImpl.java,a\e\aeeb94cfa1e375b796cf80321c4a2b424a4087b3
 ã
 [notification-service/src/main/java/com/ossovita/notificationservice/email/EmailService.java,7\a\7aebb6d933140a42a6b3e1771bcd855e4f715a8c
-â
-Yuser-service/src/main/java/com/ossovita/userservice/service/impl/CustomerServiceImpl.java,8\5\851af1510a26e627b1bba2533129a4e956ee4c79
 Ñ
 Tuser-service/src/main/java/com/ossovita/userservice/service/SubscriptionService.java,7\4\74e1a534f331f0eca9846b1e98e2a4e51ce36a0c
 ç
@@ -153,3 +149,7 @@ faccounting-service/src/main/java/com/ossovita/accountingservice/service/Reserva
 oaccounting-service/src/main/java/com/ossovita/accountingservice/service/impl/ReservationPaymentServiceImpl.java,f\0\f00a94df22514334c49835c06a09a65bd08303fd
 å
 \infrastructure/kafka/src/main/java/com/ossovita/kafka/model/SubscriptionPaymentResponse.java,4\9\49302f4d850f35a92c5691a9206a686b012d5df2
+F
+discovery-service/mvnw,c\8\c874ad25248c52a18db741cc97fbbee8191ab181
+V
+&infrastructure/docker-compose/init.sql,0\1\011e7f093425f485585273512abf7ebfee0569f9

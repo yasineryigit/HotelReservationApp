@@ -1,26 +1,32 @@
 version: '3.8'
 
 services:
+
   #database service
   hra-database:
-    container_name: postgres
+    container_name: hra-database
     image: postgres
     environment:
       POSTGRES_USER: ossovita
       POSTGRES_PASSWORD: User.123
       PGDATA: /data/postgres
     volumes:
-      #- ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./infrastructure/docker-compose/init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres:/data/postgres
     ports:
       - "5433:5432"
     networks:
       - hra
     restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256m
 
   #pgadmin service
   pgadmin:
-    container_name: pgadmin
+    container_name: pgadmin-prod
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
@@ -33,9 +39,15 @@ services:
     networks:
       - hra
     restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256m
 
   #zookeeper
   zookeeper:
+    container_name: zookeeper-prod
     image: "docker.io/bitnami/zookeeper:3"
     ports:
       - "2181:2181"
@@ -43,9 +55,18 @@ services:
       - "zookeeper_data:/bitnami"
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+    restart: always
+    networks:
+      - hra
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256m
 
   #kafka
   kafka:
+    container_name: kafka-prod
     image: "docker.io/bitnami/kafka:2-debian-10"
     ports:
       - "9092:9092"
@@ -61,119 +82,203 @@ services:
       - KAFKA_LISTENERS=INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
       - KAFKA_INTER_BROKER_LISTENER_NAME=INSIDE
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    restart: always
     depends_on:
       - zookeeper
+    networks:
+      - hra
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256m
 
   #kafka ui
   kafka-ui:
+    container_name: kafka-ui-prod
     image: provectuslabs/kafka-ui
-    container_name: kafka-ui
     ports:
       - "9090:8080"
     restart: always
+    networks:
+      - hra
     environment:
       - KAFKA_CLUSTERS_0_NAME=local
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9093
       - KAFKA_CLUSTERS_0_ZOOKEEPER=localhost:2181
+    depends_on:
+      - kafka
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256m
 
   #maildev
   maildev:
+    container_name: maildev-prod
     image: djfarrelly/maildev
     ports:
       - "1080:80" #ui
       - "1025:25" #smtp server
+    networks:
+      - hra
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256m
 
   zipkin:
+    container_name: zipkin-prod
     image: openzipkin/zipkin:2.23
     ports:
       - "9411:9411"
     volumes:
       - zipkin_data:/zipkin
-
+    restart: always
+    networks:
+      - hra
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256m
 
   #eureka discovery service
   discovery-service:
+    container_name: discovery-service-prod
     build:
       context: ./discovery-service
     ports:
       - "8761:8761"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
     networks:
       - hra
-    restart: always
     depends_on:
       - hra-database
       - pgadmin
       - zipkin
       - kafka
       - kafka-ui
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256m
 
   #spring cloud gateway
   api-gateway:
+    container_name: api-gateway-prod
     build:
       context: ./api-gateway
     ports:
       - "8888:8888"
     depends_on:
       - discovery-service
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
     networks:
       - hra
-    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256m
 
   #user service
   user-service:
+    container_name: user-service-prod
     build:
       context: ./user-service
     depends_on:
       - discovery-service
       - api-gateway
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
     networks:
       - hra
-    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256m
 
   #hotel service
   hotel-service:
+    container_name: hotel-service-prod
     build:
       context: ./hotel-service
     depends_on:
       - discovery-service
       - api-gateway
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
     networks:
       - hra
-    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256m
 
   #reservation service
   reservation-service:
+    container_name: reservation-service-prod
     build:
       context: ./reservation-service
     depends_on:
       - discovery-service
       - api-gateway
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
     networks:
       - hra
-    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256m
 
   #accounting service
   accounting-service:
+    container_name: accounting-service-prod
     build:
       context: ./accounting-service
     depends_on:
       - discovery-service
       - api-gateway
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
     networks:
       - hra
-    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256m
+
+  #admin server
+  admin-server:
+    container_name: admin-server-prod
+    build:
+      context: ./admin-server
+    depends_on:
+      - discovery-service
+      - api-gateway
+    networks:
+      - hra
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256m
+
+  #notification service
+  notification-service:
+    container_name: notification-service-prod
+    build:
+      context: ./notification-service
+    depends_on:
+      - discovery-service
+      - api-gateway
+    networks:
+      - hra
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256m
+
 
 networks:
   hra:

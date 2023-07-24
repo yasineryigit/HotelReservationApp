@@ -77,8 +77,6 @@ Tinfrastructure/kafka/src/main/java/com/ossovita/kafka/config/KafkaConfiguration
 Tinfrastructure/kafka/src/main/java/com/ossovita/kafka/model/NotificationRequest.java,a\c\ac15267d0d2c4d59761ce42151ad8594299fed1f
 è
 _reservation-service/src/main/java/com/ossovita/reservationservice/entity/OnlineReservation.java,7\c\7c40520499b021f1b726ba53dd3dee600cfc988d
-?
-clients/pom.xml,e\8\e897e41994586ab73af075bc072526099d5eec43
 î
 dreservation-service/src/main/java/com/ossovita/reservationservice/ReservationServiceApplication.java,3\e\3e1a2be2d4c95a1b3775b601b9e0c5b43accf08a
 Ç
@@ -141,8 +139,6 @@ nnotification-service/src/main/java/com/ossovita/notificationservice/service/imp
 Tuser-service/src/main/java/com/ossovita/userservice/service/SubscriptionService.java,7\4\74e1a534f331f0eca9846b1e98e2a4e51ce36a0c
 ç
 ]user-service/src/main/java/com/ossovita/userservice/service/impl/SubscriptionServiceImpl.java,c\d\cd703c71c8b0a1655253ec9d68ba336acf168701
-â
-Yuser-service/src/main/java/com/ossovita/userservice/service/impl/CustomerServiceImpl.java,8\5\851af1510a26e627b1bba2533129a4e956ee4c79
 ~
 Nhotel-service/src/main/java/com/ossovita/hotelservice/service/RoomService.java,7\5\756bdaf1e3c67c3c4a5058c4fbdd45cf2984c7a0
 á
@@ -153,3 +149,7 @@ faccounting-service/src/main/java/com/ossovita/accountingservice/service/Reserva
 oaccounting-service/src/main/java/com/ossovita/accountingservice/service/impl/ReservationPaymentServiceImpl.java,f\0\f00a94df22514334c49835c06a09a65bd08303fd
 å
 \infrastructure/kafka/src/main/java/com/ossovita/kafka/model/SubscriptionPaymentResponse.java,4\9\49302f4d850f35a92c5691a9206a686b012d5df2
+F
+discovery-service/mvnw,c\8\c874ad25248c52a18db741cc97fbbee8191ab181
+V
+&infrastructure/docker-compose/init.sql,0\1\011e7f093425f485585273512abf7ebfee0569f9
